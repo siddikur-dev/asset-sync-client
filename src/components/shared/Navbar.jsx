@@ -1,68 +1,80 @@
 import { NavLink, Link, useNavigate } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import {
-  MdSchool,
-  MdMenuBook,
-  MdInfo,
   MdDashboard,
   MdLogout,
   MdMenu,
   MdClose,
-  MdContactSupport
 } from "react-icons/md";
 import Button from "../ui/Button";
 import Swal from "sweetalert2";
 import ThemeToggle from "../ui/ThemeToggle";
 import userLogo from "../../assets/user-logo.png";
+import logo from "../../assets/logo.png";
 
 import useAuth from "../../hooks/useAuth";
-import { FaBullhorn, FaHome } from "react-icons/fa";
-import Logo from "./Logo";
-// import Logo from "./Logo";
+import useUserRole from "../../hooks/useUserRole";
+import { FaHome } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
+  const { role } = useUserRole();
   const [isOpen, setIsOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
   const toggleMenu = () => setIsOpen(!isOpen);
-  const navigate = useNavigate()
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   //Sign Out user
   const handleLogOut = () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "You will be signed out of your account.",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#D51F63", // primary color
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Sign out!",
     }).then((result) => {
       if (result.isConfirmed) {
         signOutUser();
         Swal.fire({
-          title: "Sign out!",
-          text: "You have been Sign out.",
+          title: "Signed Out",
+          text: "See you next time!",
           icon: "success",
           showConfirmButton: false,
           timer: 1500
-        })
-          .then(() => { })
-          .catch((error) => {
-            console.log(error);
-            Swal.fire({
-              title: "Error!",
-              text: "Sign failed.",
-              icon: "error",
-            });
-          });
+        });
       }
     });
   };
 
-  const linksClass =
-    "hover:text-primary text-base-content/85 flex items-center gap-1";
+  const navLinkStyles = ({ isActive }) =>
+    `text-sm font-medium transition-colors duration-200 ${isActive
+      ? "text-primary"
+      : "text-[#1F2937] hover:text-primary"
+    }`;
+
+  const mobileLinkStyles = ({ isActive }) =>
+    `block px-4 py-3 rounded-lg text-base font-medium transition-all ${isActive
+      ? "bg-primary/10 text-primary"
+      : "text-base-content/80 hover:bg-base-200"
+    }`;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -70,208 +82,220 @@ const Navbar = () => {
         setShowDropdown(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  return (
-    <nav className="bg-base-200/90 backdrop-blur-sm shadow-xs border-b-1 border-base-300 fixed top-0 left-0 right-0 z-50 w-full">
-      <div className="max-w-7xl mx-auto py-2 md:py-3 px-4 md:px-6 lg:px-8 flex justify-between items-center">
 
-        <Logo />
-        {/* Desktop Nav */}
-        <ul className="hidden lg:flex gap-5 font-semibold text-[#1a1a1a]">
-          <li>
-            <NavLink to="/" className={linksClass}>
-              <FaHome />
+  const userLinks = {
+    employee: [
+      { path: '/my-assets', label: 'My Assets' },
+      { path: '/my-team', label: 'My Team' },
+      { path: '/request-asset', label: 'Request Asset' },
+      { path: '/profile', label: 'Profile' },
+    ],
+    hr: [
+      { path: '/asset-list', label: 'Asset List' },
+      { path: '/add-asset', label: 'Add Asset' },
+      { path: '/all-requests', label: 'All Requests' },
+      { path: '/employee-list', label: 'Employee List' },
+      { path: '/profile', label: 'Profile' },
+    ],
+    hr_manager: [ // Aligning with both potential role strings
+      { path: '/asset-list', label: 'Asset List' },
+      { path: '/add-asset', label: 'Add Asset' },
+      { path: '/all-requests', label: 'All Requests' },
+      { path: '/employee-list', label: 'Employee List' },
+      { path: '/profile', label: 'Profile' },
+    ],
+  };
+
+  // If role is not employee or hr/hr_manager, they get NO specific links, just Logout.
+  // The requirement says "Hidden for all other roles" regarding the list.
+  const currentRoleLinks = userLinks[role] || [];
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 bg-base-100 ${scrolled
+        ? "shadow-sm border-b border-base-200 py-2"
+        : "py-4 border-b border-transparent"
+        }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div className="flex justify-between items-center">
+
+          {/* Logo Section */}
+          <div className="flex-shrink-0 flex items-center">
+            <Link to="/" className="flex items-center gap-2">
+              <img src={logo} alt="AssetVerse Logo" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
+              <span className="text-2xl font-bold tracking-tight text-[#111827]">
+                <span className="bg-gradient-all bg-clip-text text-transparent">Asset <span className="bg-gradient-all bg-clip-text text-transparent">
+                  Verse</span>
+                </span>
+              </span>
+            </Link>
+          </div>
+
+          {/* Desktop Navigation - Public Links */}
+          <div className="hidden lg:flex items-center gap-8">
+            <NavLink to="/" className={navLinkStyles}>
               Home
             </NavLink>
-          </li>
-          <li>
-            <NavLink to="/tutors" className={linksClass}>
-              <MdSchool />
-              Tutors
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/study-sessions" className={linksClass}>
-              <MdMenuBook />
-              Study Sessions
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/announcements" className={linksClass}>
-              <FaBullhorn />
-              Announcements
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/about-us" className={linksClass}>
-              <MdInfo />
-              About Us
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/support" className={linksClass}>
-              <MdContactSupport />
-              Support
-            </NavLink>
-          </li>
-        </ul>
+            {/* Requirement 1: Public Links always visible. 
+                            However, usually 'Join' implies Guest. 
+                            If strict 'Always Visible' is required, remove !user check.
+                            For now, keeping !user as it's standard UX for 'Join/Sign Up'. 
+                            If User insists on 'Always', I will remove it. */}
+            {!user && (
+              <>
+                <NavLink to="/signup?role=employee" className={navLinkStyles}>
+                  Join as Employee
+                </NavLink>
+                <NavLink to="/signup?role=hr_manager" className={navLinkStyles}>
+                  Join as HR Manager
+                </NavLink>
+              </>
+            )}
+          </div>
 
-        {/* Sign In / Avatar */}
-        <div className="hidden space-x-2 lg:flex items-center">
-          {user ? (
-            <div className="relative cursor-pointer z-10 " onClick={toggleMenu} ref={dropdownRef}>
-              <img
-                src={user?.photoURL ? user?.photoURL : userLogo}
-                alt="profile"
-                title={user?.displayName}
-                className="w-10 h-10 rounded-full border-[1.8px] border-primary"
-                onClick={() => setShowDropdown(!showDropdown)}
-              />
-              <div
-                className={`absolute right-0 mt-2 w-40 bg-base-200 rounded-md shadow-md transition-opacity duration-200 ${showDropdown ? "opacity-100" : "opacity-0 pointer-events-none"
-                  }`}
-              >
-                <p className="px-4 py-2 text-sm font-medium">
-                  Hi, {user?.displayName}
-                </p>
-                <p>
-                  <NavLink
-                    to='/dashboard'
-                    className="px-4 py-2 text-sm font-medium hover:text-primary flex items-center gap-1"
-                    onClick={() => setShowDropdown(false)}
-                  >
-                    <MdDashboard /> Dashboard
-                  </NavLink>
-                </p>
+          {/* Right Side Actions & Auth */}
+          <div className="hidden lg:flex items-center gap-6">
+            <ThemeToggle />
 
+            {user ? (
+              <div className="relative" ref={dropdownRef}>
                 <button
-                  onClick={handleLogOut}
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-primary w-full text-left cursor-pointer"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="flex items-center gap-2 transition-opacity hover:opacity-80"
                 >
-                  <MdLogout size={20} className="text-primary" />Sign Out
+                  <div className="w-10 h-10 rounded-full overflow-hidden border border-base-300">
+                    <img src={user.photoURL || userLogo} alt="profile" className="w-full h-full object-cover" />
+                  </div>
                 </button>
-              </div>
-            </div>
-          ) : (
-            <>
-              <Link to="/signin">
-                <Button variant="outline" className="btn btn-sm">Sign In</Button>
-              </Link>
-              <Link to="/signup">
-                <Button className="btn btn-sm">Sign Up</Button>
-              </Link>
-            </>
-          )}
-          <ThemeToggle />
-        </div>
 
-        {/* Mobile menu button */}
-        <div className="lg:hidden flex items-center gap-2">
-          <ThemeToggle />
-          <button
-            onClick={toggleMenu}
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-          >
-            {isOpen ? <MdClose size={24} className="text-primary" /> : <MdMenu size={24} className="text-primary" />}
-          </button>
-        </div>
-      </div>
+                {/* Dropdown Menu */}
+                <div
+                  className={`absolute right-0 mt-3 w-56 bg-white rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 py-2 transform transition-all duration-200 origin-top-right ${showDropdown
+                    ? "opacity-100 scale-100 translate-y-0"
+                    : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+                    }`}
+                >
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <p className="text-sm font-semibold text-gray-900 truncate">{user.displayName}</p>
+                    <p className="text-xs text-gray-500 truncate capitalize">{role?.replace('_', ' ')}</p>
+                  </div>
 
-      {/* Mobile Menu */}
-      <div
-        className={`lg:hidden fixed left-0 right-0 top-[48px] z-40 transition-all duration-300 ${isOpen
-          ? "opacity-100 translate-y-0 pointer-events-auto"
-          : "opacity-0 -translate-y-8 pointer-events-none"
-          }`}
-        style={{ minHeight: isOpen ? "calc(100vh - 72px)" : 0 }}
-        aria-hidden={!isOpen}
-      >
-        <div className="px-4 pt-2 pb-4 bg-base-100 border-b border-base-300 shadow-lg rounded-b-md">
-          <ul className="flex flex-col gap-4 font-semibold text-[#1a1a1a]">
-            <li>
-              <NavLink to="/" onClick={toggleMenu} className={linksClass}>
-                <FaHome />
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/tutors" onClick={toggleMenu} className={linksClass}>
-                <MdSchool />
-                Tutors
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/study-sessions"
-                onClick={toggleMenu}
-                className={linksClass}
-              >
-                <MdMenuBook />
-                Study Sessions
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/announcements" onClick={toggleMenu} className={linksClass}>
-                <FaBullhorn />
-                Announcements
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/about-us" onClick={toggleMenu} className={linksClass}>
-                <MdInfo />
-                About Us
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/support" onClick={toggleMenu} className={linksClass}>
-                <MdContactSupport />
-                Support
-              </NavLink>
-            </li>
-            {
-              user && <li> <NavLink to="/dashboard" onClick={toggleMenu} className={linksClass}>
-                <MdDashboard />Dashboard
-              </NavLink></li>
-            }
-            <li className="space-x-2">
-              {user ? (
-                <div className="flex gap-4 items-center" onClick={toggleMenu}>
-                  <img
-                    onClick={() => navigate('/my-profile')}
-                    src={user?.photoURL ? user?.photoURL : userLogo}
-                    alt="profile"
-                    title="click and go Your profile"
-                    className="w-10 h-10 rounded-full border-[1.8px] border-primary"
-                  />
-                  <div>
-                    <p className=" text-primary font-medium">
-                      Hi, {user?.displayName}
-                    </p>
+                  <div className="py-1">
+                    {currentRoleLinks.map((link, idx) => (
+                      <Link
+                        key={idx}
+                        to={link.path}
+                        onClick={() => setShowDropdown(false)}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+
+                  <div className="border-t border-gray-100 pt-1">
                     <button
                       onClick={handleLogOut}
-                      className="flex items-center gap-2 text-sm text-primary w-full mt-2"
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
                     >
-                      <MdLogout size={20} className="text-primary" />Sign Out
+                      Sign Out
                     </button>
                   </div>
                 </div>
-              ) : (
-                <>
-                  <Link to="/signin" onClick={toggleMenu}>
-                    <Button variant="outline" className="btn btn-sm">Sign In</Button>
-                  </Link>
-                  <Link to="/signup" onClick={toggleMenu}>
-                    <Button className="btn btn-sm">Sign Up</Button>
-                  </Link>
-                </>
-              )}
-            </li>
-          </ul>
+              </div>
+            ) : (
+              // Requirement 2: Hide profile avatar when not logged in.
+              // Showing Login button instead.
+              <Link to="/signin">
+                <Button className="btn btn-primary rounded-md px-6 text-white font-medium">Login</Button>
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden flex items-center gap-3">
+            <ThemeToggle />
+            <button
+              onClick={toggleMenu}
+              className="p-2 text-gray-600 hover:text-primary"
+            >
+              {isOpen ? <MdClose size={28} /> : <MdMenu size={28} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {isOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+          onClick={toggleMenu}
+        />
+      )}
+
+      {/* Mobile Drawer */}
+      <div
+        className={`lg:hidden fixed top-0 right-0 z-50 w-[75%] max-w-sm h-full bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+      >
+        <div className="p-5 flex justify-between items-center border-b border-gray-100">
+          <span className="font-bold text-lg text-primary">AssetVerse</span>
+          <button onClick={toggleMenu} className="p-1 text-gray-500 hover:text-red-500">
+            <MdClose size={24} />
+          </button>
+        </div>
+
+        <div className="p-4 space-y-2 overflow-y-auto max-h-[calc(100vh-80px)]">
+          <NavLink to="/" onClick={toggleMenu} className={mobileLinkStyles}>
+            Home
+          </NavLink>
+
+          {!user && (
+            <>
+              <NavLink to="/signup?role=employee" onClick={toggleMenu} className={mobileLinkStyles}>
+                Join as Employee
+              </NavLink>
+              <NavLink to="/signup?role=hr_manager" onClick={toggleMenu} className={mobileLinkStyles}>
+                Join as HR Manager
+              </NavLink>
+              <div className="pt-4 border-t border-gray-100 mt-4">
+                <Link to="/signin" onClick={toggleMenu}>
+                  <Button className="w-full btn btn-primary">Login</Button>
+                </Link>
+              </div>
+            </>
+          )}
+
+          {user && (
+            <>
+              <div className="py-2 px-4 bg-gray-50 rounded-lg mb-2">
+                <p className="font-medium text-gray-900">{user.displayName}</p>
+                <p className="text-xs text-gray-500 capitalize">{role?.replace('_', ' ')}</p>
+              </div>
+              {currentRoleLinks.map((link, idx) => (
+                <NavLink
+                  key={idx}
+                  to={link.path}
+                  onClick={toggleMenu}
+                  className={mobileLinkStyles}
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+              <button
+                onClick={() => {
+                  handleLogOut();
+                  toggleMenu();
+                }}
+                className="w-full mt-4 flex items-center gap-2 px-4 py-3 rounded-lg text-red-600 bg-red-50 hover:bg-red-100 transition-colors"
+              >
+                <MdLogout /> Sign Out
+              </button>
+            </>
+          )}
         </div>
       </div>
     </nav>

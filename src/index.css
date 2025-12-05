@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-*{
+* {
   font-family: "Inter", sans-serif;
 }
 
@@ -13,20 +13,37 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
+
+  /* Primary Brand Color */
   --color-primary: #D51F63;
-  --bg-base-100: #FFFFFF; 
-  --bg-base-200: #F3F4F6; 
-  --bg-base-300: #E5E7EB; 
+
+  /* Base Backgrounds */
+  --bg-base-100: #FFFFFF;
+  --bg-base-200: #F3F4F6;
+  --bg-base-300: #E5E7EB;
+
+  /* Added Gradient from hero section */
+  --gradient-hero: linear-gradient(135deg,
+      #BBE8EC,
+      #B4EAF0,
+      #B6F0D4);
+
+  /* Button Gradient from Image */
+  --gradient-primary: linear-gradient(90deg, #3B82F6, #2DD4BF);
 }
+
 
 @plugin "daisyui/theme" {
   name: "dark";
-  --color-primary: #00B4D8; 
-  --bg-base-100: #181825; 
+  --color-primary: #00B4D8;
+  --bg-base-100: #181825;
   --bg-base-200: #232336;
-  --bg-base-300: #2C2C3A; 
+  --bg-base-300: #2C2C3A;
 }
 
+@theme {
+  --background-image-gradient-all: var(--gradient-primary);
+}
 
 a.active {
   color: var(--color-primary);

@@ -1,8 +1,6 @@
-import { NavLink, Link, useNavigate } from "react-router";
+import { NavLink, Link } from "react-router";
 import { useEffect, useRef, useState } from "react";
 import {
-  MdDashboard,
-  MdLogout,
   MdMenu,
   MdClose,
 } from "react-icons/md";
@@ -14,7 +12,6 @@ import logo from "../../assets/logo.png";
 
 import useAuth from "../../hooks/useAuth";
 import useUserRole from "../../hooks/useUserRole";
-import { FaHome } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
@@ -23,7 +20,6 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef(null);
-  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -66,14 +62,14 @@ const Navbar = () => {
 
   const navLinkStyles = ({ isActive }) =>
     `text-sm font-medium transition-colors duration-200 ${isActive
-      ? "text-primary"
-      : "text-[#1F2937] hover:text-primary"
+      ? "active"
+      : "text-[#1F2937] hover-text-gradient"
     }`;
 
   const mobileLinkStyles = ({ isActive }) =>
-    `block px-4 py-3 rounded-lg text-base font-medium transition-all ${isActive
-      ? "bg-primary/10 text-primary"
-      : "text-base-content/80 hover:bg-base-200"
+    `block px-4 py-3 rounded-lg  font-medium transition-all ${isActive
+      ? "active"
+      : "hover:bg-base-200 hover-text-gradient"
     }`;
 
   useEffect(() => {
@@ -190,7 +186,7 @@ const Navbar = () => {
                         key={idx}
                         to={link.path}
                         onClick={() => setShowDropdown(false)}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition-colors"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover-text-gradient transition-colors"
                       >
                         {link.label}
                       </Link>
@@ -211,7 +207,7 @@ const Navbar = () => {
               // Requirement 2: Hide profile avatar when not logged in.
               // Showing Login button instead.
               <Link to="/signin">
-                <Button className="btn btn-primary rounded-md px-6 text-white font-medium">Login</Button>
+                <Button className="btn btn-gradient rounded-md px-6 text-white font-medium">Login</Button>
               </Link>
             )}
           </div>
@@ -221,7 +217,7 @@ const Navbar = () => {
             <ThemeToggle />
             <button
               onClick={toggleMenu}
-              className="p-2 text-gray-600 hover:text-primary"
+              className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
               {isOpen ? <MdClose size={28} /> : <MdMenu size={28} />}
             </button>
@@ -242,8 +238,8 @@ const Navbar = () => {
         className={`lg:hidden fixed top-0 right-0 z-50 w-[75%] max-w-sm h-full bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="p-5 flex justify-between items-center border-b border-gray-100">
-          <span className="font-bold text-lg text-primary">AssetVerse</span>
-          <button onClick={toggleMenu} className="p-1 text-gray-500 hover:text-red-500">
+          <span className="font-bold text-lg text-gradient">AssetVerse</span>
+          <button onClick={toggleMenu} className="p-1 text-gray-500  rounded-full transition-colors">
             <MdClose size={24} />
           </button>
         </div>
@@ -263,7 +259,7 @@ const Navbar = () => {
               </NavLink>
               <div className="pt-4 border-t border-gray-100 mt-4">
                 <Link to="/signin" onClick={toggleMenu}>
-                  <Button className="w-full btn btn-primary">Login</Button>
+                  <Button className="w-full btn btn-gradient">Login</Button>
                 </Link>
               </div>
             </>

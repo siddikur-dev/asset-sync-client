@@ -39,12 +39,12 @@ const Banner = () => {
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <Link to="/signup?role=employee">
-                            <button className="btn btn-gradient text-white px-8 py-3 rounded-md font-medium border-0 hover:opacity-90 text-sm">
+                            <button className="btn btn-gradient btn-outline text-white  font-medium hover:opacity-90 text-sm">
                                 Join as Employee
                             </button>
                         </Link>
                         <Link to="/signup?role=hr_manager">
-                            <button className="btn btn-gradient btn-outline text-white  font-medium  hover:opacity-90 text-sm">
+                            <button className="btn btn-gradient btn-outline text-white  font-medium hover:opacity-90 text-sm">
                                 Join as HR Manager
                             </button>
                         </Link>

@@ -63,7 +63,7 @@ const Navbar = () => {
   const navLinkStyles = ({ isActive }) =>
     `text-sm font-medium transition-colors duration-200 ${isActive
       ? "active"
-      : "text-[#1F2937] hover-text-gradient"
+      : " hover-text-gradient"
     }`;
 
   const mobileLinkStyles = ({ isActive }) =>
@@ -136,6 +136,12 @@ const Navbar = () => {
             <NavLink to="/" className={navLinkStyles}>
               Home
             </NavLink>
+            <NavLink to="/contact-us" className={navLinkStyles}>
+              Contact Us
+            </NavLink>
+            <NavLink to="/features" className={navLinkStyles}>
+              Features
+            </NavLink>
             {/* Requirement 1: Public Links always visible. 
                             However, usually 'Join' implies Guest. 
                             If strict 'Always Visible' is required, remove !user check.
@@ -143,11 +149,8 @@ const Navbar = () => {
                             If User insists on 'Always', I will remove it. */}
             {!user && (
               <>
-                <NavLink to="/signup?role=employee" className={navLinkStyles}>
-                  Join as Employee
-                </NavLink>
-                <NavLink to="/signup?role=hr_manager" className={navLinkStyles}>
-                  Join as HR Manager
+                <NavLink to="/signup" className={navLinkStyles}>
+                  Join us
                 </NavLink>
               </>
             )}
@@ -207,7 +210,7 @@ const Navbar = () => {
               // Requirement 2: Hide profile avatar when not logged in.
               // Showing Login button instead.
               <Link to="/signin">
-                <Button className="btn btn-gradient rounded-md px-6 text-white font-medium">Login</Button>
+                <button className="btn btn-gradient  text-white">Login</button>
               </Link>
             )}
           </div>
@@ -251,12 +254,6 @@ const Navbar = () => {
 
           {!user && (
             <>
-              <NavLink to="/signup?role=employee" onClick={toggleMenu} className={mobileLinkStyles}>
-                Join as Employee
-              </NavLink>
-              <NavLink to="/signup?role=hr_manager" onClick={toggleMenu} className={mobileLinkStyles}>
-                Join as HR Manager
-              </NavLink>
               <div className="pt-4 border-t border-gray-100 mt-4">
                 <Link to="/signin" onClick={toggleMenu}>
                   <Button className="w-full btn btn-gradient">Login</Button>

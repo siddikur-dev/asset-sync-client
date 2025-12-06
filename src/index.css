@@ -122,3 +122,20 @@ input[type="number"] {
 .btn-gradient:hover {
   opacity: 0.9;
 }
+
+/* Input focus gradient border effect */
+input:focus,
+select:focus,
+textarea:focus {
+  border-bottom-color: #3B82F6 !important;
+  box-shadow: 0 2px 0 0 rgba(59, 130, 246, 0.4), 0 0 8px rgba(45, 212, 191, 0.2);
+}
+
+/* Icon gradient on focus */
+.group:focus-within svg {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: all 0.3s ease;
+}

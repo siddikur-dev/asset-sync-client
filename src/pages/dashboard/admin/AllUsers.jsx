@@ -152,7 +152,7 @@ const AllUsers = () => {
 
     return (
         <div className="space-y-6">
-             <title>All Users | Edu Sync</title>
+            <title>All Users | Asset Sync</title>
             <DashboardHeading icon={FaUsers} title='All Users' />
 
             {/* Search and Filter Section */}

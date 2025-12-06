@@ -107,7 +107,7 @@ const StudentDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-base-100 to-base-200 p-4 md:p-8">
-      <title>Student Dashboard | Edu Sync</title>
+      <title>Student Dashboard | Asset Sync</title>
       {/* Statistics Section */}
       <section className="max-w-5xl mx-auto mb-10">
         <DashboardHeading icon={FaChartBar} title='Student Dashboard Overview' />

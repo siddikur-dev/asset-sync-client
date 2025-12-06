@@ -1,84 +1,58 @@
 import React from 'react';
-import Button from '../ui/Button';
-import banner from '../../assets/banner/banner1.jpg';
-import { FaRocket, FaGraduationCap, FaLightbulb, FaGlobeAmericas } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { Link } from 'react-router';
+import banner from '../../assets/banner/banner-new.png';
+import { FaGlobe, FaCogs, FaShieldAlt, FaChartLine } from 'react-icons/fa';
 
 const Banner = () => {
-    // Animated icon variants for unique, smooth movement
-    const iconVariants = {
-        topLeft: {
-            animate: { x: [0, -20, 0, 20, 0], y: [0, -10, 0, 10, 0] },
-            transition: { repeat: Infinity, duration: 6, ease: 'easeInOut' }
-        },
-        topRight: {
-            animate: { x: [0, 20, 0, -20, 0], y: [0, -15, 0, 15, 0] },
-            transition: { repeat: Infinity, duration: 7, ease: 'easeInOut', delay: 0.5 }
-        },
-        bottomLeft: {
-            animate: { x: [0, -15, 0, 15, 0], y: [0, 20, 0, -20, 0] },
-            transition: { repeat: Infinity, duration: 7.5, ease: 'easeInOut', delay: 0.2 }
-        },
-        bottomRight: {
-            animate: { x: [0, 15, 0, -15, 0], y: [0, 25, 0, -25, 0] },
-            transition: { repeat: Infinity, duration: 8, ease: 'easeInOut', delay: 0.7 }
-        }
-    };
-
     return (
-        <section
-            className="-mt-5 md:-mt-10 relative w-full min-h-[68vh] flex items-center justify-center overflow-hidden rounded-b-md shadow-md border border-base-content/10 my-6"
-        >
-            {/* Background image */}
-            <img
-                src={banner}
-                alt="Collaborative Study Background"
-                className="absolute inset-0 w-full h-full object-cover object-center z-0"
-                loading="lazy"
-            />
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-base-100/10 to-primary/30 z-10" />
-            {/* Animated Corner Icons with unique smooth movement */}
-            <motion.div
-                className="hidden md:block absolute top-8 left-8 z-20"
-                animate={iconVariants.topLeft.animate}
-                transition={iconVariants.topLeft.transition}
-            >
-                <FaRocket className="text-pink-500 text-5xl drop-shadow-lg opacity-90" />
-            </motion.div>
-            <motion.div
-                className="hidden md:block absolute top-8 right-8 z-20"
-                animate={iconVariants.topRight.animate}
-                transition={iconVariants.topRight.transition}
-            >
-                <FaGraduationCap className="text-blue-500 text-5xl drop-shadow-lg opacity-90" />
-            </motion.div>
-            <motion.div
-                className="hidden md:block absolute bottom-8 left-8 z-20"
-                animate={iconVariants.bottomLeft.animate}
-                transition={iconVariants.bottomLeft.transition}
-            >
-                <FaLightbulb className="text-yellow-400 text-5xl drop-shadow-lg opacity-90" />
-            </motion.div>
-            <motion.div
-                className="hidden md:block absolute bottom-8 right-8 z-20"
-                animate={iconVariants.bottomRight.animate}
-                transition={iconVariants.bottomRight.transition}
-            >
-                <FaGlobeAmericas className="text-green-500 text-5xl drop-shadow-lg opacity-90" />
-            </motion.div>
-            {/* Content */}
-            <div className="backdrop-blur-xs text-white relative rounded-ms z-20 max-w-2xl mx-auto px-4 py-12 text-center flex flex-col items-center justify-center">
-                <h1 className="text-3xl md:text-5xl font-extrabold drop-shadow-lg mb-4">
-                    Empower Your Learning Journey
-                </h1>
-                <p className="text-base md:text-lg text-white/90 mb-6 drop-shadow">
-                    Connect with students and tutors, schedule collaborative study sessions, and access shared resources all in one modern platform.
-                </p>
-                <Button onClick={() => window.scrollTo({ top: 500, behavior: 'smooth' })}>
-                    Get Started
-                </Button>
+        <section className="relative w-full overflow-hidden mb-12">
+            {/* Hero Section */}
+            <div className="relative w-full h-[500px] md:h-[600px] flex items-center justify-center">
+
+                {/* Background Images */}
+                <div className="absolute inset-0 z-0">
+                    {/* Light Mode Image (Used for both modes now) */}
+                    <img
+                        src={banner}
+                        alt="Asset Management"
+                        className="w-full h-full object-cover object-center block"
+                    />
+
+                    {/* Overlays */}
+                    {/* Light Mode Overlay: White fade for text readability if needed */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-transparent dark:hidden"></div>
+                    {/* Dark Mode Overlay: Dark Blue/Teal fade matching the dark theme */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1015]/90 via-[#0f1015]/40 to-transparent hidden dark:block"></div>
+                </div>
+
+                {/* Content */}
+                <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+                    {/* Light Mode Title */}
+                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight text-[var(--color-text-main)] block ">
+                        Manage Assets <br />with Ease
+                    </h1>
+
+                    <p className="text-[var(--color-text-sub)] text-base md:text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+                        AssetVerse provides a seamless and intuitive platform for both employees
+                        and HR managers to handle company assets with efficiency and transparency.
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <Link to="/signup?role=employee">
+                            <button className="btn btn-gradient text-white px-8 py-3 rounded-md font-medium border-0 hover:opacity-90 text-sm">
+                                Join as Employee
+                            </button>
+                        </Link>
+                        <Link to="/signup?role=hr_manager">
+                            <button className="btn btn-gradient btn-outline text-white  font-medium  hover:opacity-90 text-sm">
+                                Join as HR Manager
+                            </button>
+                        </Link>
+                    </div>
+                </div>
             </div>
+
+
         </section>
     );
 };

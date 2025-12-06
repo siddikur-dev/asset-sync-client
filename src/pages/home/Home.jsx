@@ -7,21 +7,24 @@ import NewsLetter from "../../components/homePage/NewsLetter";
 import Faqs from "../../components/homePage/Faqs";
 import DeviceSupport from "../../components/homePage/DeviceSupport";
 
+import About from "../../components/homePage/About";
+
 const Home = () => {
 
   return <>
 
     <Banner />
+    <About />
     <div className="max-w-6xl mx-auto px-4 mt-18 md:mt-26 space-y-18 md:space-y-26">
-      <AvailableStudySessions />
+      {/* <AvailableStudySessions /> */}
       <SponsoredTeams />
       {/* <HowEduSyncWork /> */}
-      <WhyChooseEduSync />
-      <WhatOurUserSays />
-      <Faqs/>
-      <NewsLetter/>
-      <DeviceSupport/>
-     
+      {/* <WhyChooseEduSync />
+      <WhatOurUserSays /> */}
+      <Faqs />
+      <NewsLetter />
+      <DeviceSupport />
+
     </div>
   </>;
 };

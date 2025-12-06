@@ -7,7 +7,7 @@ import Button from '../../components/ui/Button';
 const Statistic = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-base-100 to-base-200">
-             <title>Statistic | Edu Sync</title>
+            <title>Statistic | Asset Sync</title>
             {/* Header Section */}
             <div className="bg-base-100 shadow-md pb-2" data-aos="fade-up-right">
                 <div className="max-w-4xl mx-auto px-4 py-4 text-center">

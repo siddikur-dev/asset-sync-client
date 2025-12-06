@@ -151,7 +151,7 @@ const MyAllStudySessions = () => {
     return (
         <>
             <div className="space-y-6">
-                 <title>My Study Sessions | Edu Sync</title>
+                <title>My Study Sessions | Asset Sync</title>
                 <DashboardHeading icon={FaBook} title='My Study Sessions' />
 
                 {/* Filter Section */}

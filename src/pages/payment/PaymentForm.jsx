@@ -47,7 +47,7 @@ const PaymentForm = () => {
 
     const amount = session.registrationFee || 0;
     const amountInCents = Math.round(amount * 100);
-    
+
     // console.log('Session:', session);
     // console.log('Amount:', amount);
     // console.log('Amount in cents:', amountInCents);
@@ -87,12 +87,12 @@ const PaymentForm = () => {
             const paymentIntentRes = await axiosSecure.post('/create-payment-intent', {
                 amountInCents
             });
-            
+
             if (!paymentIntentRes.data.clientSecret) {
                 setError('Failed to create payment intent');
                 return;
             }
-            
+
             const clientSecret = paymentIntentRes.data.clientSecret;
             // console.log('Payment intent created, client secret received');
 
@@ -130,7 +130,7 @@ const PaymentForm = () => {
                 };
 
                 const bookingRes = await axiosSecure.post('/bookedSessions', bookingData);
-                
+
                 if (bookingRes.data.success) {
                     // Step 5: Record payment
                     const paymentData = {
@@ -142,7 +142,7 @@ const PaymentForm = () => {
                     };
 
                     const paymentRes = await axiosSecure.post('/payments', paymentData);
-                    
+
                     if (paymentRes.data.insertedId) {
                         // Show success message
                         await Swal.fire({
@@ -167,7 +167,7 @@ const PaymentForm = () => {
             console.error('Payment error:', error);
             console.error('Error response:', error.response);
             console.error('Error message:', error.message);
-            
+
             if (error.response?.data?.error) {
                 setError(error.response.data.error);
             } else if (error.response?.data?.message) {
@@ -184,7 +184,7 @@ const PaymentForm = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-base-100 to-base-200">
-            <title>Payment | Edu Sync</title>
+            <title>Payment | Asset Sync</title>
             {/* Header */}
             <div className="bg-base-100 shadow-md pb-2">
                 <div className="max-w-4xl mx-auto px-4 py-4">
@@ -213,7 +213,7 @@ const PaymentForm = () => {
                             <div>
                                 <label className="block text-sm font-medium mb-3">Card Details</label>
                                 <div className="border border-base-300 rounded-md p-4 bg-base-100">
-                                    <CardElement 
+                                    <CardElement
                                         options={{
                                             style: {
                                                 base: {

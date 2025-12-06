@@ -227,7 +227,7 @@ const MyBookings = () => {
 
     return (
         <div className="space-y-6">
-             <title>My Bookings | Edu Sync</title>
+            <title>My Bookings | Asset Sync</title>
             <DashboardHeading
                 title="My Bookings"
                 icon={MdMenuBook}
@@ -267,7 +267,7 @@ const MyBookings = () => {
                 </div>
             ) : (
                 <div className="bg-base-100 rounded-md shadow-md border border-base-300 overflow-hidden">
-                                        {/* Table Header */}
+                    {/* Table Header */}
                     <div className="bg-base-200 px-4 sm:px-6 py-4 border-b border-base-300">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                             <h3 className="text-lg font-semibold">Booking History</h3>
@@ -328,7 +328,7 @@ const MyBookings = () => {
                                     <tr key={booking._id} className="hover:bg-base-50">
                                         <td>
                                             <div className="font-medium">
-                                                {booking.sessionDetails?.title.slice(0,15) || 'Session Title'}
+                                                {booking.sessionDetails?.title.slice(0, 15) || 'Session Title'}
                                             </div>
                                             <div className="text-sm text-base-content/70">
                                                 {booking.sessionDetails?.duration || 'TBD'}

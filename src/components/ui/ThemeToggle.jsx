@@ -13,6 +13,14 @@ const ThemeToggle = () => {
   useEffect(() => {
     const theme = isDark ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
+
+    // Explicitly toggle 'dark' class for Tailwind 'dark:' variant support
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+
     localStorage.setItem("theme", theme);
   }, [isDark]);
 

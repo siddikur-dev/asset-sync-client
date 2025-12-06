@@ -112,8 +112,8 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 bg-base-100 ${scrolled
-        ? "shadow-sm border-b border-base-200 py-2"
-        : "py-4 border-b border-transparent"
+        ? "shadow-sm  border-base-200 py-2"
+        : "py-4  "
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">

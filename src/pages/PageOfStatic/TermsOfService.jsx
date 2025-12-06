@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 const TermsOfService = () => {
   const currentYear = new Date().getFullYear();
 
-    return (
+  return (
     <div className="min-h-screen bg-gradient-to-br from-base-100 to-base-200">
       {/* Header Section */}
       <div className="bg-base-100 shadow-md" data-aos="fade-up-right">
@@ -25,7 +25,7 @@ const TermsOfService = () => {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-10">
-         <title>Terms Of Services | Edu Sync</title>
+        <title>Terms Of Services | Asset Sync</title>
         <div className="space-y-8">
 
           {/* Acceptance of Terms */}
@@ -148,8 +148,8 @@ const TermsOfService = () => {
           </section>
         </div>
       </div>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default TermsOfService;

@@ -128,7 +128,7 @@ const MyProfile = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen py-4 px-2">
-      <title>My Profile | Edu Sync</title>
+      <title>My Profile | Asset Sync</title>
       <div className="w-full max-w-4xl bg-base-100 rounded-md shadow-md border border-base-300 p-2 sm:p-6 md:p-10 flex flex-col items-center gap-6 animate-fade-in">
         {/* Avatar */}
         <div className="relative mb-2">

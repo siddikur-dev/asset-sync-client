@@ -15,12 +15,18 @@
   default: true;
 
   /* Primary Brand Color */
-  --color-primary: #D51F63;
+  --color-primary: #3B82F6;
+  /* Updated to Blue to match gradient theme */
+
+  /* Text Colors */
+  --color-text-main: #111827;
+  /* Gray 900 */
+  --color-text-sub: #4B5563;
+  /* Gray 600 */
 
   /* Base Backgrounds */
   --bg-base-100: #FFFFFF;
-  --bg-base-200: #F3F4F6;
-  --bg-base-300: #E5E7EB;
+  --bg-base-200: #f4f5f9;
 
   /* Added Gradient from hero section */
   --gradient-hero: linear-gradient(135deg,
@@ -36,10 +42,27 @@
 @plugin "daisyui/theme" {
   name: "dark";
   --color-primary: #00B4D8;
-  --bg-base-100: #181825;
-  --bg-base-200: #232336;
-  --bg-base-300: #2C2C3A;
+
+  /* Text Colors */
+  --color-text-main: #F9FAFB;
+  /* Gray 50 */
+  --color-text-sub: #D1D5DB;
+  /* Gray 300 */
+
+  --bg-base-100: #0d131f;
+  --bg-base-200: #0e1527;
+
+
+  --gradient-hero: linear-gradient(135deg,
+      #BBE8EC,
+      #B4EAF0,
+      #B6F0D4);
+
+  /* Button Gradient from Image */
+  --gradient-primary: linear-gradient(90deg, #3B82F6, #2DD4BF);
 }
+
+
 
 @theme {
   --background-image-gradient-all: var(--gradient-primary);

@@ -199,7 +199,7 @@ const UpdateSession = () => {
 
     return (
         <div className="max-w-2xl mx-auto p-6 bg-base-100 rounded-md shadow-md">
-             <title>Update Session | Edu Sync</title>
+            <title>Update Session | Asset Sync</title>
             <DashboardHeading icon={FaRegCalendarPlus} title='Update Study Session' />
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Session Title */}
@@ -407,7 +407,7 @@ const UpdateSession = () => {
                         <FaMoneyBillWave className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base-content/50 text-lg" />
                         {role === 'admin' ? (
                             <input
-                            placeholder='Please Provide Fee'
+                                placeholder='Please Provide Fee'
                                 type="number"
                                 name="registrationFee"
                                 value={form.paid ? (form.registrationFee || '') : 0}

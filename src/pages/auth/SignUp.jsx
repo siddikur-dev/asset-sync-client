@@ -145,7 +145,7 @@ const SignUp = () => {
 
   return (
     <div className="px-4 flex gap-4 flex-col md:flex-row justify-center items-center max-w-5xl mx-auto">
-      <title>Sign Up | Edu Sync</title>
+      <title>Sign Up | Asset Sync</title>
       <div className="flex-1">
         <Lottie animationData={signUp} className="w-full h-[200px] md:h-[500px]" />
       </div>
@@ -194,8 +194,8 @@ const SignUp = () => {
             <label className="block text-sm font-medium text-base-content">Role</label>
             <div className="relative">
               <FaGraduationCap className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base-content/50 text-lg" />
-              <select 
-                value={selectedRole} 
+              <select
+                value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value)}
                 className={inputBase}
               >

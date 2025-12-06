@@ -14,7 +14,7 @@ const fetchAdminStats = async (axiosSecure) => {
 };
 
 const AdminDashboard = () => {
-    const {user}=useAuth();
+    const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const { data: statsData = {
         totalUsers: 0,
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-base-100 to-base-200 p-4 md:p-8">
-             <title>Admin Dashboard | Edu Sync</title>
+            <title>Admin Dashboard | Asset Sync</title>
             <section className="max-w-5xl mx-auto mb-10">
                 <DashboardHeading icon={FaChartBar} title='Admin Dashboard Overview' />
                 <h3 className="text-center text-xl font-semibold mb-6">Hello, <span className='text-primary'>{user?.displayName} !</span></h3>

@@ -83,7 +83,7 @@ const AllMaterials = () => {
 
     return (
         <div className="space-y-6">
-             <title>All Materials | Edu Sync</title>
+            <title>All Materials | Asset Sync</title>
             <DashboardHeading icon={FaLayerGroup} title='All Materials' />
 
             {/* Search and View Toggle Section */}
@@ -111,8 +111,8 @@ const AllMaterials = () => {
                         <button
                             onClick={() => setViewMode('table')}
                             className={`p-2 rounded-md transition-all duration-200 ${viewMode === 'table'
-                                    ? 'bg-primary text-white shadow-md'
-                                    : 'text-base-content/70 hover:text-base-content hover:bg-base-300'
+                                ? 'bg-primary text-white shadow-md'
+                                : 'text-base-content/70 hover:text-base-content hover:bg-base-300'
                                 }`}
                             title="Table View"
                         >
@@ -121,8 +121,8 @@ const AllMaterials = () => {
                         <button
                             onClick={() => setViewMode('card')}
                             className={`p-2 rounded-md transition-all duration-200 ${viewMode === 'card'
-                                    ? 'bg-primary text-white shadow-md'
-                                    : 'text-base-content/70 hover:text-base-content hover:bg-base-300'
+                                ? 'bg-primary text-white shadow-md'
+                                : 'text-base-content/70 hover:text-base-content hover:bg-base-300'
                                 }`}
                             title="Card View"
                         >

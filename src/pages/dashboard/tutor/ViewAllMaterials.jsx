@@ -124,7 +124,7 @@ const ViewAllMaterials = () => {
 
   return (
     <div className="space-y-6">
-      <title>View All Materials | Edu Sync</title>
+      <title>View All Materials | Asset Sync</title>
       <DashboardHeading icon={FaFolderOpen} title='My Uploaded Materials' />
 
       {/* Search Section */}

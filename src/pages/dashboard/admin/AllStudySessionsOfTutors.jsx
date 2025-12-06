@@ -183,7 +183,7 @@ const AllStudySessionsOfTutors = () => {
 
     return (
         <div className="space-y-6">
-            <title>All Study Sessions | Edu Sync</title>
+            <title>All Study Sessions | Asset Sync</title>
             <DashboardHeading icon={FaBook} title='All Study Sessions' />
 
             {/* Filter Section */}

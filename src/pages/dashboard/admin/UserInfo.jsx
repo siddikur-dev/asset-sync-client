@@ -39,7 +39,7 @@ const UserInfo = () => {
         <div className="flex flex-col items-center justify-center px-4" data-aos="flip-left"
             data-aos-easing="ease-out-cubic"
             data-aos-duration="1500">
-             <title>User Info | Edu Sync</title>
+            <title>User Info | Asset Sync</title>
             <Button onClick={() => navigate(-1)} className="mb-4 flex items-center gap-2">
                 <FaArrowLeft /> Back
             </Button>

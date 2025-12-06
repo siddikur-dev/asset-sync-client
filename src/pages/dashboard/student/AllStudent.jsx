@@ -45,7 +45,7 @@ const AllStudent = () => {
 
     return (
         <div className="space-y-6">
-            <title>All Student | Edu Sync</title>
+            <title>All Student | Asset Sync</title>
             <DashboardHeading title="All Students" icon={FaUsers} />
             <div className="bg-base-100 rounded-md shadow-md border border-base-300 overflow-hidden">
                 {/* Table Header */}

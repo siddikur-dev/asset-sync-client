@@ -16,7 +16,7 @@ import { inputBase } from "../../utils/inputBase";
 
 
 const SignUp = () => {
-  const { user } = useAuth();
+  const { user, createUser, setUser, updateUser } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -113,7 +113,11 @@ const SignUp = () => {
     
     setUploading(true);
     try {
-      // Prepare registration data
+      // Step 1: Create user in Firebase
+      const userCredential = await createUser(data.email, data.password);
+      const firebaseUser = userCredential.user;
+
+      // Step 2: Prepare registration data for backend
       const registrationData = {
         name: data.name,
         email: data.email,
@@ -123,20 +127,37 @@ const SignUp = () => {
       };
 
       // Handle company logo upload for HR
+      let photoURL = imagePreview;
       if (selectedRole === "hr" && selectedImage) {
         const uploadResult = await uploadImageToImgBB(selectedImage);
         if (uploadResult.success) {
           registrationData.companyLogo = uploadResult.url;
+          photoURL = uploadResult.url;
         } else {
           registrationData.companyLogo = imagePreview; // Fallback to preview
         }
         registrationData.companyName = data.companyName;
       }
 
-      // Register user via backend
+      // Step 3: Update Firebase profile
+      await updateUser({ 
+        displayName: data.name, 
+        photoURL: photoURL || firebaseUser.photoURL 
+      });
+
+      // Step 4: Register user in backend
       const response = await axiosInstance.post("/register", registrationData);
       
       if (response.data.success) {
+        // Step 5: Set user in context with Firebase user + backend data
+        setUser({ 
+          ...firebaseUser, 
+          displayName: data.name, 
+          photoURL: photoURL || firebaseUser.photoURL,
+          role: selectedRole,
+          companyName: registrationData.companyName || null
+        });
+
         setFormSuccess("Registration Successful!");
         Swal.fire({
           icon: "success",
@@ -149,16 +170,18 @@ const SignUp = () => {
         setSelectedImage(null);
         setImagePreview(null);
         setSelectedRole("employee");
-        // Navigate to sign in after successful registration
+        // Navigate to dashboard after successful registration
         setTimeout(() => {
-          navigate("/signIn");
+          navigate("/");
         }, 1500);
       } else {
         setFormError(response.data.message || "Registration failed. Please try again.");
       }
     } catch (error) {
       let errorMsg = "Registration failed. Please try again.";
-      if (error.response?.data?.message) {
+      if (error.code === "auth/email-already-in-use") {
+        errorMsg = "This email is already registered. Please use a different email or sign in.";
+      } else if (error.response?.data?.message) {
         errorMsg = error.response.data.message;
       } else if (error.message) {
         errorMsg = error.message;
@@ -365,7 +388,7 @@ const SignUp = () => {
             </Button>
           </form>
 
-          <Social />
+          <Social defaultRole={selectedRole} />
 
           <p className="text-sm mt-6 text-base-content text-center">
             Already have an account?{" "}

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   MdMenu,
   MdClose,
+  MdLogout,
 } from "react-icons/md";
 import Button from "../ui/Button";
 import Swal from "sweetalert2";
@@ -87,21 +88,21 @@ const Navbar = () => {
       { path: '/my-assets', label: 'My Assets' },
       { path: '/my-team', label: 'My Team' },
       { path: '/request-asset', label: 'Request Asset' },
-      { path: '/profile', label: 'Profile' },
+      { path: 'my-profile', label: 'Profile' },
     ],
     hr: [
       { path: '/asset-list', label: 'Asset List' },
       { path: '/add-asset', label: 'Add Asset' },
       { path: '/all-requests', label: 'All Requests' },
       { path: '/employee-list', label: 'Employee List' },
-      { path: '/profile', label: 'Profile' },
+      { path: '/my-profile', label: 'Profile' },
     ],
     hr_manager: [ // Aligning with both potential role strings
       { path: '/asset-list', label: 'Asset List' },
       { path: '/add-asset', label: 'Add Asset' },
       { path: '/all-requests', label: 'All Requests' },
       { path: '/employee-list', label: 'Employee List' },
-      { path: '/profile', label: 'Profile' },
+      { path: '/my-profile', label: 'Profile' },
     ],
   };
 

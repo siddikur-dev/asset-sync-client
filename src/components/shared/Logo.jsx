@@ -1,13 +1,13 @@
 import { Link } from 'react-router'
-import { PiStudentFill } from "react-icons/pi";
+import { FaBox } from "react-icons/fa";
+import logo from "../../assets/logo.png";
 
 const Logo = () => {
     return (
         <Link to="/" className="flex items-center gap-2">
-          {/* <Logo/> */}
-          <PiStudentFill className="w-8 h-8 text-primary" />
-          <span className="text-2xl -ml-1 font-bold text-primary">
-            Edu Sync
+          <img src={logo} alt="AssetVerse Logo" className="w-8 h-8 object-contain" />
+          <span className="text-2xl font-bold text-gradient">
+            AssetVerse
           </span>
         </Link>
     );

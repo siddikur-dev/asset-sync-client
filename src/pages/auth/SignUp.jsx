@@ -27,8 +27,18 @@ const SignUp = () => {
   // Add state for feedback
   const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState("");
-  const [selectedRole, setSelectedRole] = useState("employee");
+  const searchParams = new URLSearchParams(location.search);
+  const roleFromUrl = searchParams.get('role');
+  const [selectedRole, setSelectedRole] = useState(roleFromUrl === 'hr' ? 'hr' : 'employee');
   const axiosInstance = useAxios()
+  
+  useEffect(() => {
+    if (roleFromUrl === 'hr') {
+      setSelectedRole('hr');
+    } else {
+      setSelectedRole('employee');
+    }
+  }, [roleFromUrl]);
 
   const {
     register,
@@ -221,17 +231,17 @@ const SignUp = () => {
                   setFormError("");
                   reset();
                 }}
-                className={`p-6 rounded-xl border-2 transition-all duration-300 ${
+                className={`p-4 rounded-xl border-2 transition-all duration-300 ${
                   selectedRole === "employee"
                     ? "border-blue-500 bg-gradient-to-br from-blue-50 to-teal-50 dark:from-blue-900/20 dark:to-teal-900/20 shadow-lg scale-105"
                     : "border-base-content/20 hover:border-base-content/40 bg-base-200/50"
                 }`}
               >
-                <div className="flex flex-col items-center gap-3">
-                  <div className={`p-4 rounded-full ${selectedRole === "employee" ? "bg-gradient-to-r from-blue-500 to-teal-400" : "bg-base-content/10"}`}>
-                    <FaUserTie className={`text-2xl ${selectedRole === "employee" ? "text-white" : "text-base-content/60"}`} />
+                <div className="flex flex-col items-center gap-2">
+                  <div className={`p-3 rounded-full ${selectedRole === "employee" ? "bg-gradient-to-r from-blue-500 to-teal-400" : "bg-base-content/10"}`}>
+                    <FaUserTie className={`text-xl ${selectedRole === "employee" ? "text-white" : "text-base-content/60"}`} />
                   </div>
-                  <span className={`font-semibold ${selectedRole === "employee" ? "text-gradient" : "text-base-content"}`}>Employee</span>
+                  <span className={`font-semibold text-sm ${selectedRole === "employee" ? "text-gradient" : "text-base-content"}`}>Employee</span>
                   <p className="text-xs text-base-content/60 text-center">Join as an employee</p>
                 </div>
               </button>
@@ -244,17 +254,17 @@ const SignUp = () => {
                   setFormError("");
                   reset();
                 }}
-                className={`p-6 rounded-xl border-2 transition-all duration-300 ${
+                className={`p-4 rounded-xl border-2 transition-all duration-300 ${
                   selectedRole === "hr"
                     ? "border-blue-500 bg-gradient-to-br from-blue-50 to-teal-50 dark:from-blue-900/20 dark:to-teal-900/20 shadow-lg scale-105"
                     : "border-base-content/20 hover:border-base-content/40 bg-base-200/50"
                 }`}
               >
-                <div className="flex flex-col items-center gap-3">
-                  <div className={`p-4 rounded-full ${selectedRole === "hr" ? "bg-gradient-to-r from-blue-500 to-teal-400" : "bg-base-content/10"}`}>
-                    <FaBriefcase className={`text-2xl ${selectedRole === "hr" ? "text-white" : "text-base-content/60"}`} />
+                <div className="flex flex-col items-center gap-2">
+                  <div className={`p-3 rounded-full ${selectedRole === "hr" ? "bg-gradient-to-r from-blue-500 to-teal-400" : "bg-base-content/10"}`}>
+                    <FaBriefcase className={`text-xl ${selectedRole === "hr" ? "text-white" : "text-base-content/60"}`} />
                   </div>
-                  <span className={`font-semibold ${selectedRole === "hr" ? "text-gradient" : "text-base-content"}`}>HR Manager</span>
+                  <span className={`font-semibold text-sm ${selectedRole === "hr" ? "text-gradient" : "text-base-content"}`}>HR Manager</span>
                   <p className="text-xs text-base-content/60 text-center">Manage company assets</p>
                 </div>
               </button>

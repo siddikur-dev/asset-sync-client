@@ -85,24 +85,17 @@ const Navbar = () => {
 
   const userLinks = {
     employee: [
-      { path: '/my-assets', label: 'My Assets' },
-      { path: '/my-team', label: 'My Team' },
-      { path: '/request-asset', label: 'Request Asset' },
-      { path: 'my-profile', label: 'Profile' },
+      { path: '/dashboard', label: 'My Assets' },
+      { path: '/dashboard/my-team', label: 'My Team' },
+      { path: '/dashboard/request-asset', label: 'Request Asset' },
+      { path: '/dashboard/my-profile', label: 'Profile' },
     ],
     hr: [
-      { path: '/asset-list', label: 'Asset List' },
-      { path: '/add-asset', label: 'Add Asset' },
-      { path: '/all-requests', label: 'All Requests' },
-      { path: '/employee-list', label: 'Employee List' },
-      { path: '/my-profile', label: 'Profile' },
-    ],
-    hr_manager: [ // Aligning with both potential role strings
-      { path: '/asset-list', label: 'Asset List' },
-      { path: '/add-asset', label: 'Add Asset' },
-      { path: '/all-requests', label: 'All Requests' },
-      { path: '/employee-list', label: 'Employee List' },
-      { path: '/my-profile', label: 'Profile' },
+      { path: '/dashboard', label: 'Asset List' },
+      { path: '/dashboard/add-asset', label: 'Add Asset' },
+      { path: '/dashboard/all-requests', label: 'All Requests' },
+      { path: '/dashboard/employee-list', label: 'Employee List' },
+      { path: '/dashboard/my-profile', label: 'Profile' },
     ],
   };
 
@@ -137,24 +130,12 @@ const Navbar = () => {
             <NavLink to="/" className={navLinkStyles}>
               Home
             </NavLink>
-            <NavLink to="/contact-us" className={navLinkStyles}>
-              Contact Us
+            <NavLink to="/signup" className={navLinkStyles}>
+              Join as Employee
             </NavLink>
-            <NavLink to="/features" className={navLinkStyles}>
-              Features
+            <NavLink to="/signup?role=hr" className={navLinkStyles}>
+              Join as HR Manager
             </NavLink>
-            {/* Requirement 1: Public Links always visible. 
-                            However, usually 'Join' implies Guest. 
-                            If strict 'Always Visible' is required, remove !user check.
-                            For now, keeping !user as it's standard UX for 'Join/Sign Up'. 
-                            If User insists on 'Always', I will remove it. */}
-            {!user && (
-              <>
-                <NavLink to="/signup" className={navLinkStyles}>
-                  Join us
-                </NavLink>
-              </>
-            )}
           </div>
 
           {/* Right Side Actions & Auth */}
@@ -251,6 +232,12 @@ const Navbar = () => {
         <div className="p-4 space-y-2 overflow-y-auto max-h-[calc(100vh-80px)]">
           <NavLink to="/" onClick={toggleMenu} className={mobileLinkStyles}>
             Home
+          </NavLink>
+          <NavLink to="/signup" onClick={toggleMenu} className={mobileLinkStyles}>
+            Join as Employee
+          </NavLink>
+          <NavLink to="/signup?role=hr" onClick={toggleMenu} className={mobileLinkStyles}>
+            Join as HR Manager
           </NavLink>
 
           {!user && (

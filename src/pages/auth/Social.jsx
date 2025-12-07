@@ -13,6 +13,11 @@ const Social = ({ defaultRole = "employee" }) => {
     const location = useLocation();
     const [showSpinner, setShowSpinner] = useState(false);
     const axiosInstance = useAxios()
+    
+    // Get role from URL query params
+    const searchParams = new URLSearchParams(location.search);
+    const roleFromUrl = searchParams.get('role');
+    const selectedRole = roleFromUrl === 'hr' ? 'hr' : defaultRole;
 
     // google sign in/up
     const handleSignInWithGoogle = async () => {
@@ -21,40 +26,79 @@ const Social = ({ defaultRole = "employee" }) => {
             // Sign in with Google via Firebase
             const result = await createUserWithGoogle();
             const firebaseUser = result.user;
+            const isNewUser = result.additionalUserInfo?.isNewUser || false;
             
             // Set Firebase user
             setUser(firebaseUser);
 
-            // Register user in backend with default role
-            try {
-                const registrationData = {
-                    name: firebaseUser.displayName || firebaseUser.name || '',
-                    email: firebaseUser.email,
-                    password: '', // Google auth doesn't need password - backend should handle this
-                    role: defaultRole,
-                    dateOfBirth: '', // Can be updated later
-                    profileImage: firebaseUser.photoURL || '',
-                };
-
-                // Add HR specific fields if role is hr
-                if (defaultRole === 'hr') {
-                    registrationData.companyName = '';
-                    registrationData.companyLogo = firebaseUser.photoURL || '';
-                }
-
-                // Try to register in backend (will handle if user already exists)
+            // Register user in backend with default role (only for new users)
+            if (isNewUser) {
                 try {
-                    await axiosInstance.post('/register', registrationData);
-                } catch (registerError) {
-                    // If user already exists, that's okay - continue
-                    if (registerError.response?.status !== 400 || 
-                        !registerError.response?.data?.message?.includes('already exists')) {
-                        console.error('Backend registration error:', registerError);
+                    const registrationData = {
+                        name: firebaseUser.displayName || firebaseUser.name || '',
+                        email: firebaseUser.email,
+                        password: '', // Google auth doesn't need password - backend should handle this
+                        role: selectedRole, // Use role from URL or default
+                        dateOfBirth: '', // Can be updated later
+                        profileImage: firebaseUser.photoURL || '',
+                    };
+                    
+                    // If HR, prompt for company name
+                    if (selectedRole === 'hr') {
+                        const { value: companyName } = await Swal.fire({
+                            title: 'Company Information',
+                            text: 'Please enter your company name',
+                            input: 'text',
+                            inputPlaceholder: 'Enter company name',
+                            showCancelButton: true,
+                            confirmButtonText: 'Continue',
+                            inputValidator: (value) => {
+                                if (!value) {
+                                    return 'Company name is required!';
+                                }
+                            }
+                        });
+                        
+                        if (companyName) {
+                            registrationData.companyName = companyName;
+                            // Prompt for company logo
+                            const { value: logoUrl } = await Swal.fire({
+                                title: 'Company Logo',
+                                text: 'Please enter your company logo URL (or leave empty)',
+                                input: 'url',
+                                inputPlaceholder: 'https://example.com/logo.png',
+                                showCancelButton: true,
+                                confirmButtonText: 'Continue',
+                                inputValidator: (value) => {
+                                    if (value && !value.match(/^https?:\/\/.+/)) {
+                                        return 'Please enter a valid URL!';
+                                    }
+                                }
+                            });
+                            if (logoUrl) {
+                                registrationData.companyLogo = logoUrl;
+                            }
+                        } else {
+                            // User cancelled, redirect to role selection
+                            navigate('/signup?role=hr');
+                            return;
+                        }
                     }
+
+                    // Try to register in backend
+                    try {
+                        await axiosInstance.post('/register', registrationData);
+                    } catch (registerError) {
+                        // If user already exists, that's okay - continue
+                        if (registerError.response?.status !== 400 || 
+                            !registerError.response?.data?.message?.includes('already exists')) {
+                            console.error('Backend registration error:', registerError);
+                        }
+                    }
+                } catch (backendError) {
+                    console.error('Backend registration error:', backendError);
+                    // Continue even if backend registration fails - Firebase user is already created
                 }
-            } catch (backendError) {
-                console.error('Backend registration error:', backendError);
-                // Continue even if backend registration fails - Firebase user is already created
             }
 
             // Show SweetAlert success popup

@@ -1,123 +1,69 @@
 import { useState } from "react";
 import { NavLink, Outlet } from "react-router";
-import { FaBars, FaTimes, FaUserCircle, FaSignOutAlt, FaUsers, FaBook, FaChalkboardTeacher, FaBullhorn, FaLayerGroup, FaGraduationCap, FaRegCalendarPlus, FaListAlt, FaCloudUploadAlt, FaFolderOpen, FaHome, FaUser } from "react-icons/fa";
+import { FaBars, FaTimes, FaUserCircle, FaSignOutAlt, FaUsers, FaBox, FaPlusCircle, FaClipboardList, FaChartBar, FaUser, FaHome, FaShoppingCart, FaBuilding } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import useUserRole from "../hooks/useUserRole";
 import Spinner from "../components/ui/Spinner";
 import Logo from "../components/shared/Logo";
 import Button from "../components/ui/Button";
-import { MdNoteAdd, MdNoteAlt } from "react-icons/md";
 
-const adminLinks = [
+const hrLinks = [
   {
     to: "/dashboard",
-    label: "Dashboard Home",
-    icon: <FaHome />,
+    label: "Asset List",
+    icon: <FaBox />,
   },
   {
-    to: "/dashboard/admin/users",
-    label: "All Users",
+    to: "/dashboard/add-asset",
+    label: "Add Asset",
+    icon: <FaPlusCircle />,
+  },
+  {
+    to: "/dashboard/all-requests",
+    label: "All Requests",
+    icon: <FaClipboardList />,
+  },
+  {
+    to: "/dashboard/employee-list",
+    label: "Employee List",
     icon: <FaUsers />,
   },
   {
-    to: "/dashboard/admin/sessions",
-    label: "All Study Sessions",
-    icon: <FaBook />,
+    to: "/dashboard/upgrade-package",
+    label: "Upgrade Package",
+    icon: <FaShoppingCart />,
   },
   {
-    to: "/dashboard/admin/materials",
-    label: "All Materials",
-    icon: <FaLayerGroup />,
+    to: "/dashboard/analytics",
+    label: "Analytics",
+    icon: <FaChartBar />,
   },
   {
-    to: "/dashboard/admin/announcements",
-    label: "Announcements",
-    icon: <FaBullhorn />,
-  },
-  {
-    to: "/dashboard/admin/students",
-    label: "Students",
-    icon: <FaUsers />,
-  },
-  {
-    to: "/dashboard/admin/my-profile",
+    to: "/dashboard/my-profile",
     label: "My Profile",
     icon: <FaUser />,
   },
 ];
 
-const tutorLinks = [
+const employeeLinks = [
   {
     to: "/dashboard",
-    label: "Dashboard Home",
-    icon: <FaHome />,
+    label: "My Assets",
+    icon: <FaBox />,
   },
   {
-    to: "/dashboard/tutor/create-session",
-    label: "Create Study Session",
-    icon: <FaRegCalendarPlus />
+    to: "/dashboard/request-asset",
+    label: "Request Asset",
+    icon: <FaPlusCircle />,
   },
   {
-    to: "/dashboard/tutor/sessions",
-    label: "My All Study Sessions",
-    icon: <FaListAlt />
+    to: "/dashboard/my-team",
+    label: "My Team",
+    icon: <FaBuilding />,
   },
   {
-    to: "/dashboard/tutor/upload-materials",
-    label: "Upload Materials",
-    icon: <FaCloudUploadAlt />
-  },
-  {
-    to: "/dashboard/tutor/materials",
-    label: "View All Materials",
-    icon: <FaFolderOpen />
-  },
-  {
-    to: "/dashboard/tutor/students",
-    label: "Students",
-    icon: <FaUsers />,
-  },
-  {
-    to: "/dashboard/tutor/my-profile",
-    label: "My Profile",
-    icon: <FaUser />,
-  },
-];
-
-const studentLinks = [
-  {
-    to: "/dashboard",
-    label: "Dashboard Home",
-    icon: <FaHome />,
-  },
-  {
-    to: "/dashboard/student/my-bookings",
-    label: "Booked Sessions",
-    icon: <FaGraduationCap />,
-  },
-  {
-    to: "/dashboard/student/create-note",
-    label: "Create Note",
-    icon: <MdNoteAdd />,
-  },
-  {
-    to: "/dashboard/student/manage-notes",
-    label: "Manage Notes",
-    icon: <MdNoteAlt />,
-  },
-  {
-    to: "/dashboard/student/study-materials",
-    label: "Study Materials",
-    icon: <FaChalkboardTeacher />,
-  },
-  {
-    to: "/dashboard/student/all-student",
-    label: "All Student",
-    icon: <FaUsers />,
-  },
-  {
-    to: "/dashboard/student/my-profile",
+    to: "/dashboard/my-profile",
     label: "My Profile",
     icon: <FaUser />,
   },
@@ -130,11 +76,8 @@ const DashboardLayout = () => {
 
   // Determine links based on role
   let navLinks = [];
-  if (role === "admin") navLinks = adminLinks;
-  else if (role === "tutor") navLinks = tutorLinks;
-  else if (role === "student") navLinks = studentLinks;
-
-
+  if (role === "hr") navLinks = hrLinks;
+  else if (role === "employee") navLinks = employeeLinks;
 
   //Sign Out user
   const handleLogOut = () => {
@@ -155,16 +98,7 @@ const DashboardLayout = () => {
           icon: "success",
           showConfirmButton: false,
           timer: 1500
-        })
-          .then(() => { })
-          .catch((error) => {
-            console.log(error);
-            Swal.fire({
-              title: "Error!",
-              text: "Sign failed.",
-              icon: "error",
-            });
-          });
+        });
       }
     });
   };
@@ -191,7 +125,7 @@ const DashboardLayout = () => {
             <NavLink
               key={link.to}
               to={link.to}
-              end={idx === 0} // Only the first link (Dashboard Home) should use 'end' to match exactly /dashboard
+              end={idx === 0}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-6 py-1.5 font-medium transition-colors ${isActive ? "bg-primary text-white" : "text-base-content hover:bg-primary/10"
                 }`
@@ -244,7 +178,7 @@ const DashboardLayout = () => {
               <span className="font-medium hidden lg:inline">
                 {user?.displayName || user?.name}
               </span>
-              <span className="badge badge-outline rounded-md border-primary hidden lg:inline">
+              <span className="badge badge-outline rounded-md border-primary hidden lg:inline capitalize">
                 {role}
               </span>
             </div>
@@ -264,7 +198,6 @@ const DashboardLayout = () => {
       </div>
     </div>
   );
-
 };
 
 export default DashboardLayout;

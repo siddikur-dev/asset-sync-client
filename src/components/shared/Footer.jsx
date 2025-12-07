@@ -31,8 +31,7 @@ const Footer = () => {
           <div className="space-y-4">
             <Logo />
             <p className="text-base-content/80 leading-relaxed">
-              Empowering students and tutors to connect, collaborate, and excel together.
-              Join our community of learners and educators.
+              Comprehensive digital platform that helps companies efficiently manage their physical assets and track which employee has which equipment.
             </p>
             <div className="flex space-x-4">
               <a href="https://www.facebook.com/shihabuddinReal/" target="_blank" rel="noopener noreferrer"
@@ -66,15 +65,21 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link to="/tutors" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2 rounded-md">
+                <Link to="/" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2 rounded-md">
                   <span className="w-1 h-1 bg-primary rounded-full"></span>
-                  Find Tutors
+                  Home
                 </Link>
               </li>
               <li>
-                <Link to="/study-sessions" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2 rounded-md">
+                <Link to="/signup" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2 rounded-md">
                   <span className="w-1 h-1 bg-primary rounded-full"></span>
-                  Study Sessions
+                  Join as Employee
+                </Link>
+              </li>
+              <li>
+                <Link to="/signup?role=hr" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2 rounded-md">
+                  <span className="w-1 h-1 bg-primary rounded-full"></span>
+                  Join as HR Manager
                 </Link>
               </li>
               <li>
@@ -108,31 +113,31 @@ const Footer = () => {
               <li>
                 <Link to="/dashboard" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2">
                   <span className="w-1 h-1 bg-primary rounded-full"></span>
-                  Student Dashboard
+                  Employee Dashboard
                 </Link>
               </li>
               <li>
                 <Link to="/dashboard" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2">
                   <span className="w-1 h-1 bg-primary rounded-full"></span>
-                  Tutor Dashboard
+                  HR Manager Dashboard
                 </Link>
               </li>
               <li>
                 <Link to="/dashboard" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2">
                   <span className="w-1 h-1 bg-primary rounded-full"></span>
-                  Admin Panel
+                  Asset Management
                 </Link>
               </li>
               <li>
-                <Link to="/study-materials" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2">
+                <Link to="/dashboard" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2">
                   <span className="w-1 h-1 bg-primary rounded-full"></span>
-                  Study Materials
+                  Request Assets
                 </Link>
               </li>
               <li>
-                <Link to="/statistic" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2">
+                <Link to="/dashboard" className="text-base-content/70 hover:text-primary transition-colors duration-300 flex items-center gap-2">
                   <span className="w-1 h-1 bg-primary rounded-full"></span>
-                  Site Statistic
+                  Analytics
                 </Link>
               </li>
             </ul>
@@ -151,11 +156,11 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3 text-base-content/70">
                 <FaEnvelope className="text-primary" />
-                <span>info@edusync.com</span>
+                <span>info@assetverse.com</span>
               </div>
               <div className="flex items-center gap-3 text-base-content/70">
                 <FaMapMarkerAlt className="text-primary" />
-                <span>5800, Bogura, Bangladesh</span>
+                <span>Corporate Office, Business District</span>
               </div>
             </div>
             {/* Newsletter Signup */}
@@ -182,7 +187,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-base-content/70 text-sm">
-              © {currentYear} Edu Sync. All rights reserved.
+              © {currentYear} AssetVerse. All rights reserved.
             </div>
             <div className="flex items-center gap-6 text-sm">
               <Link to="/privacy" className="text-base-content/70 hover:text-primary transition-colors duration-300">

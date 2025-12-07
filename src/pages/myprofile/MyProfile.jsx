@@ -4,7 +4,7 @@ import Button from "../../components/ui/Button";
 import useAuth from "../../hooks/useAuth";
 import { FaEnvelope, FaTimesCircle, FaUserCircle, FaCheckCircle, FaCopy, FaCalendarAlt, FaSignOutAlt, FaPhoneAlt, FaMapMarkerAlt, FaLinkedin, FaGithub, FaFacebook, FaGlobe } from "react-icons/fa";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from '@tanstack/react-query';
 import { inputBase } from '../../utils/inputBase';
 import Spinner from "../../components/ui/Spinner";
@@ -12,15 +12,16 @@ import Spinner from "../../components/ui/Spinner";
 const MyProfile = () => {
   const [copied, setCopied] = useState(false)
   const { user, signOutUser } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [editMode, setEditMode] = useState(false);
   const [profile, setProfile] = useState({
-    phoneNumber: user.phoneNumber || '',
-    address: user.address || '',
-    bio: user.bio || '',
-    website: user.website || '',
-    linkedin: user.linkedin || '',
-    github: user.github || '',
-    facebook: user.facebook || '',
+    phoneNumber: user?.phoneNumber || '',
+    address: user?.address || '',
+    bio: user?.bio || '',
+    website: user?.website || '',
+    linkedin: user?.linkedin || '',
+    github: user?.github || '',
+    facebook: user?.facebook || '',
   });
   // const queryClient = useQueryClient();
 
@@ -33,10 +34,8 @@ const MyProfile = () => {
     queryKey: ['mongoUser', user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const token = user.getIdToken ? await user.getIdToken() : null;
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/users`, {
-        params: { search: user.email },
-        headers: { Authorization: `Bearer ${token}` }
+      const res = await axiosSecure.get('/users', {
+        params: { search: user.email }
       });
       return res.data?.users?.find(u => u.email === user.email) || null;
     }
@@ -96,16 +95,11 @@ const MyProfile = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const token = user && user.getIdToken ? await user.getIdToken() : null;
-      if (!user || !mongoUser?._id || !token) {
+      if (!user || !mongoUser?._id) {
         Swal.fire({ icon: 'error', title: 'User not authenticated' });
         return;
       }
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/users/${mongoUser._id}`,
-        profile,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await axiosSecure.put(`/users/${mongoUser._id}`, profile);
       setEditMode(false);
       await refetch();
       // Update local profile state with new values
@@ -120,7 +114,7 @@ const MyProfile = () => {
       });
       Swal.fire({ icon: 'success', title: 'Profile updated!' });
     } catch (err) {
-      Swal.fire({ icon: 'error', title: 'Update failed', text: err?.message || 'Something went wrong' });
+      Swal.fire({ icon: 'error', title: 'Update failed', text: err?.response?.data?.message || err?.message || 'Something went wrong' });
     }
   };
 

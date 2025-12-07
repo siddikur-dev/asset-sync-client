@@ -13,9 +13,9 @@ const DashboardHome = () => {
     if (roleLoading) {
         return <Spinner />;
     }
-    if (role === 'student') {
+    if (role === 'employee') {
         return <StudentDashboard />;
-    } else if (role === 'tutor') {
+    } else if (role === 'hr') {
         return <TutorDashboard />;
     } else if (role === 'admin') {
         return <AdminDashboard />;

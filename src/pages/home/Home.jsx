@@ -1,32 +1,25 @@
-import AvailableStudySessions from "../../components/homePage/AvailableStudySessions";
-import Banner from "../../components/homePage/Banner";
-import SponsoredTeams from "../../components/homePage/SponsoredTeams";
-import WhatOurUserSays from "../../components/homePage/WhatOurUserSays";
-import WhyChooseEduSync from "../../components/homePage/WhyChooseEduSync";
-import NewsLetter from "../../components/homePage/NewsLetter";
-import Faqs from "../../components/homePage/Faqs";
-import DeviceSupport from "../../components/homePage/DeviceSupport";
-
-import About from "../../components/homePage/About";
+import HeroBanner from "../../components/homePage/HeroBanner";
+import AboutSection from "../../components/homePage/AboutSection";
+import PackagesSection from "../../components/homePage/PackagesSection";
+import FeaturesSection from "../../components/homePage/FeaturesSection";
+import TestimonialsSection from "../../components/homePage/TestimonialsSection";
+import HowItWorks from "../../components/homePage/HowItWorks";
+import FAQSection from "../../components/homePage/FAQSection";
+import ContactCTA from "../../components/homePage/ContactCTA";
 
 const Home = () => {
-
-  return <>
-
-    <Banner />
-    <About />
-    <div className="max-w-6xl mx-auto px-4 mt-18 md:mt-26 space-y-18 md:space-y-26">
-      {/* <AvailableStudySessions /> */}
-      <SponsoredTeams />
-      {/* <HowEduSyncWork /> */}
-      {/* <WhyChooseEduSync />
-      <WhatOurUserSays /> */}
-      <Faqs />
-      <NewsLetter />
-      <DeviceSupport />
-
-    </div>
-  </>;
+  return (
+    <>
+      <HeroBanner />
+      <AboutSection />
+      <PackagesSection />
+      <FeaturesSection />
+      <TestimonialsSection />
+      <HowItWorks />
+      <FAQSection />
+      <ContactCTA />
+    </>
+  );
 };
 
 export default Home;

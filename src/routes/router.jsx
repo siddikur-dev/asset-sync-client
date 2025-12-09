@@ -25,6 +25,7 @@ import Analytics from "../pages/dashboard/hr/Analytics";
 import MyAssets from "../pages/dashboard/employee/MyAssets";
 import RequestAsset from "../pages/dashboard/employee/RequestAsset";
 import MyTeam from "../pages/dashboard/employee/MyTeam";
+import AboutUs from "../pages/PageOfStatic/AboutUs";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
         Component: Home,
       },
       { path: 'forbidden', Component: Forbidden },
+      { path: 'about-us', Component: AboutUs },
       { path: "signin", Component: SignIn },
       { path: "signup", Component: SignUp },
       { path: "reset-password", Component: ResetPassword },

@@ -57,48 +57,43 @@ const UpgradePackage = () => {
           try {
             console.log(`Checking payment status for session: ${sessionId} (attempt ${retryCount + 1})`);
             
-            // Use direct axios call for public endpoint (no auth required)
-            const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-            const response = await axios.get(`${baseURL}/payments/session/${sessionId}`);
-            console.log('Payment status response:', response.data);
+            // First try to refresh user data directly since the server-side processing should have updated it
+            const freshUserData = await axiosSecure.get('/users/me');
+            console.log('Fresh user data:', freshUserData.data);
             
-            if (response.data.status === 'completed') {
+            // Check if package was updated by comparing with current data
+            if (freshUserData.data.packageLimit > (userData?.packageLimit || 5)) {
               Swal.fire('Success', 'Package upgraded successfully!', 'success');
-              refetchUserData(); // Refresh user data
+              refetchUserData(); // Refresh user data in the cache
               setRetryCount(0); // Reset retry count on success
-            } else if (response.data.status === 'pending') {
-              // If payment is still processing, wait and check again
-              setTimeout(checkPaymentStatus, 2000);
             } else {
-              Swal.fire('Info', 'Payment is being processed. Please refresh the page in a moment.', 'info');
+              // If no update detected yet, try the payment status endpoint
+              try {
+                const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+                const response = await axios.get(`${baseURL}/payments/session/${sessionId}`);
+                console.log('Payment status response:', response.data);
+                
+                if (response.data.status === 'completed') {
+                  Swal.fire('Success', 'Package upgraded successfully!', 'success');
+                  refetchUserData(); // Refresh user data
+                  setRetryCount(0); // Reset retry count on success
+                } else if (response.data.status === 'pending') {
+                  // If payment is still processing, wait and check again
+                  setTimeout(checkPaymentStatus, 2000);
+                } else {
+                  // Wait a bit longer and try refreshing user data again
+                  setTimeout(checkPaymentStatus, 3000);
+                }
+              } catch (endpointError) {
+                console.log('Payment status endpoint error, will retry user data check:', endpointError.message);
+                // Just retry checking user data after a delay
+                setTimeout(checkPaymentStatus, 3000);
+              }
             }
           } catch (error) {
             console.error('Error checking payment status:', error);
-            
-            // If endpoint doesn't exist, try refreshing user data instead
-            if (error.response?.status === 404) {
-              console.log('Payment status endpoint not found, refreshing user data instead');
-              refetchUserData();
-              
-              // Check if package was updated by comparing current data
-              setTimeout(async () => {
-                try {
-                  const freshUserData = await axiosSecure.get('/users/me');
-                  if (freshUserData.data.packageLimit > (userData?.packageLimit || 5)) {
-                    Swal.fire('Success', 'Package upgraded successfully!', 'success');
-                    setRetryCount(0); // Reset retry count on success
-                  } else {
-                    // If no update detected, try again after a delay
-                    setTimeout(checkPaymentStatus, 3000);
-                  }
-                } catch (refreshError) {
-                  console.error('Error refreshing user data:', refreshError);
-                }
-              }, 2000);
-            } else {
-              Swal.fire('Error', 'Unable to verify payment status. Please refresh the page.', 'error');
-              setRetryCount(0); // Reset retry count on error
-            }
+            Swal.fire('Error', 'Unable to verify payment status. Please refresh the page.', 'error');
+            setRetryCount(0); // Reset retry count on error
           }
         };
         

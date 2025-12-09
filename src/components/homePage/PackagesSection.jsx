@@ -75,7 +75,7 @@ const PackagesSection = () => {
                 ))}
               </ul>
 
-              <Link to="/signup?role=hr">
+              <Link to="/dashboard/upgrade-package">
                 <button className="w-full btn btn-gradient text-white">
                   Get Started <FaArrowRight className="ml-2" />
                 </button>

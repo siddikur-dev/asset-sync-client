@@ -135,8 +135,8 @@ const Navbar = () => {
             <NavLink to="/about-us" className={navLinkStyles}>
               About US
             </NavLink>
-            <NavLink to="/signup?role=hr" className={navLinkStyles}>
-              Join as HR Manager
+            <NavLink to="/support" className={navLinkStyles}>
+              Support
             </NavLink>
           </div>
 

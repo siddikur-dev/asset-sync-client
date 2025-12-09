@@ -34,23 +34,23 @@ const Footer = () => {
               Comprehensive digital platform that helps companies efficiently manage their physical assets and track which employee has which equipment.
             </p>
             <div className="flex space-x-4">
-              <a href="https://www.facebook.com/shihabuddinReal/" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.facebook.com/siddikuruddinReal/" target="_blank" rel="noopener noreferrer"
                 className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
                 <FaFacebook size={18} />
               </a>
-              <a href="https://x.com/shihab_dev" target="_blank" rel="noopener noreferrer"
+              <a href="https://x.com/siddikur_dev" target="_blank" rel="noopener noreferrer"
                 className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
                 <FaTwitter size={18} />
               </a>
-              <a href="https://www.instagram.com/shihabuddin.real/" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.instagram.com/siddikuruddin.real/" target="_blank" rel="noopener noreferrer"
                 className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
                 <FaInstagram size={18} />
               </a>
-              <a href="https://www.linkedin.com/in/shihab-dev" target="_blank" rel="noopener noreferrer"
+              <a href="https://www.linkedin.com/in/siddikur-dev" target="_blank" rel="noopener noreferrer"
                 className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
                 <FaLinkedin size={18} />
               </a>
-              <a href="https://shihab-dev.web.app/" target="_blank" rel="noopener noreferrer"
+              <a href="https://siddikur-dev.web.app/" target="_blank" rel="noopener noreferrer"
                 className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300">
                 <FaDev size={18} />
               </a>

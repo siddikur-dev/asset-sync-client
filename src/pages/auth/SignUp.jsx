@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import Button from "../../components/ui/Button";
 import useAuth from "../../hooks/useAuth";
-import Social from "./Social";
 import { useState, useEffect } from "react";
 import Spinner from "../../components/ui/Spinner";
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock, FaUser, FaUpload, FaTimes, FaGraduationCap, FaBuilding, FaCalendarAlt, FaUserTie, FaBriefcase } from "react-icons/fa";
@@ -397,8 +396,6 @@ const SignUp = () => {
               )}
             </Button>
           </form>
-
-          <Social defaultRole={selectedRole} />
 
           <p className="text-sm mt-6 text-base-content text-center">
             Already have an account?{" "}

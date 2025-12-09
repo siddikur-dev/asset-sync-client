@@ -30,7 +30,7 @@ const Statistic = () => {
                         </span>
                         <h3 className="font-semibold text-base-content text-lg">Need Help Understanding the Statistics?</h3>
                         <p className="text-base-content/70 text-sm text-center">Our statistics dashboard provides insights into study session trends, tutor specialties, and platform activity. If you have questions or need a walkthrough, our support team is here to help!</p>
-                        <Button className='btn btn-sm'> <a href="https://shihab-dev.web.app/" target='blank' >Contact Support</a></Button>
+                        <Button className='btn btn-sm'> <a href="https://siddikur-dev.web.app/" target='blank' >Contact Support</a></Button>
                     </div>
                     {/* Statistic FAQ Card */}
                     <div className="bg-base-100 rounded-md shadow-md border border-base-300 p-6 flex flex-col gap-3">

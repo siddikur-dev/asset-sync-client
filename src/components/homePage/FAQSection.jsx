@@ -1,35 +1,39 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaQuestionCircle, FaChevronDown } from "react-icons/fa";
 
 const FAQSection = () => {
-  const [openIndex, setOpenIndex] = useState(0);
+  const [openIndex, setOpenIndex] = useState(null);
 
   const faqs = [
     {
-      question: "How does AssetVerse help prevent asset loss?",
-      answer: "AssetVerse tracks every asset from inventory to assignment to return, providing complete visibility and accountability. HR can see which employee has which asset at any time."
+      question: "How secure is my data on AssetVerse?",
+      answer: "We use enterprise-grade 256-bit encryption for all data transfers and storage. Your data is hosted on secure AWS servers with regular security audits, compliance with GDPR, and role-based access control to ensure only authorized personnel can access sensitive information."
     },
     {
-      question: "Can employees work with multiple companies?",
-      answer: "Yes! Employees can be affiliated with multiple companies simultaneously. Each company manages their own assets independently."
+      question: "Can I import my existing asset data?",
+      answer: "Yes! AssetVerse supports bulk import from CSV, Excel, and XML files. You can also integrate with your existing ERP systems through our comprehensive REST API. Our migration team provides free assistance for enterprise customers."
     },
     {
-      question: "What happens when an HR reaches their package limit?",
-      answer: "When an HR reaches their employee limit, they'll need to upgrade their package. The system prevents approving new requests until the package is upgraded via Stripe payment."
+      question: "What happens if I exceed my plan limits?",
+      answer: "You'll receive notifications when approaching your limits. You can upgrade your plan anytime with prorated billing, or archive older assets to free up space. We never lose your data - it's always accessible when you upgrade."
     },
     {
-      question: "Can employees return assets?",
-      answer: "Yes, employees can return returnable assets. Non-returnable assets (like consumables) cannot be returned. The system automatically updates inventory when assets are returned."
+      question: "Do you offer mobile apps?",
+      answer: "Yes! AssetVerse offers native mobile apps for both iOS and Android. The mobile apps include barcode scanning, GPS tracking, offline mode, and push notifications for real-time updates."
     },
     {
-      question: "How do I upgrade my package?",
-      answer: "HR managers can upgrade their package from the dashboard. Simply select a new package, complete the Stripe payment, and your employee limit is updated immediately."
+      question: "How does the free trial work?",
+      answer: "Start with a 14-day free trial with full access to all features. No credit card required. After the trial, choose the plan that fits your needs or contact our sales team for custom enterprise solutions."
     }
   ];
 
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
-    <section className="py-20 bg-base-200">
+    <section className="py-20 bg-white">
       <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -39,10 +43,10 @@ const FAQSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient">Frequently Asked Questions</span>
+            <span className="text-blue-600">Frequently Asked Questions</span>
           </h2>
-          <p className="text-lg text-base-content/70">
-            Everything you need to know about AssetVerse
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Got questions? We've got answers
           </p>
         </motion.div>
 
@@ -54,31 +58,67 @@ const FAQSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="bg-base-100 rounded-xl shadow-lg overflow-hidden"
+              className="bg-gray-50 rounded-lg overflow-hidden"
             >
               <button
-                onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
-                className="w-full px-6 py-4 flex justify-between items-center hover:bg-base-200 transition-colors"
+                onClick={() => toggleFAQ(index)}
+                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-100 transition-colors duration-200 focus:outline-none"
               >
-                <span className="font-semibold text-left">{faq.question}</span>
-                {openIndex === index ? (
-                  <FaChevronUp className="text-primary flex-shrink-0" />
-                ) : (
-                  <FaChevronDown className="text-primary flex-shrink-0" />
-                )}
+                <div className="flex items-center gap-3">
+                  <FaQuestionCircle className="text-blue-600 text-lg flex-shrink-0" />
+                  <span className="font-semibold text-gray-800">{faq.question}</span>
+                </div>
+                <FaChevronDown 
+                  className={`text-blue-600 transition-transform duration-300 ${
+                    openIndex === index ? 'rotate-180' : ''
+                  }`} 
+                />
               </button>
-              {openIndex === index && (
-                <div className="px-6 pb-4 text-base-content/70">
+              
+              <motion.div
+                initial={false}
+                animate={openIndex === index ? "open" : "closed"}
+                variants={{
+                  open: { height: "auto", opacity: 1 },
+                  closed: { height: 0, opacity: 0 }
+                }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="px-6 py-4 text-gray-600 leading-relaxed">
                   {faq.answer}
                 </div>
-              )}
+              </motion.div>
             </motion.div>
           ))}
         </div>
+
+        {/* Still have questions CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-16 text-center"
+        >
+          <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-8 rounded-2xl text-white">
+            <h3 className="text-2xl font-bold mb-4">Still Have Questions?</h3>
+            <p className="text-lg mb-6 opacity-90">
+              Our support team is here to help you 24/7
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">
+                Contact Support
+              </button>
+              <button className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
+                View Documentation
+              </button>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
 };
 
 export default FAQSection;
-

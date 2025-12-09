@@ -1,42 +1,49 @@
 import { motion } from "framer-motion";
-import { FaBox, FaUserCheck, FaChartLine, FaMobileAlt, FaBell, FaLock } from "react-icons/fa";
+import { 
+  FaSearch, 
+  FaCloud, 
+  FaUsers, 
+  FaChartBar, 
+  FaMobileAlt, 
+  FaCogs 
+} from "react-icons/fa";
 
 const FeaturesSection = () => {
   const features = [
     {
-      icon: <FaBox className="text-4xl" />,
-      title: "Asset Tracking",
-      description: "Track all your company assets from inventory to assignment to return."
+      icon: <FaSearch className="text-3xl" />,
+      title: "Real-time Tracking",
+      description: "Monitor your assets instantly with our advanced GPS and RFID tracking technology."
     },
     {
-      icon: <FaUserCheck className="text-4xl" />,
-      title: "Employee Management",
-      description: "Efficiently manage employees and their asset assignments."
+      icon: <FaCloud className="text-3xl" />,
+      title: "Cloud Storage",
+      description: "Secure cloud-based storage with automatic backups and 99.9% uptime guarantee."
     },
     {
-      icon: <FaChartLine className="text-4xl" />,
-      title: "Advanced Analytics",
-      description: "Get insights into asset usage, requests, and distribution."
+      icon: <FaUsers className="text-3xl" />,
+      title: "Team Collaboration",
+      description: "Enable seamless collaboration between departments with role-based access control."
     },
     {
-      icon: <FaMobileAlt className="text-4xl" />,
-      title: "Responsive Design",
-      description: "Access your asset management system from any device, anywhere."
+      icon: <FaChartBar className="text-3xl" />,
+      title: "Analytics Dashboard",
+      description: "Get comprehensive insights with customizable reports and data visualization."
     },
     {
-      icon: <FaBell className="text-4xl" />,
-      title: "Real-time Notifications",
-      description: "Stay updated with instant notifications for requests and approvals."
+      icon: <FaMobileAlt className="text-3xl" />,
+      title: "Mobile App",
+      description: "Manage assets on-the-go with our intuitive mobile application for iOS and Android."
     },
     {
-      icon: <FaLock className="text-4xl" />,
-      title: "Secure & Reliable",
-      description: "Enterprise-grade security to protect your company data."
+      icon: <FaCogs className="text-3xl" />,
+      title: "API Integration",
+      description: "Integrate with your existing systems through our comprehensive REST API."
     }
   ];
 
   return (
-    <section className="py-20 bg-base-100">
+    <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -46,10 +53,10 @@ const FeaturesSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient">Key Features</span>
+            <span className="text-blue-600">Powerful Features</span>
           </h2>
-          <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
-            Everything you need to manage your assets effectively
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Everything you need to manage your assets efficiently in one platform
           </p>
         </motion.div>
 
@@ -61,11 +68,15 @@ const FeaturesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.8 }}
-              className="bg-base-200 p-6 rounded-xl hover:shadow-lg transition-all duration-300"
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-center hover:-translate-y-1 group"
             >
-              <div className="text-primary mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-base-content/70">{feature.description}</p>
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6 mx-auto group-hover:bg-blue-600 transition-colors duration-300">
+                <span className="text-blue-600 group-hover:text-white transition-colors duration-300">
+                  {feature.icon}
+                </span>
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-800">{feature.title}</h3>
+              <p className="text-gray-600 leading-relaxed">{feature.description}</p>
             </motion.div>
           ))}
         </div>
@@ -75,4 +86,3 @@ const FeaturesSection = () => {
 };
 
 export default FeaturesSection;
-

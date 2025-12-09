@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { FaCheck } from "react-icons/fa";
 import Spinner from "../../../components/ui/Spinner";
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+import { useSearchParams } from "react-router";
+import axios from "axios";
 
 const UpgradePackage = () => {
   const axiosSecure = useAxiosSecure();
-  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   const { data: packages = [], isLoading } = useQuery({
     queryKey: ['packages'],
@@ -21,13 +21,154 @@ const UpgradePackage = () => {
     }
   });
 
-  const { data: userData } = useQuery({
+  const { data: userData, refetch: refetchUserData } = useQuery({
     queryKey: ['user'],
     queryFn: async () => {
       const res = await axiosSecure.get('/users/me');
       return res.data;
     }
   });
+
+  // Handle payment status from URL parameters
+  useEffect(() => {
+    const status = searchParams.get('status');
+    const sessionId = searchParams.get('session_id');
+    
+    if (status && sessionId) {
+      // Check if sessionId is the placeholder string
+      if (sessionId === '{CHECKOUT_SESSION_ID}') {
+        console.log('Stripe placeholder session ID detected, waiting for redirect...');
+        // Don't process yet, wait for actual redirect
+        return;
+      }
+      
+      if (status === 'success') {
+        // Poll for payment confirmation
+        const checkPaymentStatus = async () => {
+          // Prevent infinite retries
+          if (retryCount >= 5) {
+            console.error('Maximum retry attempts reached. Please refresh the page.');
+            Swal.fire('Error', 'Unable to verify payment status after multiple attempts. Please refresh the page.', 'error');
+            return;
+          }
+          
+          setRetryCount(prev => prev + 1);
+          
+          try {
+            console.log(`Checking payment status for session: ${sessionId} (attempt ${retryCount + 1})`);
+            
+            // Use direct axios call for public endpoint (no auth required)
+            const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+            const response = await axios.get(`${baseURL}/payments/session/${sessionId}`);
+            console.log('Payment status response:', response.data);
+            
+            if (response.data.status === 'completed') {
+              Swal.fire('Success', 'Package upgraded successfully!', 'success');
+              refetchUserData(); // Refresh user data
+              setRetryCount(0); // Reset retry count on success
+            } else if (response.data.status === 'pending') {
+              // If payment is still processing, wait and check again
+              setTimeout(checkPaymentStatus, 2000);
+            } else {
+              Swal.fire('Info', 'Payment is being processed. Please refresh the page in a moment.', 'info');
+            }
+          } catch (error) {
+            console.error('Error checking payment status:', error);
+            
+            // If endpoint doesn't exist, try refreshing user data instead
+            if (error.response?.status === 404) {
+              console.log('Payment status endpoint not found, refreshing user data instead');
+              refetchUserData();
+              
+              // Check if package was updated by comparing current data
+              setTimeout(async () => {
+                try {
+                  const freshUserData = await axiosSecure.get('/users/me');
+                  if (freshUserData.data.packageLimit > (userData?.packageLimit || 5)) {
+                    Swal.fire('Success', 'Package upgraded successfully!', 'success');
+                    setRetryCount(0); // Reset retry count on success
+                  } else {
+                    // If no update detected, try again after a delay
+                    setTimeout(checkPaymentStatus, 3000);
+                  }
+                } catch (refreshError) {
+                  console.error('Error refreshing user data:', refreshError);
+                }
+              }, 2000);
+            } else {
+              Swal.fire('Error', 'Unable to verify payment status. Please refresh the page.', 'error');
+              setRetryCount(0); // Reset retry count on error
+            }
+          }
+        };
+        
+        // Add a small delay before checking to ensure Stripe has processed the payment
+        setTimeout(checkPaymentStatus, 1000);
+        
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      } else if (status === 'error') {
+        const errorCode = searchParams.get('code');
+        let errorMessage = 'Payment failed';
+        
+        switch(errorCode) {
+          case 'missing_session_id':
+            errorMessage = 'Session ID is missing';
+            break;
+          case 'session_not_found':
+            errorMessage = 'Payment session not found';
+            break;
+          case 'missing_metadata':
+            errorMessage = 'Payment information is incomplete';
+            break;
+          case 'user_not_found':
+            errorMessage = 'User account not found';
+            break;
+          case 'update_failed':
+            errorMessage = 'Failed to update package';
+            break;
+          default:
+            errorMessage = 'Payment processing failed';
+        }
+        
+        Swal.fire('Error', errorMessage, 'error');
+        
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    }
+  }, [searchParams, axiosSecure, refetchUserData]);
+
+  const handleUpgrade = async (pkg) => {
+    setLoading(true);
+    
+    try {
+      // Create checkout session
+      const { data } = await axiosSecure.post('/create-checkout-session', {
+        packageName: pkg.name,
+        successUrl: `${window.location.origin}${window.location.pathname}?status=success`,
+        cancelUrl: `${window.location.origin}${window.location.pathname}?status=cancelled`
+      });
+
+      // Redirect to Stripe Checkout
+      window.location.href = data.url;
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      
+      // Handle different types of errors
+      let errorMessage = 'Failed to initiate payment';
+      if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      } else if (error.code === 'ECONNABORTED' || error.code === 'ERR_NETWORK') {
+        errorMessage = 'Network error. Please check your connection and try again.';
+      } else if (error.code === 'ERR_CANCELED') {
+        errorMessage = 'Payment was cancelled. Please try again.';
+      }
+      
+      Swal.fire('Error', errorMessage, 'error');
+      setLoading(false);
+    }
+  };
 
   if (isLoading) return <Spinner />;
 
@@ -53,7 +194,7 @@ const UpgradePackage = () => {
           <div
             key={pkg._id}
             className={`bg-base-100 p-6 rounded-xl shadow-lg ${
-              pkg.name === userData?.subscription ? 'border-2 border-primary' : ''
+              pkg.name.toLowerCase() === userData?.subscription?.toLowerCase() ? 'border-2 border-primary' : ''
             }`}
           >
             <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
@@ -72,124 +213,25 @@ const UpgradePackage = () => {
               ))}
             </ul>
 
-            {pkg.name === userData?.subscription ? (
+            {pkg.name.toLowerCase() === userData?.subscription?.toLowerCase() ? (
               <button className="btn btn-outline w-full" disabled>
                 Current Package
               </button>
             ) : (
               <button
-                onClick={() => setSelectedPackage(pkg)}
+                onClick={() => handleUpgrade(pkg)}
                 className="btn btn-gradient text-white w-full"
+                disabled={loading}
               >
-                Upgrade to {pkg.name}
+                {loading ? 'Processing...' : `Upgrade to ${pkg.name}`}
               </button>
             )}
           </div>
         ))}
       </div>
-
-      {selectedPackage && (
-        <PaymentForm
-          package={selectedPackage}
-          onClose={() => setSelectedPackage(null)}
-          onSuccess={() => {
-            setSelectedPackage(null);
-            window.location.reload();
-          }}
-        />
-      )}
     </div>
   );
 };
 
-const PaymentForm = ({ package: pkg, onClose, onSuccess }) => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const axiosSecure = useAxiosSecure();
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!stripe || !elements) return;
-
-    setLoading(true);
-    try {
-      // Create payment intent
-      const { data } = await axiosSecure.post('/create-payment-intent', {
-        packageName: pkg.name
-      });
-
-      // Confirm payment
-      const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
-        }
-      });
-
-      if (error) {
-        Swal.fire('Error', error.message, 'error');
-      } else if (paymentIntent.status === 'succeeded') {
-        // Record payment
-        await axiosSecure.post('/payments', {
-          packageName: pkg.name,
-          transactionId: paymentIntent.id,
-          paymentIntentId: paymentIntent.id
-        });
-
-        Swal.fire('Success', 'Package upgraded successfully!', 'success');
-        onSuccess();
-      }
-    } catch (error) {
-      Swal.fire('Error', error.response?.data?.message || 'Payment failed', 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-base-100 p-8 rounded-2xl max-w-md w-full mx-4">
-        <h2 className="text-2xl font-bold mb-4">Upgrade to {pkg.name}</h2>
-        <p className="text-lg font-semibold mb-6">Total: ${pkg.price}</p>
-        
-        <form onSubmit={handleSubmit}>
-          <div className="mb-6">
-            <CardElement
-              options={{
-                style: {
-                  base: {
-                    fontSize: '16px',
-                    color: '#424770',
-                    '::placeholder': {
-                      color: '#aab7c4',
-                    },
-                  },
-                },
-              }}
-            />
-          </div>
-          
-          <div className="flex gap-4">
-            <button type="button" onClick={onClose} className="btn btn-outline flex-1">
-              Cancel
-            </button>
-            <button type="submit" className="btn btn-gradient text-white flex-1" disabled={loading || !stripe}>
-              {loading ? 'Processing...' : `Pay $${pkg.price}`}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
-
-const UpgradePackageWithStripe = () => {
-  return (
-    <Elements stripe={stripePromise}>
-      <UpgradePackage />
-    </Elements>
-  );
-};
-
-export default UpgradePackageWithStripe;
+export default UpgradePackage;
 

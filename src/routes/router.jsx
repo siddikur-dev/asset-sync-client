@@ -9,6 +9,7 @@ import PrivateRoutes from "./PrivateRoutes";
 import HRRoutes from "./HRRoutes";
 import EmployeeRoutes from "./EmployeeRoutes";
 import DashboardLayout from "../layout/DashboardLayout";
+import DashboardHome from "../pages/dashboard/common/DashboardHome";
 import NotFound from "../pages/notFound/NotFound";
 import Forbidden from "../pages/forbidden/Forbidden";
 
@@ -52,10 +53,10 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <PrivateRoutes><DashboardLayout /></PrivateRoutes>,
     children: [
-      // HR Routes
+      // Default dashboard route that handles all roles
       {
         path: '',
-        element: <HRRoutes><HRDashboard /></HRRoutes>
+        Component: DashboardHome
       },
       {
         path: 'add-asset',

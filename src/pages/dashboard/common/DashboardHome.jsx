@@ -2,9 +2,8 @@
 import Spinner from "../../../components/ui/Spinner";
 import useUserRole from "../../../hooks/useUserRole";
 import Forbidden from "../../forbidden/Forbidden";
-import AdminDashboard from "../admin/AdminDashboard";
-import StudentDashboard from "../student/StudentDashboard";
-import TutorDashboard from "../tutor/TutorDashboard";
+import MyAssets from "../employee/MyAssets";
+import HRDashboard from "../hr/HRDashboard";
 
 
 const DashboardHome = () => {
@@ -14,11 +13,11 @@ const DashboardHome = () => {
         return <Spinner />;
     }
     if (role === 'employee') {
-        return <StudentDashboard />;
+        return <MyAssets />;
     } else if (role === 'hr') {
-        return <TutorDashboard />;
+        return <HRDashboard />;
     } else if (role === 'admin') {
-        return <AdminDashboard />;
+        return <HRDashboard />; // Using HR dashboard for admin as well
     } else {
         return <Forbidden />;
     }

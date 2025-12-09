@@ -85,13 +85,15 @@ const Navbar = () => {
 
   const userLinks = {
     employee: [
-      { path: '/dashboard', label: 'My Assets' },
+      { path: '/dashboard', label: 'Dashboard', isDashboard: true },
+      { path: '/dashboard/my-assets', label: 'My Assets' },
       { path: '/dashboard/my-team', label: 'My Team' },
       { path: '/dashboard/request-asset', label: 'Request Asset' },
       { path: '/dashboard/my-profile', label: 'Profile' },
     ],
     hr: [
-      { path: '/dashboard', label: 'Asset List' },
+      { path: '/dashboard', label: 'Dashboard', isDashboard: true },
+      { path: '/dashboard/asset-list', label: 'Asset List' },
       { path: '/dashboard/add-asset', label: 'Add Asset' },
       { path: '/dashboard/all-requests', label: 'All Requests' },
       { path: '/dashboard/employee-list', label: 'Employee List' },
@@ -145,44 +147,44 @@ const Navbar = () => {
             {user ? (
               <div className="relative" ref={dropdownRef}>
                 <button
-                  onClick={() => setShowDropdown(!showDropdown)}
-                  className="flex items-center gap-2 transition-opacity hover:opacity-80"
+                  onMouseEnter={() => setShowDropdown(true)}
+                  className="flex items-center gap-2 transition-all hover:scale-105 hover:shadow-lg"
                 >
-                  <div className="w-10 h-10 rounded-full overflow-hidden border border-base-300">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-transparent hover:border-primary transition-all duration-300">
                     <img src={user.photoURL || userLogo} alt="profile" className="w-full h-full object-cover" />
                   </div>
                 </button>
 
-                {/* Dropdown Menu */}
+                {/* Simplified Dropdown Menu - Only Dashboard and Sign Out */}
                 <div
-                  className={`absolute right-0 mt-3 w-56 bg-white rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 py-2 transform transition-all duration-200 origin-top-right ${showDropdown
+                  className={`absolute right-0 mt-3 w-48 bg-white rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 py-2 transform transition-all duration-200 origin-top-right ${showDropdown
                     ? "opacity-100 scale-100 translate-y-0"
                     : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
                     }`}
+                  onMouseEnter={() => setShowDropdown(true)}
+                  onMouseLeave={() => setShowDropdown(false)}
                 >
-                  <div className="px-4 py-3 border-b border-gray-100">
-                    <p className="text-sm font-semibold text-gray-900 truncate">{user.displayName}</p>
-                    <p className="text-xs text-gray-500 truncate capitalize">{role?.replace('_', ' ')}</p>
-                  </div>
-
                   <div className="py-1">
-                    {currentRoleLinks.map((link, idx) => (
-                      <Link
-                        key={idx}
-                        to={link.path}
-                        onClick={() => setShowDropdown(false)}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover-text-gradient transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setShowDropdown(false)}
+                      className="block px-4 py-2 text-sm font-medium transition-all duration-200 text-primary bg-primary/5 hover:bg-primary/10 border-l-4 border-primary flex items-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                      </svg>
+                      Dashboard
+                    </Link>
                   </div>
 
                   <div className="border-t border-gray-100 pt-1">
                     <button
                       onClick={handleLogOut}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      className="w-full text-left px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2"
                     >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                      </svg>
                       Sign Out
                     </button>
                   </div>
@@ -261,9 +263,57 @@ const Navbar = () => {
                   key={idx}
                   to={link.path}
                   onClick={toggleMenu}
-                  className={mobileLinkStyles}
+                  className={`${mobileLinkStyles} ${link.isDashboard ? 'border-l-4 border-primary bg-primary/5' : ''}`}
                 >
-                  {link.label}
+                  <span className="flex items-center gap-2">
+                    {link.isDashboard && (
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                      </svg>
+                    )}
+                    {link.label === 'My Assets' && (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                      </svg>
+                    )}
+                    {link.label === 'Asset List' && (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+                      </svg>
+                    )}
+                    {link.label === 'My Team' && (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                      </svg>
+                    )}
+                    {link.label === 'Add Asset' && (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                    {link.label === 'All Requests' && (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                        <path fillRule="evenodd" d="M4 5a2 2 0 012-2 1 1 0 000 2H6a2 2 0 100 4h2a2 2 0 100 4h2a1 1 0 100 2 2 2 0 01-2-2V5a2 2 0 00-2-2H4z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                    {link.label === 'Employee List' && (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+                      </svg>
+                    )}
+                    {link.label === 'Request Asset' && (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z" />
+                      </svg>
+                    )}
+                    {link.label === 'Profile' && (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                    {link.label}
+                  </span>
                 </NavLink>
               ))}
               <button

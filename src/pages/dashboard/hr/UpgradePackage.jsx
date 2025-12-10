@@ -33,200 +33,151 @@ const UpgradePackage = () => {
   useEffect(() => {
     const status = searchParams.get('status');
     const sessionId = searchParams.get('session_id');
-    
+
     if (status && sessionId) {
-      // Check if sessionId is the placeholder string
       if (sessionId === '{CHECKOUT_SESSION_ID}') {
-        console.log('Stripe placeholder session ID detected, waiting for redirect...');
-        // Don't process yet, wait for actual redirect
         return;
       }
-      
+
       if (status === 'success') {
-        // Poll for payment confirmation
         const checkPaymentStatus = async () => {
-          // Prevent infinite retries
           if (retryCount >= 5) {
-            console.error('Maximum retry attempts reached. Please refresh the page.');
-            Swal.fire('Error', 'Unable to verify payment status after multiple attempts. Please refresh the page.', 'error');
+            Swal.fire('Error', 'Unable to verify payment status. Please check your profile.', 'error');
             return;
           }
-          
+
           setRetryCount(prev => prev + 1);
-          
+
           try {
-            console.log(`Checking payment status for session: ${sessionId} (attempt ${retryCount + 1})`);
-            
-            // First try to refresh user data directly since the server-side processing should have updated it
             const freshUserData = await axiosSecure.get('/users/me');
-            console.log('Fresh user data:', freshUserData.data);
-            
-            // Check if package was updated by comparing with current data
             if (freshUserData.data.packageLimit > (userData?.packageLimit || 5)) {
               Swal.fire('Success', 'Package upgraded successfully!', 'success');
-              refetchUserData(); // Refresh user data in the cache
-              setRetryCount(0); // Reset retry count on success
+              refetchUserData();
+              setRetryCount(0);
             } else {
-              // If no update detected yet, try the payment status endpoint
-              try {
-                const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-                const response = await axios.get(`${baseURL}/payments/session/${sessionId}`);
-                console.log('Payment status response:', response.data);
-                
-                if (response.data.status === 'completed') {
-                  Swal.fire('Success', 'Package upgraded successfully!', 'success');
-                  refetchUserData(); // Refresh user data
-                  setRetryCount(0); // Reset retry count on success
-                } else if (response.data.status === 'pending') {
-                  // If payment is still processing, wait and check again
-                  setTimeout(checkPaymentStatus, 2000);
-                } else {
-                  // Wait a bit longer and try refreshing user data again
-                  setTimeout(checkPaymentStatus, 3000);
-                }
-              } catch (endpointError) {
-                console.log('Payment status endpoint error, will retry user data check:', endpointError.message);
-                // Just retry checking user data after a delay
-                setTimeout(checkPaymentStatus, 3000);
-              }
+              // Fallback check
+              setTimeout(checkPaymentStatus, 2000);
             }
           } catch (error) {
-            console.error('Error checking payment status:', error);
-            Swal.fire('Error', 'Unable to verify payment status. Please refresh the page.', 'error');
-            setRetryCount(0); // Reset retry count on error
+            console.error(error);
           }
         };
-        
-        // Add a small delay before checking to ensure Stripe has processed the payment
+
         setTimeout(checkPaymentStatus, 1000);
-        
-        // Clean up URL
         window.history.replaceState({}, document.title, window.location.pathname);
       } else if (status === 'error') {
-        const errorCode = searchParams.get('code');
-        let errorMessage = 'Payment failed';
-        
-        switch(errorCode) {
-          case 'missing_session_id':
-            errorMessage = 'Session ID is missing';
-            break;
-          case 'session_not_found':
-            errorMessage = 'Payment session not found';
-            break;
-          case 'missing_metadata':
-            errorMessage = 'Payment information is incomplete';
-            break;
-          case 'user_not_found':
-            errorMessage = 'User account not found';
-            break;
-          case 'update_failed':
-            errorMessage = 'Failed to update package';
-            break;
-          default:
-            errorMessage = 'Payment processing failed';
-        }
-        
-        Swal.fire('Error', errorMessage, 'error');
-        
-        // Clean up URL
+        Swal.fire('Error', 'Payment failed or cancelled', 'error');
         window.history.replaceState({}, document.title, window.location.pathname);
       }
     }
-  }, [searchParams, axiosSecure, refetchUserData]);
+  }, [searchParams, axiosSecure]); // Removed refetchUserData from deps to avoid loop if used wrongly
 
   const handleUpgrade = async (pkg) => {
     setLoading(true);
-    
+
     try {
-      // Create checkout session
       const { data } = await axiosSecure.post('/create-checkout-session', {
         packageName: pkg.name,
         successUrl: `${window.location.origin}${window.location.pathname}?status=success`,
         cancelUrl: `${window.location.origin}${window.location.pathname}?status=cancelled`
       });
-
-      // Redirect to Stripe Checkout
       window.location.href = data.url;
     } catch (error) {
-      console.error('Error creating checkout session:', error);
-      
-      // Handle different types of errors
-      let errorMessage = 'Failed to initiate payment';
-      if (error.response?.data?.error) {
-        errorMessage = error.response.data.error;
-      } else if (error.code === 'ECONNABORTED' || error.code === 'ERR_NETWORK') {
-        errorMessage = 'Network error. Please check your connection and try again.';
-      } else if (error.code === 'ERR_CANCELED') {
-        errorMessage = 'Payment was cancelled. Please try again.';
-      }
-      
-      Swal.fire('Error', errorMessage, 'error');
+      console.error(error);
+      Swal.fire('Error', 'Failed to initiate payment', 'error');
       setLoading(false);
     }
   };
 
   if (isLoading) return <Spinner />;
 
+  // Helper to determine if a package is "lower" or "equal"
+  const getPackageLevel = (name) => {
+    const levels = { 'basic': 1, 'standard': 2, 'premium': 3 };
+    return levels[name?.toLowerCase()] || 0;
+  };
+
+  const currentLevel = getPackageLevel(userData?.subscription);
+
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-gradient">Upgrade Package</h1>
-      
-      <div className="bg-base-100 p-6 rounded-xl shadow-lg mb-6">
-        <h2 className="text-xl font-semibold mb-2">Current Package</h2>
-        <p className="text-lg">
-          <span className="font-semibold">Package:</span> {userData?.subscription || 'Basic'}
-        </p>
-        <p className="text-lg">
-          <span className="font-semibold">Employee Limit:</span> {userData?.packageLimit || 5}
-        </p>
-        <p className="text-lg">
-          <span className="font-semibold">Current Employees:</span> {userData?.currentEmployees || 0}
-        </p>
+
+      <div className="bg-base-100 p-6 rounded-xl shadow-lg mb-6 border border-primary/10">
+        <h2 className="text-xl font-semibold mb-2">Current Subscription</h2>
+        <div className="grid md:grid-cols-3 gap-4 mt-4">
+          <div className="p-4 bg-base-200 rounded-lg">
+            <p className="text-sm text-base-content/60">Current Plan</p>
+            <p className="text-xl font-bold capitalize">{userData?.subscription || 'Basic'}</p>
+          </div>
+          <div className="p-4 bg-base-200 rounded-lg">
+            <p className="text-sm text-base-content/60">Employee Limit</p>
+            <p className="text-xl font-bold">{userData?.packageLimit || 5}</p>
+          </div>
+          <div className="p-4 bg-base-200 rounded-lg">
+            <p className="text-sm text-base-content/60">Used Slots</p>
+            <p className="text-xl font-bold">{userData?.currentEmployees || 0}</p>
+          </div>
+        </div>
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
-        {packages.map((pkg) => (
-          <div
-            key={pkg._id}
-            className={`bg-base-100 p-6 rounded-xl shadow-lg ${
-              pkg.name.toLowerCase() === userData?.subscription?.toLowerCase() ? 'border-2 border-primary' : ''
-            }`}
-          >
-            <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
-            <div className="text-3xl font-bold text-gradient mb-4">
-              ${pkg.price}
-              <span className="text-lg text-base-content/70">/month</span>
-            </div>
-            <p className="text-base-content/70 mb-4">Up to {pkg.employeeLimit} employees</p>
-            
-            <ul className="space-y-2 mb-6">
-              {pkg.features?.map((feature, idx) => (
-                <li key={idx} className="flex items-center gap-2">
-                  <FaCheck className="text-primary" />
-                  <span className="text-sm">{feature}</span>
-                </li>
-              ))}
-            </ul>
+        {packages.map((pkg, i) => {
+          const pkgLevel = getPackageLevel(pkg.name);
+          const isCurrent = pkgLevel === currentLevel;
+          const isLower = pkgLevel < currentLevel;
 
-            {pkg.name.toLowerCase() === userData?.subscription?.toLowerCase() ? (
-              <button className="btn btn-outline w-full" disabled>
-                Current Package
-              </button>
-            ) : (
-              <button
-                onClick={() => handleUpgrade(pkg)}
-                className="btn btn-gradient text-white w-full"
-                disabled={loading}
-              >
-                {loading ? 'Processing...' : `Upgrade to ${pkg.name}`}
-              </button>
-            )}
-          </div>
-        ))}
+          return (
+            <div
+              key={i}
+              className={`bg-base-100 p-6 rounded-xl shadow-lg transition-all hover:shadow-xl relative overflow-hidden ${isCurrent ? 'border-2 border-primary ring-2 ring-primary/20' : 'border border-transparent'
+                }`}
+            >
+              {isCurrent && (
+                <div className="absolute top-0 right-0 bg-primary text-white text-xs px-3 py-1 rounded-bl-lg">
+                  Active Plan
+                </div>
+              )}
+
+              <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
+              <div className="text-3xl font-bold text-gradient mb-4">
+                ${pkg.price}
+                <span className="text-lg text-base-content/70">/month</span>
+              </div>
+              <p className="text-base-content/70 mb-4">Up to {pkg.employeeLimit} employees</p>
+
+              <ul className="space-y-2 mb-6">
+                {pkg.features?.map((feature, idx) => (
+                  <li key={idx} className="flex items-center gap-2">
+                    <FaCheck className="text-primary" />
+                    <span className="text-sm">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {isCurrent ? (
+                <button className="btn btn-disabled w-full bg-base-200 text-base-content/50 cursor-not-allowed">
+                  Current Plan
+                </button>
+              ) : isLower ? (
+                <button className="btn btn-disabled w-full bg-base-200 text-base-content/50 cursor-not-allowed">
+                  Please Contact Support to Downgrade
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleUpgrade(pkg)}
+                  className="btn btn-gradient text-white w-full"
+                  disabled={loading}
+                >
+                  {loading ? 'Processing...' : `Upgrade to ${pkg.name}`}
+                </button>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 };
 
 export default UpgradePackage;
-

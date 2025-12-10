@@ -8,14 +8,16 @@ const EmployeeList = () => {
   const axiosSecure = useAxiosSecure();
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['employees'],
+    queryKey: ['my-employees'],
     queryFn: async () => {
-      const res = await axiosSecure.get('/employees');
+      const res = await axiosSecure.get('/my-employees');
       return res.data;
-    }
+    },
+    refetchOnMount: true,
+    staleTime: 0
   });
 
-  const handleRemove = async (affiliationId, employeeEmail) => {
+  const handleRemove = async (userId) => {
     const result = await Swal.fire({
       title: 'Remove Employee?',
       text: "This will return all assets and remove the employee from your company.",
@@ -28,9 +30,9 @@ const EmployeeList = () => {
 
     if (result.isConfirmed) {
       try {
-        const res = await axiosSecure.delete(`/affiliations/${affiliationId}`);
+        const res = await axiosSecure.delete(`/my-employees/${userId}`);
         if (res.data.success) {
-          Swal.fire('Removed', 'Employee has been removed and all assets returned.', 'success');
+          Swal.fire('Removed', 'Employee has been removed.', 'success');
           refetch();
         }
       } catch (error) {
@@ -66,14 +68,14 @@ const EmployeeList = () => {
             </div>
             <div className="space-y-2 mb-4">
               <p className="text-sm">
-                <span className="font-semibold">Join Date:</span> {new Date(emp.affiliationDate).toLocaleDateString()}
+                <span className="font-semibold">Join Date:</span> {emp.affiliationDate ? new Date(emp.affiliationDate).toLocaleDateString() : 'N/A'}
               </p>
               <p className="text-sm">
                 <span className="font-semibold">Assets Assigned:</span> {emp.assetCount || 0}
               </p>
             </div>
             <button
-              onClick={() => handleRemove(emp._id, emp.employeeEmail)}
+              onClick={() => handleRemove(emp._id)}
               className="btn btn-sm btn-error w-full"
             >
               <FaTrash className="mr-2" /> Remove from Team
@@ -92,4 +94,3 @@ const EmployeeList = () => {
 };
 
 export default EmployeeList;
-

@@ -3,7 +3,6 @@ import Root from "../layout/Root";
 import Home from "../pages/home/Home";
 import SignIn from "../pages/auth/SignIn";
 import SignUp from "../pages/auth/SignUp";
-import ResetPassword from "../pages/auth/ResetPassword";
 import MyProfile from "../pages/myprofile/MyProfile";
 import PrivateRoutes from "./PrivateRoutes";
 import HRRoutes from "./HRRoutes";
@@ -14,18 +13,18 @@ import NotFound from "../pages/notFound/NotFound";
 import Forbidden from "../pages/forbidden/Forbidden";
 
 // HR Dashboard Pages
-import HRDashboard from "../pages/dashboard/hr/HRDashboard";
 import AddAsset from "../pages/dashboard/hr/AddAsset";
 import AllRequests from "../pages/dashboard/hr/AllRequests";
 import EmployeeList from "../pages/dashboard/hr/EmployeeList";
 import UpgradePackage from "../pages/dashboard/hr/UpgradePackage";
-import Analytics from "../pages/dashboard/hr/Analytics";
 
 // Employee Dashboard Pages
 import MyAssets from "../pages/dashboard/employee/MyAssets";
 import RequestAsset from "../pages/dashboard/employee/RequestAsset";
 import MyTeam from "../pages/dashboard/employee/MyTeam";
-import AboutUs from "../pages/PageOfStatic/AboutUs";
+import Analytics from "../pages/dashboard/hr/Analytics";
+import UpdateAsset from "../pages/dashboard/hr/UpdateAsset";
+import About from "../components/homePage/About";
 import Support from "../pages/PageOfStatic/Support";
 
 const router = createBrowserRouter([
@@ -38,11 +37,10 @@ const router = createBrowserRouter([
         Component: Home,
       },
       { path: 'forbidden', Component: Forbidden },
-      { path: 'about-us', Component: AboutUs },
-      { path: 'support', Component: Support },
       { path: "signin", Component: SignIn },
       { path: "signup", Component: SignUp },
-      { path: "reset-password", Component: ResetPassword },
+      { path: "about-us", Component: About },
+      { path: "support", Component: Support },
       {
         path: "my-profile",
         element: (
@@ -62,6 +60,7 @@ const router = createBrowserRouter([
         path: '',
         Component: DashboardHome
       },
+      // HR Routes
       {
         path: 'add-asset',
         element: <HRRoutes><AddAsset /></HRRoutes>
@@ -79,14 +78,14 @@ const router = createBrowserRouter([
         element: <HRRoutes><UpgradePackage /></HRRoutes>
       },
       {
-        path: 'analytics',
-        element: <HRRoutes><Analytics /></HRRoutes>
-      },
-      {
         path: 'my-profile',
         element: <MyProfile />
       },
-      
+      {
+        path: 'analytics',
+        element: <Analytics />
+      },
+
       // Employee Routes
       {
         path: 'my-assets',

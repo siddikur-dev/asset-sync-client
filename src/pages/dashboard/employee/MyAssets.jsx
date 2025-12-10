@@ -13,11 +13,14 @@ const MyAssets = () => {
   const printRef = useRef();
 
   const { data: assets = [], isLoading, refetch } = useQuery({
-    queryKey: ['assigned-assets', search, assetType],
+    queryKey: ['my-assets', search, assetType],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/assigned-assets?search=${search}&assetType=${assetType}`);
+      // Use new /my-assets endpoint
+      const res = await axiosSecure.get(`/my-assets`);
       return res.data;
-    }
+    },
+    refetchOnMount: true,
+    staleTime: 0
   });
 
   const handleReturn = async (id) => {
@@ -33,7 +36,8 @@ const MyAssets = () => {
 
     if (result.isConfirmed) {
       try {
-        const res = await axiosSecure.patch(`/assigned-assets/${id}/return`);
+        // Use PATCH /requests/:id with { status: 'returned' }
+        const res = await axiosSecure.patch(`/requests/${id}`, { status: 'returned' });
         if (res.data.success) {
           Swal.fire('Success', 'Asset returned successfully!', 'success');
           refetch();
@@ -51,7 +55,10 @@ const MyAssets = () => {
 
   if (isLoading) return <Spinner />;
 
+  // Filter Logic (Client side for now as backend sends all)
   const filteredAssets = assets.filter(asset => {
+    // Note: Backend returns Request objects. 
+    // Field names: assetName, assetType, companyName, approvalDate, requestStatus
     const matchesSearch = asset.assetName?.toLowerCase().includes(search.toLowerCase());
     const matchesType = assetType === 'all' || asset.assetType === assetType;
     return matchesSearch && matchesType;
@@ -109,8 +116,8 @@ const MyAssets = () => {
                   <td>{asset.assetName}</td>
                   <td>{asset.assetType}</td>
                   <td>{asset.companyName}</td>
-                  <td>{new Date(asset.assignmentDate).toLocaleDateString()}</td>
-                  <td>{asset.status}</td>
+                  <td>{asset.approvalDate ? new Date(asset.approvalDate).toLocaleDateString() : '-'}</td>
+                  <td>{asset.requestStatus}</td>
                 </tr>
               ))}
             </tbody>
@@ -119,9 +126,9 @@ const MyAssets = () => {
       </div>
 
       {/* Assets Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto bg-base-100 rounded-lg shadow">
         <table className="table w-full">
-          <thead>
+          <thead className="bg-base-200">
             <tr>
               <th>Image</th>
               <th>Asset Name</th>
@@ -145,14 +152,14 @@ const MyAssets = () => {
                   </span>
                 </td>
                 <td>{asset.companyName}</td>
-                <td>{new Date(asset.assignmentDate).toLocaleDateString()}</td>
+                <td>{asset.approvalDate ? new Date(asset.approvalDate).toLocaleDateString() : '-'}</td>
                 <td>
-                  <span className={`badge ${asset.status === 'assigned' ? 'badge-success' : 'badge-info'}`}>
-                    {asset.status}
+                  <span className={`badge ${asset.requestStatus === 'approved' ? 'badge-success' : 'badge-info'}`}>
+                    {asset.requestStatus}
                   </span>
                 </td>
                 <td>
-                  {asset.status === 'assigned' && asset.assetType === 'Returnable' && (
+                  {asset.requestStatus === 'approved' && asset.assetType === 'Returnable' && (
                     <button
                       onClick={() => handleReturn(asset._id)}
                       className="btn btn-sm btn-primary"
@@ -177,4 +184,3 @@ const MyAssets = () => {
 };
 
 export default MyAssets;
-

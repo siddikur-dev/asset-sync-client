@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import { FaSearch, FaEdit, FaTrash, FaPlus } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import Spinner from "../../../components/ui/Spinner";
 
@@ -10,15 +10,17 @@ const HRDashboard = () => {
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
   const [productType, setProductType] = useState("all");
-  const [page, setPage] = useState(1);
-  const limit = 10;
+  const navigate = useNavigate();
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ['assets', search, productType, page],
+  const { data: assets = [], isLoading, refetch } = useQuery({
+    queryKey: ['assets', search, productType],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/assets?search=${search}&productType=${productType}&page=${page}&limit=${limit}`);
+      // Backend returns array of assets
+      const res = await axiosSecure.get(`/assets?search=${search}&type=${productType === "all" ? "" : productType}`);
       return res.data;
-    }
+    },
+    refetchOnMount: true,
+    staleTime: 0
   });
 
   const handleDelete = async (id) => {
@@ -43,6 +45,10 @@ const HRDashboard = () => {
     }
   };
 
+  const handleEdit = (id) => {
+    navigate(`/dashboard/assets/update/${id}`);
+  };
+
   if (isLoading) return <Spinner />;
 
   return (
@@ -62,19 +68,13 @@ const HRDashboard = () => {
             type="text"
             placeholder="Search assets..."
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
+            onChange={(e) => setSearch(e.target.value)}
             className="input input-bordered w-full pl-10"
           />
         </div>
         <select
           value={productType}
-          onChange={(e) => {
-            setProductType(e.target.value);
-            setPage(1);
-          }}
+          onChange={(e) => setProductType(e.target.value)}
           className="select select-bordered"
         >
           <option value="all">All Types</option>
@@ -84,75 +84,57 @@ const HRDashboard = () => {
       </div>
 
       {/* Assets Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto bg-base-100 rounded-lg shadow">
         <table className="table w-full">
-          <thead>
+          <thead className="bg-base-200">
             <tr>
               <th>Image</th>
               <th>Name</th>
               <th>Type</th>
               <th>Quantity</th>
-              <th>Available</th>
               <th>Date Added</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {data?.assets?.map((asset) => (
-              <tr key={asset._id}>
-                <td>
-                  <img src={asset.productImage} alt={asset.productName} className="w-16 h-16 object-cover rounded" />
-                </td>
-                <td className="font-semibold">{asset.productName}</td>
-                <td>
-                  <span className={`badge ${asset.productType === 'Returnable' ? 'badge-success' : 'badge-warning'}`}>
-                    {asset.productType}
-                  </span>
-                </td>
-                <td>{asset.productQuantity}</td>
-                <td>{asset.availableQuantity}</td>
-                <td>{new Date(asset.dateAdded).toLocaleDateString()}</td>
-                <td>
-                  <div className="flex gap-2">
-                    <Link to={`/dashboard/edit-asset/${asset._id}`} className="btn btn-sm btn-primary">
-                      <FaEdit />
-                    </Link>
-                    <button onClick={() => handleDelete(asset._id)} className="btn btn-sm btn-error">
-                      <FaTrash />
-                    </button>
-                  </div>
-                </td>
+            {assets.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="text-center py-8 text-base-content/60">No assets found</td>
               </tr>
-            ))}
+            ) : (
+              assets.map((asset) => (
+                <tr key={asset._id}>
+                  <td>
+                    <div className="w-12 h-12 rounded-lg overflow-hidden border border-base-content/10">
+                      <img src={asset.productImage} alt={asset.productName} className="w-full h-full object-cover" />
+                    </div>
+                  </td>
+                  <td className="font-semibold">{asset.productName}</td>
+                  <td>
+                    <span className={`badge ${asset.productType === 'Returnable' ? 'badge-primary' : 'badge-ghost'}`}>
+                      {asset.productType}
+                    </span>
+                  </td>
+                  <td>{asset.productQuantity}</td>
+                  <td>{new Date(asset.dateAdded).toLocaleDateString()}</td>
+                  <td>
+                    <div className="flex gap-2">
+                      <button onClick={() => handleEdit(asset._id)} className="btn btn-sm btn-ghost text-primary">
+                        <FaEdit />
+                      </button>
+                      <button onClick={() => handleDelete(asset._id)} className="btn btn-sm btn-ghost text-error">
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
-
-      {/* Pagination */}
-      {data?.pagination && (
-        <div className="flex justify-center gap-2">
-          <button
-            onClick={() => setPage(p => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="btn btn-sm"
-          >
-            Previous
-          </button>
-          <span className="flex items-center px-4">
-            Page {data.pagination.currentPage} of {data.pagination.totalPages}
-          </span>
-          <button
-            onClick={() => setPage(p => Math.min(data.pagination.totalPages, p + 1))}
-            disabled={page === data.pagination.totalPages}
-            className="btn btn-sm"
-          >
-            Next
-          </button>
-        </div>
-      )}
     </div>
   );
 };
 
 export default HRDashboard;
-

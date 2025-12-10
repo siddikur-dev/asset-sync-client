@@ -12,12 +12,14 @@ const AllRequests = () => {
     queryFn: async () => {
       const res = await axiosSecure.get('/requests');
       return res.data;
-    }
+    },
+    refetchOnMount: true,
+    staleTime: 0
   });
 
   const handleApprove = async (id) => {
     try {
-      const res = await axiosSecure.patch(`/requests/${id}/approve`);
+      const res = await axiosSecure.patch(`/requests/${id}`, { status: 'approved' });
       if (res.data.success) {
         Swal.fire('Success', 'Request approved successfully!', 'success');
         refetch();
@@ -40,7 +42,7 @@ const AllRequests = () => {
 
     if (result.isConfirmed) {
       try {
-        const res = await axiosSecure.patch(`/requests/${id}/reject`);
+        const res = await axiosSecure.patch(`/requests/${id}`, { status: 'rejected' });
         if (res.data.success) {
           Swal.fire('Rejected', 'Request has been rejected.', 'success');
           refetch();
@@ -63,14 +65,23 @@ const AllRequests = () => {
     return badges[status] || 'badge';
   };
 
+  // Filter requests (Optional: If the API returns all statuses, we might want to filter, 
+  // but currently the requirement is "All Requests" so typically HR wants to see history too.
+  // We can sort by pending first though)
+  const sortedRequests = [...requests].sort((a, b) => {
+    if (a.requestStatus === 'pending' && b.requestStatus !== 'pending') return -1;
+    if (a.requestStatus !== 'pending' && b.requestStatus === 'pending') return 1;
+    return new Date(b.requestDate) - new Date(a.requestDate);
+  });
+
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-gradient">All Requests</h1>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto bg-base-100 rounded-xl shadow-lg">
         <table className="table w-full">
           <thead>
-            <tr>
+            <tr className="bg-base-200">
               <th>Employee</th>
               <th>Asset</th>
               <th>Type</th>
@@ -81,47 +92,59 @@ const AllRequests = () => {
             </tr>
           </thead>
           <tbody>
-            {requests.map((request) => (
-              <tr key={request._id}>
-                <td>
-                  <div>
-                    <div className="font-semibold">{request.requesterName}</div>
-                    <div className="text-sm text-base-content/70">{request.requesterEmail}</div>
-                  </div>
-                </td>
-                <td className="font-semibold">{request.assetName}</td>
-                <td>
-                  <span className={`badge ${request.assetType === 'Returnable' ? 'badge-success' : 'badge-warning'}`}>
-                    {request.assetType}
-                  </span>
-                </td>
-                <td>{new Date(request.requestDate).toLocaleDateString()}</td>
-                <td>
-                  <span className={`badge ${getStatusBadge(request.requestStatus)}`}>
-                    {request.requestStatus}
-                  </span>
-                </td>
-                <td>{request.note || '-'}</td>
-                <td>
-                  {request.requestStatus === 'pending' && (
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleApprove(request._id)}
-                        className="btn btn-sm btn-success"
-                      >
-                        <FaCheck /> Approve
-                      </button>
-                      <button
-                        onClick={() => handleReject(request._id)}
-                        className="btn btn-sm btn-error"
-                      >
-                        <FaTimes /> Reject
-                      </button>
-                    </div>
-                  )}
+            {sortedRequests.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="text-center py-8 text-base-content/60">
+                  No requests found
                 </td>
               </tr>
-            ))}
+            ) : (
+              sortedRequests.map((request) => (
+                <tr key={request._id} className="hover:bg-base-50">
+                  <td>
+                    <div>
+                      <div className="font-semibold">{request.requesterName}</div>
+                      <div className="text-sm text-base-content/70">{request.requesterEmail}</div>
+                    </div>
+                  </td>
+                  <td className="font-semibold">{request.assetName}</td>
+                  <td>
+                    <span className={`badge ${request.assetType === 'Returnable' ? 'badge-success' : 'badge-warning'} badge-sm`}>
+                      {request.assetType}
+                    </span>
+                  </td>
+                  <td>{new Date(request.requestDate).toLocaleDateString()}</td>
+                  <td>
+                    <span className={`badge ${getStatusBadge(request.requestStatus)} uppercase text-xs font-bold`}>
+                      {request.requestStatus}
+                    </span>
+                  </td>
+                  <td className="max-w-xs truncate" title={request.note}>{request.note || '-'}</td>
+                  <td>
+                    {request.requestStatus === 'pending' ? (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleApprove(request._id)}
+                          className="btn btn-sm btn-circle btn-success text-white tooltip"
+                          data-tip="Approve"
+                        >
+                          <FaCheck />
+                        </button>
+                        <button
+                          onClick={() => handleReject(request._id)}
+                          className="btn btn-sm btn-circle btn-error text-white tooltip"
+                          data-tip="Reject"
+                        >
+                          <FaTimes />
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="text-xs italic text-base-content/50">Completed</span>
+                    )}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
@@ -130,4 +153,3 @@ const AllRequests = () => {
 };
 
 export default AllRequests;
-

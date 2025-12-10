@@ -14,9 +14,12 @@ const RequestAsset = () => {
   const { data: assets = [], isLoading, refetch } = useQuery({
     queryKey: ['available-assets', search],
     queryFn: async () => {
-      const res = await axiosSecure.get('/assets/available');
+      // Updated to use /assets (which returns available assets for employees)
+      const res = await axiosSecure.get('/assets');
       return res.data;
-    }
+    },
+    refetchOnMount: true,
+    staleTime: 0
   });
 
   const handleRequest = async (asset) => {
@@ -80,14 +83,14 @@ const RequestAsset = () => {
                 {asset.productType}
               </span>
               <span className="text-sm text-base-content/70">
-                Available: {asset.availableQuantity}
+                Available: {asset.productQuantity}
               </span>
             </div>
             <p className="text-sm text-base-content/70 mb-4">Company: {asset.companyName}</p>
             <button
               onClick={() => handleRequest(asset)}
               className="btn btn-gradient text-white w-full"
-              disabled={asset.availableQuantity === 0}
+              disabled={asset.productQuantity === 0}
             >
               <FaHandPaper className="mr-2" /> Request Asset
             </button>
@@ -149,4 +152,3 @@ const RequestAsset = () => {
 };
 
 export default RequestAsset;
-

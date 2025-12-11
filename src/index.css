@@ -20,9 +20,11 @@
   --color-secondary: #81BCC4;
   /* Cyan/Teal from Logo */
 
-  /* The User requested specific gradient: linear-gradient(120deg, #143065 10%, #81BCC4 90%); */
-  --gradient-primary: linear-gradient(120deg, #143065 10%, #81BCC4 90%);
-  --gradient-hover: linear-gradient(120deg, #0f2550 10%, #6da8b0 90%);
+  /* Enhanced gradients with better color transitions */
+  --gradient-primary: linear-gradient(135deg, #143065 0%, #1e40af 25%, #3b82f6 50%, #06b6d4 75%, #81BCC4 100%);
+  --gradient-hover: linear-gradient(135deg, #0f2550 0%, #1e3a8a 25%, #2563eb 50%, #0891b2 75%, #6da8b0 100%);
+  --gradient-subtle: linear-gradient(135deg, #143065 0%, #1e40af 50%, #81BCC4 100%);
+  --gradient-reverse: linear-gradient(135deg, #81BCC4 0%, #06b6d4 50%, #143065 100%);
 
   --bg-base-100: #ffffff;
   --bg-base-200: #f8fafc;
@@ -36,8 +38,10 @@
   --color-primary: #81BCC4;
   --color-secondary: #143065;
 
-  --gradient-primary: linear-gradient(120deg, #143065 10%, #81BCC4 90%);
-  --gradient-hover: linear-gradient(120deg, #1e40af 10%, #2dd4bf 90%);
+  --gradient-primary: linear-gradient(135deg, #143065 0%, #1e40af 25%, #3b82f6 50%, #06b6d4 75%, #81BCC4 100%);
+  --gradient-hover: linear-gradient(135deg, #0f2550 0%, #1e3a8a 25%, #2563eb 50%, #0891b2 75%, #6da8b0 100%);
+  --gradient-subtle: linear-gradient(135deg, #81BCC4 0%, #06b6d4 50%, #143065 100%);
+  --gradient-reverse: linear-gradient(135deg, #81BCC4 0%, #3b82f6 50%, #143065 100%);
 
   --bg-base-100: #0f172a;
   --bg-base-200: #1e293b;
@@ -67,6 +71,25 @@
   /* Or rely on opacity change */
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(20, 48, 101, 0.4);
+.btn-gradient:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(20, 48, 101, 0.2);
+}
+
+.btn-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-gradient:hover::before {
+  left: 100%;
+}
 }
 
 /* Override default DaisyUI btn-primary to match if needed, or just use btn-gradient everywhere */
@@ -104,4 +127,73 @@ body {
 /* Hover Primary Color Utility */
 .hover:text-primary:hover {
   color: var(--color-primary);
+}
+
+/* Enhanced gradient utilities */
+.bg-gradient-subtle {
+  background: var(--gradient-subtle);
+}
+
+.bg-gradient-reverse {
+  background: var(--gradient-reverse);
+}
+
+.text-gradient-subtle {
+  background: var(--gradient-subtle);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+.text-gradient-reverse {
+  background: var(--gradient-reverse);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+/* Animated gradient backgrounds */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.bg-gradient-animated {
+  background: var(--gradient-primary);
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease infinite;
+}
+
+/* Enhanced card gradients */
+.card-gradient {
+  background: var(--gradient-subtle);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(20, 48, 101, 0.3);
+}
+
+/* Fix cursor pointer issue - only show on links and buttons */
+* {
+  cursor: default;
+}
+
+a, button, [role="button"], .btn, input[type="button"], input[type="submit"], label {
+  cursor: pointer;
+}
+
+/* Ensure interactive elements have proper cursor */
+a:hover, button:hover, [role="button"]:hover, .btn:hover, input[type="button"]:hover, input[type="submit"]:hover, label:hover {
+  cursor: pointer;
 }

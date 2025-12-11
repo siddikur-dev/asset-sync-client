@@ -26,7 +26,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-gradient-subtle">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -36,9 +36,9 @@ const AboutSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-blue-600">Why Choose AssetVerse?</span>
+            <span className="text-gradient">Why Choose AssetVerse?</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-base-content/80 max-w-2xl mx-auto">
             Corporate-friendly asset management solution designed for modern businesses
           </p>
         </motion.div>
@@ -51,13 +51,15 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.8 }}
-              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-center hover:-translate-y-1"
+              className="card-gradient p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-center hover-lift"
             >
-              <div className="text-blue-600 mb-4 flex justify-center">
-                {benefit.icon}
+              <div className="w-16 h-16 bg-gradient-subtle rounded-full flex items-center justify-center mb-6 mx-auto">
+                <span className="text-gradient">
+                  {benefit.icon}
+                </span>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800">{benefit.title}</h3>
-              <p className="text-gray-600 leading-relaxed">{benefit.description}</p>
+              <h3 className="text-xl font-semibold mb-3 text-base-content">{benefit.title}</h3>
+              <p className="text-base-content/70 leading-relaxed">{benefit.description}</p>
             </motion.div>
           ))}
         </div>

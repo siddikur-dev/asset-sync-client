@@ -186,7 +186,7 @@ const Navbar = () => {
               </div>
             ) : (
               <Link to="/signin">
-                <button className="btn btn-gradient text-white btn-sm px-6 h-10 rounded-full shadow-lg hover:shadow-xl">
+                <button className="btn-gradient text-white btn-sm px-6 h-10 rounded-full shadow-lg hover:shadow-xl hover-lift">
                   Login
                 </button>
               </Link>
@@ -250,10 +250,10 @@ const Navbar = () => {
             {!user ? (
               <div className="space-y-3">
                 <Link to="/signin" onClick={toggleMenu} className="block w-full">
-                  <button className="btn btn-gradient w-full text-white">Login</button>
+                  <button className="btn-gradient w-full text-white hover-lift">Login</button>
                 </Link>
                 <Link to="/signup" onClick={toggleMenu} className="block w-full">
-                  <button className="btn btn-outline border-base-300 w-full">Join Now</button>
+                  <button className="btn btn-outline border-base-300 w-full hover-lift">Join Now</button>
                 </Link>
               </div>
             ) : (

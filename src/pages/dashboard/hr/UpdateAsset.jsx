@@ -34,18 +34,22 @@ const UpdateAsset = () => {
             // 1. Upload new image if provided
             let imageUrl = asset.productImage;
             if (data.productImage && data.productImage[0]) {
-                const imageFile = { image: data.productImage[0] };
-                const res = await axiosSecure.post(
+                const formData = new FormData();
+                formData.append('image', data.productImage[0]);
+                
+                // Use regular fetch for ImgBB API to avoid CORS issues
+                const res = await fetch(
                     `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
-                    imageFile,
                     {
-                        headers: {
-                            'content-type': 'multipart/form-data'
-                        }
+                        method: 'POST',
+                        body: formData
                     }
                 );
-                if (res.data.success) {
-                    imageUrl = res.data.data.display_url;
+                const result = await res.json();
+                if (result.success) {
+                    imageUrl = result.data.display_url;
+                } else {
+                    throw new Error('Image upload failed');
                 }
             }
 
@@ -70,7 +74,7 @@ const UpdateAsset = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                navigate('/dashboard/hr-home');
+                navigate('/dashboard');
             }
         } catch (error) {
             console.error(error);
@@ -155,7 +159,7 @@ const UpdateAsset = () => {
                     </button>
                     <button
                         type="button"
-                        onClick={() => navigate('/dashboard/hr-home')}
+                        onClick={() => navigate('/dashboard')}
                         className="btn btn-ghost w-full mt-2"
                     >
                         Cancel

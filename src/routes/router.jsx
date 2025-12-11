@@ -85,6 +85,10 @@ const router = createBrowserRouter([
         path: 'analytics',
         element: <Analytics />
       },
+      {
+        path: 'update-asset/:id',
+        element: <HRRoutes><UpdateAsset /></HRRoutes>
+      },
 
       // Employee Routes
       {

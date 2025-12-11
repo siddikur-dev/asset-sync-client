@@ -33,7 +33,7 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-base-200">
       <div className="max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -43,9 +43,9 @@ const FAQSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-blue-600">Frequently Asked Questions</span>
+            <span className="text-gradient">Frequently Asked Questions</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
             Got questions? We've got answers
           </p>
         </motion.div>
@@ -58,20 +58,20 @@ const FAQSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="bg-gray-50 rounded-lg overflow-hidden"
+              className="bg-base-100 rounded-lg overflow-hidden border border-base-300 hover-lift"
             >
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-100 transition-colors duration-200 focus:outline-none"
+                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-base-200 transition-colors duration-200 focus:outline-none"
               >
                 <div className="flex items-center gap-3">
-                  <FaQuestionCircle className="text-blue-600 text-lg flex-shrink-0" />
-                  <span className="font-semibold text-gray-800">{faq.question}</span>
+                  <FaQuestionCircle className="text-primary text-lg flex-shrink-0" />
+                  <span className="font-semibold text-base-content">{faq.question}</span>
                 </div>
-                <FaChevronDown 
-                  className={`text-blue-600 transition-transform duration-300 ${
+                <FaChevronDown
+                  className={`text-primary transition-transform duration-300 ${
                     openIndex === index ? 'rotate-180' : ''
-                  }`} 
+                  }`}
                 />
               </button>
               
@@ -85,7 +85,7 @@ const FAQSection = () => {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <div className="px-6 py-4 text-gray-600 leading-relaxed">
+                <div className="px-6 py-4 text-base-content/70 leading-relaxed">
                   {faq.answer}
                 </div>
               </motion.div>
@@ -101,16 +101,16 @@ const FAQSection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mt-16 text-center"
         >
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-8 rounded-2xl text-white">
+          <div className="bg-gradient-to-r from-primary to-secondary p-8 rounded-2xl text-white">
             <h3 className="text-2xl font-bold mb-4">Still Have Questions?</h3>
             <p className="text-lg mb-6 opacity-90">
               Our support team is here to help you 24/7
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">
+              <button className="bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">
                 Contact Support
               </button>
-              <button className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300">
+              <button className="bg-transparent border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300">
                 View Documentation
               </button>
             </div>

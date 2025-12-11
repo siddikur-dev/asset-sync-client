@@ -20,24 +20,59 @@ const teamImages2 = [img14, img13, img12, img11, img10, img9, img8, img7, img6, 
 
 const SponsoredTeams = () => {
   return (
-    <div className="overflow-y-hidden space-y-2">
-      <h2 className='mb-2 md:mb-4 text-center text-2xl md:text-3xl font-bold'>Sponsored Teams</h2>
-      <p className="text-center text-base-content/80 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">Proudly showcasing our partners and teams who support and collaborate with EduSync.</p>
-      <Marquee gradient={true} gradientWidth={60} speed={40} pauseOnHover={true} className="py-4 overflow-y-hidden">
-        {teamImages.map((img, idx) => (
-          <div key={idx} className="mx-4 flex items-center justify-center">
-            <img src={img} alt={`Sponsored team ${idx + 1}`} className="h-20 w-auto object-contain rounded-md not-first:shadow-md border border-base-200 bg-white py-2 px-2" />
-          </div>
-        ))}
-      </Marquee>
-      <Marquee direction gradient={true} gradientWidth={60} speed={40} pauseOnHover={true} className="py-4 overflow-y-hidden">
-        {teamImages2.map((img, idx) => (
-          <div key={idx} className="mx-4 flex items-center justify-center">
-            <img src={img} alt={`Sponsored team ${idx + 1}`} className="h-20 w-auto object-contain rounded-md not-first:shadow-md border border-base-200 bg-white py-2 px-2" />
-          </div>
-        ))}
-      </Marquee>
-    </div>
+    <section className="py-16 bg-base-200 overflow-y-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className='mb-4 text-3xl md:text-4xl font-bold text-gradient'>Sponsored Teams</h2>
+          <p className="text-center text-base-content/70 mb-8 text-base md:text-lg max-w-2xl mx-auto">
+            Proudly showcasing our partners and teams who support and collaborate with EduSync.
+          </p>
+        </div>
+        
+        <div className="space-y-8">
+          <Marquee
+            gradient={true}
+            gradientWidth={80}
+            speed={40}
+            pauseOnHover={true}
+            className="py-6 overflow-y-hidden bg-base-100 rounded-2xl shadow-sm"
+          >
+            {teamImages.map((img, idx) => (
+              <div key={idx} className="mx-6 flex items-center justify-center">
+                <div className="p-3 bg-base-200 rounded-xl border border-base-300 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover-lift">
+                  <img
+                    src={img}
+                    alt={`Sponsored team ${idx + 1}`}
+                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+                  />
+                </div>
+              </div>
+            ))}
+          </Marquee>
+          
+          <Marquee
+            direction="right"
+            gradient={true}
+            gradientWidth={80}
+            speed={40}
+            pauseOnHover={true}
+            className="py-6 overflow-y-hidden bg-base-100 rounded-2xl shadow-sm"
+          >
+            {teamImages2.map((img, idx) => (
+              <div key={idx} className="mx-6 flex items-center justify-center">
+                <div className="p-3 bg-base-200 rounded-xl border border-base-300 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover-lift">
+                  <img
+                    src={img}
+                    alt={`Sponsored team ${idx + 1}`}
+                    className="h-16 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+                  />
+                </div>
+              </div>
+            ))}
+          </Marquee>
+        </div>
+      </div>
+    </section>
   );
 };
 

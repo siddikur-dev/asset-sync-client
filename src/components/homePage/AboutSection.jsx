@@ -26,7 +26,7 @@ const AboutSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-subtle">
+    <section className="py-20 bg-base-100">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -38,7 +38,7 @@ const AboutSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             <span className="text-gradient">Why Choose AssetVerse?</span>
           </h2>
-          <p className="text-lg text-base-content/80 max-w-2xl mx-auto">
+          <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
             Corporate-friendly asset management solution designed for modern businesses
           </p>
         </motion.div>
@@ -51,12 +51,10 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.8 }}
-              className="card-gradient p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 text-center hover-lift"
+              className="bg-base-200 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 text-center hover-lift border border-base-300"
             >
-              <div className="w-16 h-16 bg-gradient-subtle rounded-full flex items-center justify-center mb-6 mx-auto">
-                <span className="text-gradient">
-                  {benefit.icon}
-                </span>
+              <div className="text-primary mb-4 flex justify-center">
+                {benefit.icon}
               </div>
               <h3 className="text-xl font-semibold mb-3 text-base-content">{benefit.title}</h3>
               <p className="text-base-content/70 leading-relaxed">{benefit.description}</p>

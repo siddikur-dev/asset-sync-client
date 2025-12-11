@@ -77,7 +77,7 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-base-200">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Stats Section */}
         <motion.div
@@ -88,9 +88,9 @@ const TestimonialsSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-blue-600">Trusted by Industry Leaders</span>
+            <span className="text-gradient">Trusted by Industry Leaders</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-12">
+          <p className="text-lg text-base-content/70 max-w-2xl mx-auto mb-12">
             Join hundreds of companies that have transformed their asset management
           </p>
 
@@ -104,10 +104,10 @@ const TestimonialsSection = () => {
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 className="text-center"
               >
-                <div className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">
+                <div className="text-4xl md:text-5xl font-bold text-primary mb-2">
                   <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                 </div>
-                <div className="text-lg text-gray-600">{stat.label}</div>
+                <div className="text-lg text-base-content/70">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -122,7 +122,7 @@ const TestimonialsSection = () => {
           className="mt-20"
         >
           <h3 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            <span className="text-gray-800">What Our Clients Say</span>
+            <span className="text-gradient">What Our Clients Say</span>
           </h3>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -133,23 +133,23 @@ const TestimonialsSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.8 }}
-                className="bg-gray-50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                className="bg-base-100 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover-lift border border-base-300"
               >
                 <div className="flex items-center mb-4">
-                  <img 
-                    src={testimonial.image} 
+                  <img
+                    src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-12 h-12 rounded-full mr-4 object-cover"
+                    className="w-12 h-12 rounded-full mr-4 object-cover border-2 border-primary/20"
                   />
                   <div>
-                    <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-600">{testimonial.company}</p>
+                    <h4 className="font-semibold text-base-content">{testimonial.name}</h4>
+                    <p className="text-sm text-base-content/70">{testimonial.company}</p>
                   </div>
                 </div>
                 
                 <div className="relative">
-                  <FaQuoteLeft className="text-blue-200 text-2xl absolute -top-2 -left-2" />
-                  <p className="text-gray-700 leading-relaxed pl-6 italic">
+                  <FaQuoteLeft className="text-primary/20 text-2xl absolute -top-2 -left-2" />
+                  <p className="text-base-content/80 leading-relaxed pl-6 italic">
                     {testimonial.testimonial}
                   </p>
                 </div>

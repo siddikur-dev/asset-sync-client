@@ -192,7 +192,7 @@ const HeroBanner = () => {
               </motion.div>
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="bg-blue-600/80 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20"
+                className="bg-primary/80 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20"
               >
                 <FaShieldAlt className="text-4xl text-white mb-4" />
                 <h3 className="font-semibold text-lg mb-2 text-white">

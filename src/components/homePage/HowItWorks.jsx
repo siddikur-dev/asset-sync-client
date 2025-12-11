@@ -34,7 +34,7 @@ const HowItWorks = () => {
             <span className="text-gradient">How It Works</span>
           </h2>
           <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
-            Get started with AssetVerse in three simple steps
+            Get started with Asset Sync in three simple steps
           </p>
         </motion.div>
 
@@ -92,7 +92,7 @@ const HowItWorks = () => {
           <div className="bg-gradient-to-r from-primary to-secondary p-8 rounded-2xl text-white">
             <h3 className="text-2xl font-bold mb-4">Ready to Transform Your Asset Management?</h3>
             <p className="text-lg mb-6 opacity-90">
-              Join thousands of companies that have already streamlined their operations with AssetVerse
+              Join thousands of companies that have already streamlined their operations with Asset Sync
             </p>
             <button className="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">
               Get Started Today

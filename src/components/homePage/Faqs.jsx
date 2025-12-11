@@ -5,16 +5,16 @@ import SectionTitle from '../shared/SectionTitle';
 
 const faqData = [
     {
-        question: "What is EduSync?",
-        answer: "EduSync is a collaborative learning platform that connects students and tutors for live study sessions, resource sharing, and progress tracking."
+        question: "What is AssetSync?",
+        answer: "AssetSync is a collaborative learning platform that connects students and tutors for live study sessions, resource sharing, and progress tracking."
     },
     {
         question: "How do I join a study session?",
         answer: "Simply sign up, browse available sessions, and click 'Join' or 'Book' to participate in a session that matches your interests."
     },
     {
-        question: "Is EduSync free to use?",
-        answer: "EduSync offers both free and premium sessions. You can access many resources and join free sessions at no cost."
+        question: "Is AssetSync free to use?",
+        answer: "AssetSync offers both free and premium sessions. You can access many resources and join free sessions at no cost."
     },
     {
         question: "How can I become a tutor?",
@@ -22,7 +22,7 @@ const faqData = [
     },
     {
         question: "Can I track my learning progress?",
-        answer: "Yes! EduSync provides dashboards and analytics to help you monitor your learning journey and achievements."
+        answer: "Yes! AssetSync provides dashboards and analytics to help you monitor your learning journey and achievements."
     }
 ];
 
@@ -46,7 +46,7 @@ const Faqs = () => {
      data-aos-easing="linear"
      data-aos-duration="1000">
             <h2 className='mb-2 md:mb-4 text-center text-2xl md:text-3xl font-bold'>Frequently Asked Questions</h2>
-            <p className="text-center text-base-content/80 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">Find answers to common questions about EduSync, our features, and how to get the most out of your learning experience.</p>
+            <p className="text-center text-base-content/80 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">Find answers to common questions about AssetSync, our features, and how to get the most out of your learning experience.</p>
             <div className="max-w-4xl mx-auto flex flex-col-reverse md:flex-row items-center gap-8 md:gap-10 w-full">
                 {/* FAQ List */}
                 <div className="flex-1 w-full max-w-full md:max-w-none">

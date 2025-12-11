@@ -117,10 +117,10 @@ const Navbar = () => {
           {/* Logo Section */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="relative w-8 h-8 md:w-10 md:h-10 overflow-hidden rounded-xl transition-transform group-hover:scale-105">
-              <img src={logo} alt="AssetVerse" className="w-full h-full object-contain" />
+              <img src={logo} alt="Asset Sync" className="w-full h-full object-contain" />
             </div>
             <span className="text-xl md:text-2xl font-bold tracking-tight text-base-content">
-              <span className="text-gradient">AssetVerse</span>
+              <span className="text-gradient">Asset Sync</span>
             </span>
           </Link>
 

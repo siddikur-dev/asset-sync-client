@@ -5,9 +5,9 @@ import logo from "../../assets/logo.png";
 const Logo = () => {
     return (
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="AssetVerse Logo" className="w-8 h-8 object-contain" />
+          <img src={logo} alt="Asset Sync Logo" className="w-8 h-8 object-contain" />
           <span className="text-2xl font-bold text-gradient">
-            AssetVerse
+            Asset Sync
           </span>
         </Link>
     );

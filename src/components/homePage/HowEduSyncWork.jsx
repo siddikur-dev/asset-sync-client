@@ -4,7 +4,7 @@ const steps = [
   {
     icon: <FaUserPlus />,
     title: 'Sign Up',
-    desc: 'Create your free EduSync account in seconds to get started.',
+    desc: 'Create your free AssetSync account in seconds to get started.',
     color: 'bg-primary',
     textColor: 'text-primary',
   },
@@ -54,15 +54,15 @@ const positions = [
   { top: '18%', left: '15%', transform: 'translate(-50%, 0)' },    // 10 o'clock
 ];
 
-const HowEduSyncWork = () => {
+const HowAssetSyncWork = () => {
   return (
     <section data-aos="zoom-in" className="bg-base-200/40 py-16 px-4 rounded-md">
-      <h2 className='mb-10 md:mb-12 text-center text-2xl md:text-3xl font-bold'>How EduSync Works</h2>
+      <h2 className='mb-10 md:mb-12 text-center text-2xl md:text-3xl font-bold'>How AssetSync Works</h2>
       {/* Desktop: Circular Layout */}
       <div className="relative w-full max-w-2xl mx-auto h-[450px] hidden md:block">
         {/* Center Circle */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-primary/90 rounded-full flex items-center justify-center shadow-md transition-transform duration-300 ease-in-out hover:scale-110 hover:shadow-primary/80 z-20">
-          <span className="text-center font-bold text-2xl text-white tracking-wide">EduSync<br />Website</span>
+          <span className="text-center font-bold text-2xl text-white tracking-wide">AssetSync<br />Website</span>
         </div>
         {/* Step Items */}
         {steps.map((step, idx) => (
@@ -81,7 +81,7 @@ const HowEduSyncWork = () => {
       <div className="flex flex-col gap-5 md:hidden mt-8">
         <div className="flex justify-center mb-8">
           <div className="w-32 h-32 bg-primary/90 rounded-full flex items-center justify-center shadow-md">
-            <span className="text-center font-bold text-xl text-white tracking-wide">EduSync<br />Website</span>
+            <span className="text-center font-bold text-xl text-white tracking-wide">AssetSync<br />Website</span>
           </div>
         </div>
         {steps.map((step, idx) => (
@@ -100,4 +100,4 @@ const HowEduSyncWork = () => {
   );
 };
 
-export default HowEduSyncWork; 
+export default HowAssetSyncWork; 

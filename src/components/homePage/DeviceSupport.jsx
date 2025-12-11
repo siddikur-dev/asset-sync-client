@@ -11,9 +11,9 @@ const DeviceSupport = () => {
 
     const tabData = {
         mobile: {
-            title: 'EduSync On The Go',
+            title: 'AssetSync On The Go',
             description:
-                'Access live study sessions, resources, and your learning dashboard from anywhere with the EduSync mobile app. Stay connected and keep learning on both Android and iOS devices.',
+                'Access live study sessions, resources, and your learning dashboard from anywhere with the AssetSync mobile app. Stay connected and keep learning on both Android and iOS devices.',
             img: phone,
             details: [
                 'Instant notifications for session updates and reminders',
@@ -26,20 +26,20 @@ const DeviceSupport = () => {
         tablet: {
             title: 'Tablet Learning Experience',
             description:
-                'Enjoy EduSync on your tablet with a spacious, responsive interface. Perfect for group study, interactive lessons, and multitasking with split screen features.',
+                'Enjoy AssetSync on your tablet with a spacious, responsive interface. Perfect for group study, interactive lessons, and multitasking with split screen features.',
             img: tab,
             details: [
                 'Large, touch-friendly controls for easy navigation',
                 'Great for collaborative group sessions',
                 'View multiple resources side by side',
                 'Annotate PDFs and notes with your stylus',
-                'Syncs seamlessly with your EduSync account',
+                'Syncs seamlessly with your AssetSync account',
             ],
         },
         desktop: {
-            title: 'Full EduSync Web Platform',
+            title: 'Full AssetSync Web Platform',
             description:
-                'Unlock the complete EduSync experience on your desktop or laptop. Manage sessions, explore analytics, and access all features with a powerful, user friendly interface.',
+                'Unlock the complete AssetSync experience on your desktop or laptop. Manage sessions, explore analytics, and access all features with a powerful, user friendly interface.',
             img: desk,
             details: [
                 'Comprehensive dashboard for all your learning needs',
@@ -65,7 +65,7 @@ const DeviceSupport = () => {
             data-aos-duration="1000">
             <div className="max-w-5xl mx-auto">
                 <h2 className='mb-2 md:mb-4 text-center text-2xl md:text-3xl font-bold'>Device Support</h2>
-                <p className="text-center text-base-content/80 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">Access EduSync seamlessly on mobile, tablet, or desktop anytime, anywhere, on any device.</p>
+                <p className="text-center text-base-content/80 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">Access AssetSync seamlessly on mobile, tablet, or desktop anytime, anywhere, on any device.</p>
                 <div className="flex justify-center mb-8 md:mb-12">
                     <div className="flex rounded-md border border-secondary/20 overflow-hidden bg-base-100 shadow-sm">
                         {tabs.map((tab) => (

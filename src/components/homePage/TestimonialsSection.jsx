@@ -54,13 +54,13 @@ const TestimonialsSection = () => {
       name: "Sarah Johnson",
       company: "TechCorp Solutions",
       image: "https://images.unsplash.com/photo-1494790108755-2616b332c1ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      testimonial: "AssetVerse has transformed how we manage our equipment. The real-time tracking feature alone has saved us thousands in lost assets."
+      testimonial: "Asset Sync has transformed how we manage our equipment. The real-time tracking feature alone has saved us thousands in lost assets."
     },
     {
       name: "Michael Chen",
       company: "Global Manufacturing",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-      testimonial: "The analytics dashboard provides incredible insights into our asset utilization. We've optimized our inventory by 40% since implementing AssetVerse."
+      testimonial: "The analytics dashboard provides incredible insights into our asset utilization. We've optimized our inventory by 40% since implementing Asset Sync."
     },
     {
       name: "Emily Rodriguez",

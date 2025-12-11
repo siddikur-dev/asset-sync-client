@@ -106,7 +106,7 @@ const Tutors = () => {
                     <div className="bg-base-100 rounded-md shadow-md border border-base-300 p-6 flex flex-col items-center gap-3" data-aos="fade-left">
                         <FaEnvelopeOpenText className="text-primary text-3xl mb-1" />
                         <h3 className="font-semibold text-base-content">Tutor Support</h3>
-                        <a href="mailto:tutorsupport@edusync.com" className="text-primary hover:underline text-sm">tutorsupport@edusync.com</a>
+                        <a href="mailto:tutorsupport@AssetSync.com" className="text-primary hover:underline text-sm">tutorsupport@AssetSync.com</a>
                     </div>
                 </div>
                 {/* FAQ Accordion for Tutors */}

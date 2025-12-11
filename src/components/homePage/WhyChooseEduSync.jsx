@@ -35,9 +35,9 @@ const features = [
     },
 ];
 
-const WhyChooseEduSync = () => (
+const WhyChooseAssetSync = () => (
     <section>
-        <h2 className='mb-2 md:mb-4 text-center text-2xl md:text-3xl font-bold'>Why Choose EduSync?</h2>
+        <h2 className='mb-2 md:mb-4 text-center text-2xl md:text-3xl font-bold'>Why Choose AssetSync?</h2>
         <p className="text-center text-base-content/80 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">Empowering your learning journey with trusted tutors, flexible sessions, and a vibrant community.</p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
@@ -55,4 +55,4 @@ const WhyChooseEduSync = () => (
     </section>
 );
 
-export default WhyChooseEduSync; 
+export default WhyChooseAssetSync; 

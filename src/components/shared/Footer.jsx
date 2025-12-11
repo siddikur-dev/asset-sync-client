@@ -156,7 +156,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-3 text-base-content/70">
                 <FaEnvelope className="text-primary" />
-                <span>info@assetverse.com</span>
+                <span>info@Asset Sync.com</span>
               </div>
               <div className="flex items-center gap-3 text-base-content/70">
                 <FaMapMarkerAlt className="text-primary" />
@@ -187,7 +187,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-base-content/70 text-sm">
-              © {currentYear} AssetVerse. All rights reserved.
+              © {currentYear} Asset Sync. All rights reserved.
             </div>
             <div className="flex items-center gap-6 text-sm">
               <Link to="/privacy" className="text-base-content/70 hover:text-primary transition-colors duration-300">

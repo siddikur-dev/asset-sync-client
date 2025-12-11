@@ -143,7 +143,7 @@ const Banner = () => {
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              <span className="text-white">AssetVerse</span>
+              <span className="text-white">Asset Sync</span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
                 Smart Asset Management

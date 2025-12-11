@@ -23,7 +23,7 @@ const NewsLetter = () => {
         <div className="max-w-5xl mx-auto" data-aos="fade-up"
      data-aos-duration="1500">
             <h2 className='mb-2 md:mb-4 text-center text-2xl md:text-3xl font-bold'>Newsletter Signup</h2>
-            <p className="text-center text-base-content/80 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">Stay up to date with the latest news, exclusive updates, and resources from EduSync. Join our newsletter today!</p>
+            <p className="text-center text-base-content/80 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">Stay up to date with the latest news, exclusive updates, and resources from AssetSync. Join our newsletter today!</p>
             <div className="relative flex flex-col-reverse md:flex-row items-center bg-base-100 rounded-md shadow-md border border-base-300 overflow-hidden px-4 py-8">
                 {/* Animated Gradient Background */}
                 <div className="absolute inset-0 -z-10 animate-gradient bg-gradient-to-br from-primary via-pink-400 to-secondary opacity-30" />

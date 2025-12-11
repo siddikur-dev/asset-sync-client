@@ -285,7 +285,7 @@ const PrivacyPolicy = () => {
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <Button variant='primary' > <a
-                                    href="mailto:privacy@edusync.com" className='inline-flex items-center gap-2'>  <FaEnvelope />
+                                    href="mailto:privacy@AssetSync.com" className='inline-flex items-center gap-2'>  <FaEnvelope />
                                     Email Us</a>
                                 </Button>
                                 <Button variant='secondary' >

@@ -9,7 +9,7 @@ const reviews = [
         name: "James Miller",
         location: "London, United Kingdom",
         img: "https://randomuser.me/api/portraits/men/1.jpg",
-        text: "EduSync's live sessions helped me connect with top tutors and improve my grades. Highly recommended!",
+        text: "AssetSync's live sessions helped me connect with top tutors and improve my grades. Highly recommended!",
     },
     {
         name: "Liam Johnson",
@@ -21,19 +21,19 @@ const reviews = [
         name: "Noah Smith",
         location: "Sydney, Australia",
         img: "https://randomuser.me/api/portraits/men/3.jpg",
-        text: "I found great study partners through EduSync. The group discussions are very helpful!",
+        text: "I found great study partners through AssetSync. The group discussions are very helpful!",
     },
     {
         name: "Benjamin Lee",
         location: "New York, USA",
         img: "https://randomuser.me/api/portraits/men/4.jpg",
-        text: "The reminders and booking process keep me organized. EduSync is a must for students!",
+        text: "The reminders and booking process keep me organized. AssetSync is a must for students!",
     },
     {
         name: "William Brown",
         location: "Berlin, Germany",
         img: "https://randomuser.me/api/portraits/men/5.jpg",
-        text: "I appreciate the quick responses from the support team. EduSync really cares about its users.",
+        text: "I appreciate the quick responses from the support team. AssetSync really cares about its users.",
     },
     {
         name: "Lucas Garcia",
@@ -45,7 +45,7 @@ const reviews = [
         name: "Mason Wilson",
         location: "Cape Town, South Africa",
         img: "https://randomuser.me/api/portraits/men/7.jpg",
-        text: "EduSync’s quizzes and practice tests are a great way to prepare for exams.",
+        text: "AssetSync’s quizzes and practice tests are a great way to prepare for exams.",
     },
     {
         name: "Ethan Kim",
@@ -57,13 +57,13 @@ const reviews = [
         name: "Alexander Rossi",
         location: "Rome, Italy",
         img: "https://randomuser.me/api/portraits/men/9.jpg",
-        text: "The session recordings are a lifesaver when I need to review. EduSync is perfect for busy students!",
+        text: "The session recordings are a lifesaver when I need to review. AssetSync is perfect for busy students!",
     },
     {
         name: "Henry Dubois",
         location: "Paris, France",
         img: "https://randomuser.me/api/portraits/men/10.jpg",
-        text: "EduSync’s resources cover a wide range of topics. I always find what I need.",
+        text: "AssetSync’s resources cover a wide range of topics. I always find what I need.",
     },
     {
         name: "Jack Evans",
@@ -75,7 +75,7 @@ const reviews = [
         name: "Samuel Clark",
         location: "Chicago, USA",
         img: "https://randomuser.me/api/portraits/men/12.jpg",
-        text: "I can track my progress and set learning goals easily. EduSync keeps me motivated.",
+        text: "I can track my progress and set learning goals easily. AssetSync keeps me motivated.",
     },
     {
         name: "David Andersson",
@@ -89,7 +89,7 @@ const WhatOurUserSays = () => {
     return (
         <section data-aos="zoom-out-right">
             <h2 className='mb-2 md:mb-4 text-center text-2xl md:text-3xl font-bold'>What Our Users Say</h2>
-            <p className="text-center text-base-content/80 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">Real feedback from learners around the world who have experienced EduSync.</p>
+            <p className="text-center text-base-content/80 mb-8 md:mb-10 text-base md:text-lg max-w-2xl mx-auto">Real feedback from learners around the world who have experienced AssetSync.</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                 {/* Left: Title, Subtitle, Arrows */}
                 <div className="flex flex-col items-start md:items-center">
@@ -97,7 +97,7 @@ const WhatOurUserSays = () => {
                         From our <span className="text-primary">Session</span>
                     </h3>
                     <p className="mb-8 max-w-2xs">
-                        See what our users are saying about their EduSync experience.
+                        See what our users are saying about their AssetSync experience.
                     </p>
                     <div className="flex gap-3">
                         <button className="swiper-button-prev-custom w-8 md:w-10 h-8 md:h-10 flex items-center justify-center rounded-full pl-2 border border-primary hover:bg-primary/10 transition">

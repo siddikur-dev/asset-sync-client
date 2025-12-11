@@ -133,7 +133,7 @@ const TermsOfService = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant='primary'>
-                <a href="mailto:support@edusync.com" className="inline-flex items-center gap-2">
+                <a href="mailto:support@AssetSync.com" className="inline-flex items-center gap-2">
                   <FaHandshake />
                   Email Support
                 </a>

@@ -22,7 +22,7 @@ const ContactCTA = () => {
             Ready to Transform Your Business?
           </h2>
           <p className="text-xl text-white/90 max-w-2xl mx-auto mb-12">
-            Join thousands of companies that have streamlined their asset management with AssetVerse
+            Join thousands of companies that have streamlined their asset management with Asset Sync
           </p>
         </motion.div>
 
@@ -53,7 +53,7 @@ const ContactCTA = () => {
               <FaEnvelope className="text-white text-2xl" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">Email Us</h3>
-            <p className="text-white/80">support@assetverse.com</p>
+            <p className="text-white/80">support@Asset Sync.com</p>
             <p className="text-white/60 text-sm">24/7 Support</p>
           </motion.div>
 

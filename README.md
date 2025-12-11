@@ -1,8 +1,8 @@
 <div align="center">
 
-![AssetVerse Logo](https://i.ibb.co/Kp3bghpR/asset-verse.png)
+![Asset Sync Logo](https://i.ibb.co/Kp3bghpR/asset-verse.png)
 
-# AssetVerse: Enterprise Asset Management System
+# Asset Sync: Enterprise Asset Management System
 
 [![Live Website](https://img.shields.io/badge/Live%20Demo-asset--verse.web.app-brightgreen?style=for-the-badge&logo=google-chrome)](https://asset-verse.web.app/)
 [![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
@@ -30,7 +30,7 @@
 
 ## Project Overview
 
-**AssetVerse** is an enterprise-grade B2B HR & Asset Management Web Application designed to streamline corporate asset tracking and management. The platform provides a comprehensive solution for companies to efficiently manage physical assets (laptops, keyboards, chairs, etc.) and maintain accurate records of asset assignments to employees.
+**Asset Sync** is an enterprise-grade B2B HR & Asset Management Web Application designed to streamline corporate asset tracking and management. The platform provides a comprehensive solution for companies to efficiently manage physical assets (laptops, keyboards, chairs, etc.) and maintain accurate records of asset assignments to employees.
 
 ### Business Problem Solved
 
@@ -298,8 +298,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Built with ❤️ for efficient asset management**
 
-[![AssetVerse](https://img.shields.io/badge/AssetVerse-Enterprise%20Asset%20Management-4B5BFF?style=for-the-badge)](https://asset-verse.web.app/)
+[![Asset Sync](https://img.shields.io/badge/Asset Sync-Enterprise%20Asset%20Management-4B5BFF?style=for-the-badge)](https://asset-verse.web.app/)
 
-> **AssetVerse** – Transforming corporate asset management through innovative technology
+> **Asset Sync** – Transforming corporate asset management through innovative technology
 
 </div>

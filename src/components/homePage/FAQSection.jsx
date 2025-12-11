@@ -7,12 +7,12 @@ const FAQSection = () => {
 
   const faqs = [
     {
-      question: "How secure is my data on AssetVerse?",
+      question: "How secure is my data on Asset Sync?",
       answer: "We use enterprise-grade 256-bit encryption for all data transfers and storage. Your data is hosted on secure AWS servers with regular security audits, compliance with GDPR, and role-based access control to ensure only authorized personnel can access sensitive information."
     },
     {
       question: "Can I import my existing asset data?",
-      answer: "Yes! AssetVerse supports bulk import from CSV, Excel, and XML files. You can also integrate with your existing ERP systems through our comprehensive REST API. Our migration team provides free assistance for enterprise customers."
+      answer: "Yes! Asset Sync supports bulk import from CSV, Excel, and XML files. You can also integrate with your existing ERP systems through our comprehensive REST API. Our migration team provides free assistance for enterprise customers."
     },
     {
       question: "What happens if I exceed my plan limits?",
@@ -20,7 +20,7 @@ const FAQSection = () => {
     },
     {
       question: "Do you offer mobile apps?",
-      answer: "Yes! AssetVerse offers native mobile apps for both iOS and Android. The mobile apps include barcode scanning, GPS tracking, offline mode, and push notifications for real-time updates."
+      answer: "Yes! Asset Sync offers native mobile apps for both iOS and Android. The mobile apps include barcode scanning, GPS tracking, offline mode, and push notifications for real-time updates."
     },
     {
       question: "How does the free trial work?",

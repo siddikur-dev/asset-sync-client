@@ -36,7 +36,7 @@ const AboutSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="text-gradient">Why Choose AssetVerse?</span>
+            <span className="text-gradient">Why Choose Asset Sync?</span>
           </h2>
           <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
             Corporate-friendly asset management solution designed for modern businesses

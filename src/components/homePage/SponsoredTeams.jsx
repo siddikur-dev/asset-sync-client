@@ -25,7 +25,7 @@ const SponsoredTeams = () => {
         <div className="text-center mb-12">
           <h2 className='mb-4 text-3xl md:text-4xl font-bold text-gradient'>Sponsored Teams</h2>
           <p className="text-center text-base-content/70 mb-8 text-base md:text-lg max-w-2xl mx-auto">
-            Proudly showcasing our partners and teams who support and collaborate with EduSync.
+            Proudly showcasing our partners and teams who support and collaborate with AssetSync.
           </p>
         </div>
         

@@ -46,7 +46,7 @@ const HRDashboard = () => {
   };
 
   const handleEdit = (id) => {
-    navigate(`/dashboard/assets/update/${id}`);
+    navigate(`/assets/${id}`);
   };
 
   if (isLoading) return <Spinner />;

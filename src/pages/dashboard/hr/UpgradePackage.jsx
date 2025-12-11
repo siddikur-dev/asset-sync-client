@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 import { FaCheck } from "react-icons/fa";
 import Spinner from "../../../components/ui/Spinner";
 import { useSearchParams } from "react-router";
-import axios from "axios";
 
 const UpgradePackage = () => {
   const axiosSecure = useAxiosSecure();
@@ -40,30 +39,40 @@ const UpgradePackage = () => {
       }
 
       if (status === 'success') {
-        const checkPaymentStatus = async () => {
+        const verifyPayment = async () => {
           if (retryCount >= 5) {
-            Swal.fire('Error', 'Unable to verify payment status. Please check your profile.', 'error');
+            Swal.fire('Error', 'Unable to verify payment status. Please refresh the page.', 'error');
             return;
           }
 
           setRetryCount(prev => prev + 1);
 
           try {
-            const freshUserData = await axiosSecure.get('/users/me');
-            if (freshUserData.data.packageLimit > (userData?.packageLimit || 5)) {
+            // Verify payment with server using the session ID
+            const response = await axiosSecure.get(`/payments/session/${sessionId}`);
+            
+            if (response.data.status === 'completed') {
               Swal.fire('Success', 'Package upgraded successfully!', 'success');
               refetchUserData();
               setRetryCount(0);
             } else {
-              // Fallback check
-              setTimeout(checkPaymentStatus, 2000);
+              // Retry after 2 seconds if payment is still processing
+              setTimeout(verifyPayment, 2000);
             }
           } catch (error) {
-            console.error(error);
+            console.error('Payment verification error:', error);
+            // If verification fails, still try to refresh user data as a fallback
+            try {
+              await refetchUserData();
+              Swal.fire('Success', 'Package upgraded successfully!', 'success');
+            } catch (fallbackError) {
+              console.error('Fallback refresh error:', fallbackError);
+              setTimeout(verifyPayment, 2000);
+            }
           }
         };
 
-        setTimeout(checkPaymentStatus, 1000);
+        setTimeout(verifyPayment, 1000);
         window.history.replaceState({}, document.title, window.location.pathname);
       } else if (status === 'error') {
         Swal.fire('Error', 'Payment failed or cancelled', 'error');
@@ -78,7 +87,7 @@ const UpgradePackage = () => {
     try {
       const { data } = await axiosSecure.post('/create-checkout-session', {
         packageName: pkg.name,
-        successUrl: `${window.location.origin}${window.location.pathname}?status=success`,
+        successUrl: `${window.location.origin}${window.location.pathname}?status=success&session_id={CHECKOUT_SESSION_ID}`,
         cancelUrl: `${window.location.origin}${window.location.pathname}?status=cancelled`
       });
       window.location.href = data.url;

@@ -3,19 +3,27 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Spinner from "../../../components/ui/Spinner";
+import { useSearchParams } from "react-router";
+import EmployeePagination from "../../../components/paginations/EmployeePagination";
 
 const EmployeeList = () => {
   const axiosSecure = useAxiosSecure();
-
+  const [searchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page')) || 1;
+  const itemsPerPage = parseInt(searchParams.get('limit')) || 10;
+  
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['my-employees'],
+    queryKey: ['my-employees', currentPage, itemsPerPage],
     queryFn: async () => {
-      const res = await axiosSecure.get('/my-employees');
+      const res = await axiosSecure.get(`/my-employees?page=${currentPage}&limit=${itemsPerPage}`);
       return res.data;
     },
     refetchOnMount: true,
     staleTime: 0
   });
+
+  const totalPages = data?.totalPages || 1;
+  const totalItems = data?.totalEmployees || 0;
 
   const handleRemove = async (userId) => {
     const result = await Swal.fire({
@@ -48,7 +56,7 @@ const EmployeeList = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-gradient">Employee List</h1>
         <div className="badge badge-primary badge-lg">
-          {data?.totalEmployees || 0} / {data?.packageLimit || 0} employees used
+          {totalItems} / {data?.packageLimit || 0} employees used
         </div>
       </div>
 
@@ -89,6 +97,15 @@ const EmployeeList = () => {
           <p className="text-base-content/70">No employees found</p>
         </div>
       )}
+
+      {/* Pagination Component */}
+      <EmployeePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        currentItems={data?.employees?.length || 0}
+      />
     </div>
   );
 };

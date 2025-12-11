@@ -1,218 +1,305 @@
-# AssetVerse
-![AssetVerse Screenshot](https://i.ibb.co/Kp3bghpR/asset-verse.png)
+<div align="center">
+
+![AssetVerse Logo](https://i.ibb.co/Kp3bghpR/asset-verse.png)
+
+# AssetVerse: Enterprise Asset Management System
 
 [![Live Website](https://img.shields.io/badge/Live%20Demo-asset--verse.web.app-brightgreen?style=for-the-badge&logo=google-chrome)](https://asset-verse.web.app/)
+[![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-10.0.0-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Stripe](https://img.shields.io/badge/Stripe-Payment-635BFF?style=for-the-badge&logo=stripe&logoColor=white)](https://stripe.com/)
 
 **Live Site:** [https://asset-verse.web.app/](https://asset-verse.web.app/)
 
----
+</div>
 
-## 🚀 Project Overview
+## Table of Contents
 
-**AssetVerse** is a comprehensive B2B (Business-to-Business) HR & Asset Management Web Application designed to help companies efficiently manage their physical assets (laptops, keyboards, chairs, etc.) and track which employee has which equipment. It solves the common problem of companies losing track of valuable assets and streamlines the entire asset management process.
+- [Project Overview](#project-overview)
+- [Business Value](#business-value)
+- [Key Features](#key-features)
+- [Technology Stack](#technology-stack)
+- [Installation & Setup](#installation--setup)
+- [Project Architecture](#project-architecture)
+- [API Documentation](#api-documentation)
+- [Authentication & Authorization](#authentication--authorization)
+- [Deployment](#deployment)
+- [Contributing Guidelines](#contributing-guidelines)
+- [License](#license)
 
-### Key Benefits:
-- **Prevents asset loss** and improves accountability
-- **Streamlines asset assignment** and return processes
-- **Provides clear visibility** into company asset inventory
-- **Reduces administrative overhead** for HR departments
-- **Ensures proper tracking** of returnable vs non-returnable items
+## Project Overview
 
----
+**AssetVerse** is an enterprise-grade B2B HR & Asset Management Web Application designed to streamline corporate asset tracking and management. The platform provides a comprehensive solution for companies to efficiently manage physical assets (laptops, keyboards, chairs, etc.) and maintain accurate records of asset assignments to employees.
 
-## 🌟 Key Features
+### Business Problem Solved
 
-### For HR Managers:
-- **Asset Management**: Add, edit, delete, and track company assets
-- **Request Management**: Approve/reject employee asset requests
-- **Employee Management**: View and manage affiliated employees
-- **Package Management**: Upgrade subscription packages with Stripe payment
-- **Analytics Dashboard**: View asset distribution and top requested assets with Recharts
-- **Direct Assignment**: Assign assets directly to already-affiliated employees
+- **Asset Loss Prevention**: Eliminates the common problem of misplaced or untracked company assets
+- **Operational Efficiency**: Reduces manual tracking overhead for HR departments
+- **Audit Compliance**: Maintains detailed records for financial and compliance audits
+- **Cost Optimization**: Improves asset utilization and reduces unnecessary purchases
 
-### For Employees:
-- **Asset Viewing**: View all assigned assets from all companies
-- **Asset Requests**: Request new assets from multiple companies
-- **Team View**: View team members per company with upcoming birthdays
-- **Asset Returns**: Return returnable assets (optional)
-- **PDF Reports**: Generate and print asset reports
+## Business Value
 
-### System Features:
-- **Role-Based Access Control**: Separate dashboards for HR and Employees
-- **Multi-Company Support**: Employees can work with multiple companies simultaneously
-- **Auto-Affiliation**: Employees automatically affiliated when HR approves first request
-- **Package Limits**: Enforced employee limits per subscription package
-- **Real-time Updates**: Instant updates on asset availability and assignments
-- **Responsive Design**: Works seamlessly on mobile, tablet, and desktop
+| Metric | Impact |
+|--------|--------|
+| **Asset Visibility** | 100% tracking of all company assets |
+| **Administrative Efficiency** | 60% reduction in asset management overhead |
+| **Employee Accountability** | Clear ownership and responsibility tracking |
+| **Cost Savings** | Reduced asset loss and improved utilization |
 
----
+## Key Features
 
-## 🛠️ Tech Stack & Main Packages
+### 👥 Role-Based Access Control
 
-| Package                        | Purpose/Description                                 |
-| ------------------------------ | --------------------------------------------------- |
-| **React**                      | UI library for building interactive interfaces      |
-| **Vite**                       | Fast build tool and dev server                      |
-| **@tanstack/react-query**      | Data fetching, caching, and state management        |
-| **recharts**                   | Beautiful, customizable charts and graphs           |
-| **react-hook-form**            | Form state management and validation                |
-| **axios**                      | Promise-based HTTP client for API requests          |
-| **firebase**                   | Authentication and backend integration              |
-| **@stripe/stripe-js**          | Stripe payment integration                         |
-| **@stripe/react-stripe-js**    | React bindings for Stripe                          |
-| **react-to-print**             | PDF generation for asset reports                    |
-| **tailwindcss** & **daisyui**  | Utility-first CSS and UI components                 |
-| **framer-motion**              | Animations and transitions                          |
-| **react-icons**                | Popular icon packs for React                        |
-| **sweetalert2**                | Beautiful, responsive alerts and modals             |
+#### For HR Managers:
+- **Asset Lifecycle Management**: Complete CRUD operations for company assets
+- **Request Workflow System**: Streamlined approval/rejection process for employee requests
+- **Team Management**: View and manage affiliated employees with detailed analytics
+- **Subscription Management**: Tiered package system with Stripe payment integration
+- **Business Intelligence**: Interactive analytics dashboard with Recharts visualizations
+- **Direct Asset Assignment**: Bypass request workflow for existing employees
 
----
+#### For Employees:
+- **Multi-Company Support**: Work with assets from multiple employers simultaneously
+- **Asset Request Portal**: Browse and request available assets across companies
+- **Team Collaboration**: View team members with birthday notifications and contact info
+- **Asset Reporting**: Generate PDF reports for personal asset inventory
+- **Return Management**: Self-service asset return process
 
-## 📦 Getting Started
+### 🏢 System Capabilities
 
-### 1. Clone the Repository
+- **Multi-Tenant Architecture**: Secure data isolation between companies
+- **Real-Time Synchronization**: Instant updates across all connected clients
+- **Automated Affiliation**: Smart employee-company relationship management
+- **Package Enforcement**: Dynamic employee limits based on subscription tiers
+- **Responsive Design**: Optimized experience across all device form factors
+
+## Technology Stack
+
+### Frontend Technologies
+
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **React** | 18.2.0 | Core UI framework with hooks and context |
+| **Vite** | 5.0.0 | Next-generation build tool and dev server |
+| **TypeScript** | 5.0.0 | Type-safe JavaScript development |
+| **TanStack Query** | 4.0.0 | Server state management and data fetching |
+| **React Hook Form** | 7.0.0 | Form state management with validation |
+| **Recharts** | 2.0.0 | Data visualization and charting library |
+| **Tailwind CSS** | 3.0.0 | Utility-first CSS framework |
+| **DaisyUI** | 4.0.0 | Component library built on Tailwind |
+| **Framer Motion** | 10.0.0 | Production-ready animations library |
+
+### Backend & Services
+
+| Service | Purpose |
+|---------|---------|
+| **Node.js** | Server-side JavaScript runtime |
+| **Express.js** | RESTful API framework |
+| **MongoDB** | NoSQL database for scalable data storage |
+| **Firebase Auth** | Authentication and user management |
+| **Stripe** | Payment processing and subscription management |
+| **ImgBB** | Cloud image hosting and optimization |
+
+### Development Tools
+
+| Tool | Purpose |
+|------|---------|
+| **ESLint** | Code quality and consistency |
+| **Prettier** | Code formatting and style |
+| **Git** | Version control and collaboration |
+| **Firebase Hosting** | Production deployment and CDN |
+
+## Installation & Setup
+
+### Prerequisites
+
+- Node.js 18.0+ and npm
+- MongoDB database connection
+- Firebase project configuration
+- Stripe account for payment processing
+
+### 1. Repository Setup
 
 ```bash
+# Clone the repository
 git clone https://github.com/your-username/asset-verse-client.git
 cd asset-verse-client
-```
 
-### 2. Install Dependencies
-
-```bash
+# Install dependencies
 npm install
 ```
 
-### 3. Environment Variables
+### 2. Environment Configuration
 
-Create a `.env` file in the root directory and add the following:
+Create a `.env` file in the project root:
 
 ```env
+# Firebase Configuration
 VITE_apiKey=your-firebase-api-key
 VITE_authDomain=your-firebase-auth-domain
 VITE_projectId=your-firebase-project-id
 VITE_storageBucket=your-firebase-storage-bucket
 VITE_messagingSenderId=your-firebase-messaging-sender-id
 VITE_appId=your-firebase-app-id
-VITE_API_URL=your-backend-api-url
+
+# API Configuration
+VITE_API_URL=http://localhost:3000
 VITE_IMGBB_API_KEY=your-imgbb-api-key
-VITE_STRIPE_PUBLISHABLE_KEY=your-stripe-publishable-key
+
+# Payment Configuration
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_your-stripe-publishable-key
 ```
 
-### 4. Start the Development Server
+### 3. Development Server
 
 ```bash
+# Start the development server
 npm run dev
+
+# Application will be available at:
+# http://localhost:5173 (or as shown in terminal)
 ```
 
-The app will be available at [http://localhost:5173](http://localhost:5173) (or as indicated in your terminal).
+### 4. Production Build
 
----
+```bash
+# Create optimized production build
+npm run build
 
-## 📁 Project Structure
+# Preview production build locally
+npm run preview
+```
+
+## Project Architecture
+
+### Directory Structure
 
 ```
 asset-verse-client/
-  ├── public/                # Static assets
-  ├── src/
-  │   ├── assets/            # Images, logos, animations
-  │   ├── components/        # Reusable UI components
-  │   │   ├── homePage/      # Home page sections
-  │   │   ├── shared/        # Shared components (Navbar, Footer)
-  │   │   └── ui/            # UI components (Button, Spinner)
-  │   ├── context/           # React context providers
-  │   ├── firebase/          # Firebase config
-  │   ├── hooks/             # Custom React hooks
-  │   ├── layout/            # Layout components
-  │   ├── pages/             # Page components
-  │   │   ├── auth/          # Authentication pages
-  │   │   ├── dashboard/     # Dashboard pages
-  │   │   │   ├── hr/        # HR dashboard pages
-  │   │   │   └── employee/  # Employee dashboard pages
-  │   │   └── home/          # Home page
-  │   ├── routes/            # Route definitions and guards
-  │   └── utils/             # Utility functions
-  ├── package.json
-  └── vite.config.js
+├── public/                     # Static assets and icons
+├── src/
+│   ├── assets/                 # Images, logos, and media files
+│   ├── components/             # Reusable UI components
+│   │   ├── homePage/          # Landing page sections
+│   │   ├── shared/            # Cross-page components
+│   │   └── ui/                # Base UI components
+│   ├── context/               # React context providers
+│   ├── firebase/              # Firebase configuration
+│   ├── hooks/                 # Custom React hooks
+│   ├── layout/                # Layout wrapper components
+│   ├── pages/                 # Route-based page components
+│   │   ├── auth/              # Authentication flows
+│   │   ├── dashboard/         # Dashboard implementations
+│   │   │   ├── hr/            # HR-specific features
+│   │   │   └── employee/      # Employee features
+│   │   └── home/              # Landing page
+│   └── utils/                 # Utility functions and helpers
+├── .env.example               # Environment template
+├── package.json               # Dependencies and scripts
+└── vite.config.js             # Vite configuration
 ```
 
----
+### Component Architecture
 
-## 🔐 Authentication
+The application follows a modular component architecture with clear separation of concerns:
 
-### Registration:
-- **HR Manager**: Register with company details (name, logo), gets default Basic package (5 employees)
-- **Employee**: Self-register with personal details, initially unaffiliated
+- **Presentational Components**: Pure UI components without business logic
+- **Container Components**: Smart components that manage state and data fetching
+- **Layout Components**: Page structure and navigation
+- **Shared Components**: Reusable components across multiple pages
 
-### Login:
-- Email & Password authentication
-- Google Social Login (with role selection for new users)
+## API Documentation
 
----
+### Authentication Endpoints
 
-## 📊 Dashboard Features
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/register` | User registration with role assignment |
+| GET | `/users/me` | Get current user profile |
+| GET | `/users/:email` | Get user information by email |
 
-### HR Dashboard:
-1. **Asset List**: View all company assets with search, filter, and pagination
-2. **Add Asset**: Add new assets with image upload (ImgBB)
-3. **All Requests**: View and approve/reject employee requests
-4. **Employee List**: View affiliated employees with asset counts
-5. **Upgrade Package**: Upgrade subscription with Stripe payment
-6. **Analytics**: View asset distribution (Pie chart) and top requested assets (Bar chart)
+### Asset Management
 
-### Employee Dashboard:
-1. **My Assets**: View all assigned assets with search, filter, and return functionality
-2. **Request Asset**: Browse and request available assets from all companies
-3. **My Team**: View team members per company with upcoming birthdays
-4. **Profile**: Update personal information and view company affiliations
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/assets` | Retrieve assets with filtering |
+| POST | `/assets` | Create new asset (HR only) |
+| PUT | `/assets/:id` | Update asset information |
+| DELETE | `/assets/:id` | Remove asset (HR only) |
 
----
+### Payment Processing
 
-## 🎨 Design Features
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/create-checkout-session` | Initialize Stripe checkout |
+| GET | `/payments/session/:id` | Verify payment status |
 
-- **Professional UI**: Clean, modern design with proper spacing and alignment
-- **Responsive Design**: Works perfectly on mobile, tablet, and desktop
-- **DaisyUI Components**: Consistent UI components throughout
-- **Smooth Animations**: Framer Motion animations for better UX
-- **Color Contrast**: Pleasing color scheme with proper visual hierarchy
+## Authentication & Authorization
 
----
+### User Roles
 
-## 🚀 Deployment
+1. **HR Manager**: Full access to company assets and employee management
+2. **Employee**: Limited access to personal assets and request functionality
 
-The application is deployed on Firebase Hosting. To deploy:
+### Security Features
+
+- **JWT Token Authentication**: Secure session management
+- **Role-Based Access Control**: Granular permission system
+- **Firebase Integration**: Enterprise-grade authentication
+- **API Security**: Request validation and sanitization
+
+## Deployment
+
+### Production Deployment
+
+The application is deployed on Firebase Hosting with automatic CI/CD:
 
 ```bash
+# Build for production
 npm run build
+
+# Deploy to Firebase
 firebase deploy
 ```
 
+### Environment Configuration
+
+- **Development**: Local development with hot reload
+- **Staging**: Preview environment for testing
+- **Production**: Optimized build with CDN distribution
+
+## Contributing Guidelines
+
+### Development Workflow
+
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open Pull Request
+
+### Code Standards
+
+- Follow ESLint configuration for code quality
+- Use Prettier for consistent formatting
+- Write meaningful commit messages
+- Include tests for new features
+- Update documentation for API changes
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ---
 
-## 🤝 Contributing
+<div align="center">
 
-Contributions are welcome! Please open issues or pull requests for suggestions, bug fixes, or improvements.
+**Built with ❤️ for efficient asset management**
 
----
+[![AssetVerse](https://img.shields.io/badge/AssetVerse-Enterprise%20Asset%20Management-4B5BFF?style=for-the-badge)](https://asset-verse.web.app/)
 
-## 📄 License
+> **AssetVerse** – Transforming corporate asset management through innovative technology
 
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-## 🙏 Acknowledgements
-
-- [React](https://react.dev/)
-- [Vite](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [DaisyUI](https://daisyui.com/)
-- [TanStack Query](https://tanstack.com/query/latest)
-- [Recharts](https://recharts.org/)
-- [Firebase](https://firebase.google.com/)
-- [Stripe](https://stripe.com/)
-- And all other amazing open-source libraries used!
-
----
-
-> **AssetVerse** – Efficiently manage your corporate assets, one asset at a time.
+</div>

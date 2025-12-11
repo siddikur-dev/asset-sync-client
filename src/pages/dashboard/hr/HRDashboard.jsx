@@ -40,6 +40,7 @@ const HRDashboard = () => {
         Swal.fire('Deleted!', 'Asset has been deleted.', 'success');
         refetch();
       } catch (error) {
+        console.error('Delete asset error:', error);
         Swal.fire('Error!', 'Failed to delete asset.', 'error');
       }
     }

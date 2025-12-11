@@ -1,16 +1,14 @@
 <div align="center">
 
-![Asset Sync Logo](https://i.ibb.co/Kp3bghpR/asset-verse.png)
-
 # Asset Sync: Enterprise Asset Management System
 
-[![Live Website](https://img.shields.io/badge/Live%20Demo-asset--verse.web.app-brightgreen?style=for-the-badge&logo=google-chrome)](https://asset-verse.web.app/)
+[![Live Website](https://img.shields.io/badge/Live%20Demo-asset--verse.web.app-brightgreen?style=for-the-badge&logo=google-chrome)](https://asset-syncs.web.app)
 [![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-10.0.0-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
 [![Stripe](https://img.shields.io/badge/Stripe-Payment-635BFF?style=for-the-badge&logo=stripe&logoColor=white)](https://stripe.com/)
 
-**Live Site:** [https://asset-verse.web.app/](https://asset-verse.web.app/)
+**Live Site:** [https://asset-syncs.web.app/](https://asset-syncs.web.app/)
 
 </div>
 

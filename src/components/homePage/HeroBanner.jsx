@@ -15,7 +15,7 @@ const HeroBanner = () => {
 
   const slides = [
     {
-      title: "Streamline Your Asset Management",
+      title: "Sonar Bangladesh Asset Sync",
       subtitle: "Complete digital solution for modern businesses",
       description:
         "Track, manage, and optimize your company's assets with our comprehensive platform designed for efficiency and growth.",
@@ -23,7 +23,7 @@ const HeroBanner = () => {
         "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     },
     {
-      title: "Real-Time Asset Tracking",
+      title: "Real-Time Asset Tracking Bangla",
       subtitle: "Know where your assets are, always",
       description:
         "Monitor your equipment, tools, and resources in real-time with advanced tracking and reporting capabilities.",
@@ -31,7 +31,7 @@ const HeroBanner = () => {
         "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     },
     {
-      title: "Scale Your Business Confidently",
+      title: "Scale Your Business Confidently Bangla",
       subtitle: "Grow without the complexity",
       description:
         "Our platform scales with your business, from startups to enterprises, ensuring seamless asset management at every stage.",

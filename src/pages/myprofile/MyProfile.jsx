@@ -14,6 +14,7 @@ const MyProfile = () => {
   const { user, signOutUser } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [editMode, setEditMode] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
   const [profile, setProfile] = useState({
     phoneNumber: user?.phoneNumber || '',
     address: user?.address || '',
@@ -34,10 +35,8 @@ const MyProfile = () => {
     queryKey: ['mongoUser', user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosSecure.get('/users', {
-        params: { search: user.email }
-      });
-      return res.data?.users?.find(u => u.email === user.email) || null;
+      const res = await axiosSecure.get('/users/me');
+      return res.data;
     }
   });
 
@@ -94,14 +93,19 @@ const MyProfile = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setIsUpdating(true);
+    
     try {
       if (!user || !mongoUser?._id) {
         Swal.fire({ icon: 'error', title: 'User not authenticated' });
+        setIsUpdating(false);
         return;
       }
+      
       await axiosSecure.put(`/users/${mongoUser._id}`, profile);
       setEditMode(false);
       await refetch();
+      
       // Update local profile state with new values
       setProfile({
         phoneNumber: profile.phoneNumber,
@@ -112,9 +116,22 @@ const MyProfile = () => {
         github: profile.github,
         facebook: profile.facebook,
       });
-      Swal.fire({ icon: 'success', title: 'Profile updated!' });
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Profile updated successfully!',
+        timer: 2000,
+        showConfirmButton: false
+      });
     } catch (err) {
-      Swal.fire({ icon: 'error', title: 'Update failed', text: err?.response?.data?.message || err?.message || 'Something went wrong' });
+      console.error('Profile update error:', err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Update failed',
+        text: err?.response?.data?.message || err?.message || 'Something went wrong'
+      });
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -266,8 +283,22 @@ const MyProfile = () => {
         <div className="w-full flex flex-col gap-2 items-center mt-8">
           {editMode ? (
             <div className="flex gap-2 w-full">
-              <Button onClick={handleUpdate} variant="primary" className="flex-1">Save</Button>
-              <Button onClick={() => setEditMode(false)} variant="ghost" className="flex-1">Cancel</Button>
+              <Button
+                onClick={handleUpdate}
+                variant="primary"
+                className="flex-1"
+                disabled={isUpdating}
+              >
+                {isUpdating ? 'Saving...' : 'Save'}
+              </Button>
+              <Button
+                onClick={() => setEditMode(false)}
+                variant="ghost"
+                className="flex-1"
+                disabled={isUpdating}
+              >
+                Cancel
+              </Button>
             </div>
           ) : (
             <Button onClick={() => setEditMode(true)} variant="primary" className="w-full flex items-center justify-center gap-2">Update Profile</Button>

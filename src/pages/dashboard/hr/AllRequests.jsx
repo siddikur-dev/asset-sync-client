@@ -3,19 +3,28 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Spinner from "../../../components/ui/Spinner";
+import { useSearchParams } from "react-router";
+import EmployeePagination from "../../../components/paginations/EmployeePagination";
 
 const AllRequests = () => {
   const axiosSecure = useAxiosSecure();
-
-  const { data: requests = [], isLoading, refetch } = useQuery({
-    queryKey: ['requests'],
+  const [searchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page')) || 1;
+  const itemsPerPage = parseInt(searchParams.get('limit')) || 10;
+  
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ['requests', currentPage, itemsPerPage],
     queryFn: async () => {
-      const res = await axiosSecure.get('/requests');
+      const res = await axiosSecure.get(`/requests?page=${currentPage}&limit=${itemsPerPage}`);
       return res.data;
     },
     refetchOnMount: true,
     staleTime: 0
   });
+
+  const requests = data?.requests || [];
+  const totalPages = data?.pagination?.totalPages || 1;
+  const totalItems = data?.pagination?.totalRequests || 0;
 
   const handleApprove = async (id) => {
     try {
@@ -76,7 +85,12 @@ const AllRequests = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-gradient">All Requests</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-gradient">All Requests</h1>
+        <div className="badge badge-primary badge-lg">
+          {totalItems} total requests
+        </div>
+      </div>
 
       <div className="overflow-x-auto bg-base-100 rounded-xl shadow-lg">
         <table className="table w-full">
@@ -148,6 +162,15 @@ const AllRequests = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination Component */}
+      <EmployeePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        currentItems={requests.length}
+      />
     </div>
   );
 };

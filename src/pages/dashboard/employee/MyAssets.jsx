@@ -5,23 +5,32 @@ import { FaSearch, FaUndo, FaPrint } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useReactToPrint } from "react-to-print";
 import Spinner from "../../../components/ui/Spinner";
+import { useSearchParams } from "react-router";
+import EmployeePagination from "../../../components/paginations/EmployeePagination";
 
 const MyAssets = () => {
   const axiosSecure = useAxiosSecure();
+  const [searchParams] = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page')) || 1;
+  const itemsPerPage = parseInt(searchParams.get('limit')) || 10;
   const [search, setSearch] = useState("");
   const [assetType, setAssetType] = useState("all");
   const printRef = useRef();
 
-  const { data: assets = [], isLoading, refetch } = useQuery({
-    queryKey: ['my-assets', search, assetType],
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ['my-assets', currentPage, itemsPerPage, search, assetType],
     queryFn: async () => {
-      // Use new /my-assets endpoint
-      const res = await axiosSecure.get(`/my-assets`);
+      // Use new /my-assets endpoint with pagination
+      const res = await axiosSecure.get(`/my-assets?page=${currentPage}&limit=${itemsPerPage}&search=${search}&type=${assetType}`);
       return res.data;
     },
     refetchOnMount: true,
     staleTime: 0
   });
+
+  const assets = data?.assets || [];
+  const totalPages = data?.pagination?.totalPages || 1;
+  const totalItems = data?.pagination?.totalAssets || 0;
 
   const handleReturn = async (id) => {
     const result = await Swal.fire({
@@ -55,22 +64,18 @@ const MyAssets = () => {
 
   if (isLoading) return <Spinner />;
 
-  // Filter Logic (Client side for now as backend sends all)
-  const filteredAssets = assets.filter(asset => {
-    // Note: Backend returns Request objects. 
-    // Field names: assetName, assetType, companyName, approvalDate, requestStatus
-    const matchesSearch = asset.assetName?.toLowerCase().includes(search.toLowerCase());
-    const matchesType = assetType === 'all' || asset.assetType === assetType;
-    return matchesSearch && matchesType;
-  });
-
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-gradient">My Assets</h1>
-        <button onClick={handlePrint} className="btn btn-primary">
-          <FaPrint className="mr-2" /> Print
-        </button>
+        <div className="flex items-center gap-4">
+          <div className="badge badge-primary badge-lg">
+            {totalItems} total assets
+          </div>
+          <button onClick={handlePrint} className="btn btn-primary">
+            <FaPrint className="mr-2" /> Print
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -111,7 +116,7 @@ const MyAssets = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredAssets.map((asset) => (
+              {assets.map((asset) => (
                 <tr key={asset._id}>
                   <td>{asset.assetName}</td>
                   <td>{asset.assetType}</td>
@@ -140,45 +145,56 @@ const MyAssets = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredAssets.map((asset) => (
-              <tr key={asset._id}>
-                <td>
-                  <img src={asset.assetImage} alt={asset.assetName} className="w-16 h-16 object-cover rounded" />
-                </td>
-                <td className="font-semibold">{asset.assetName}</td>
-                <td>
-                  <span className={`badge ${asset.assetType === 'Returnable' ? 'badge-success' : 'badge-warning'}`}>
-                    {asset.assetType}
-                  </span>
-                </td>
-                <td>{asset.companyName}</td>
-                <td>{asset.approvalDate ? new Date(asset.approvalDate).toLocaleDateString() : '-'}</td>
-                <td>
-                  <span className={`badge ${asset.requestStatus === 'approved' ? 'badge-success' : 'badge-info'}`}>
-                    {asset.requestStatus}
-                  </span>
-                </td>
-                <td>
-                  {asset.requestStatus === 'approved' && asset.assetType === 'Returnable' && (
-                    <button
-                      onClick={() => handleReturn(asset._id)}
-                      className="btn btn-sm btn-primary"
-                    >
-                      <FaUndo className="mr-2" /> Return
-                    </button>
-                  )}
+            {assets.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="text-center py-8 text-base-content/60">
+                  No assets found
                 </td>
               </tr>
-            ))}
+            ) : (
+              assets.map((asset) => (
+                <tr key={asset._id}>
+                  <td>
+                    <img src={asset.assetImage} alt={asset.assetName} className="w-16 h-16 object-cover rounded" />
+                  </td>
+                  <td className="font-semibold">{asset.assetName}</td>
+                  <td>
+                    <span className={`badge ${asset.assetType === 'Returnable' ? 'badge-success' : 'badge-warning'}`}>
+                      {asset.assetType}
+                    </span>
+                  </td>
+                  <td>{asset.companyName}</td>
+                  <td>{asset.approvalDate ? new Date(asset.approvalDate).toLocaleDateString() : '-'}</td>
+                  <td>
+                    <span className={`badge ${asset.requestStatus === 'approved' ? 'badge-success' : 'badge-info'}`}>
+                      {asset.requestStatus}
+                    </span>
+                  </td>
+                  <td>
+                    {asset.requestStatus === 'approved' && asset.assetType === 'Returnable' && (
+                      <button
+                        onClick={() => handleReturn(asset._id)}
+                        className="btn btn-sm btn-primary"
+                      >
+                        <FaUndo className="mr-2" /> Return
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
 
-      {filteredAssets.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-base-content/70">No assets found</p>
-        </div>
-      )}
+      {/* Pagination Component */}
+      <EmployeePagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        currentItems={assets.length}
+      />
     </div>
   );
 };

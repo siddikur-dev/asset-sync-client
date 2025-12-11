@@ -26,6 +26,7 @@ import Analytics from "../pages/dashboard/hr/Analytics";
 import UpdateAsset from "../pages/dashboard/hr/UpdateAsset";
 import About from "../components/homePage/About";
 import Support from "../pages/PageOfStatic/Support";
+import ResetPassword from "../pages/auth/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       },
       { path: 'forbidden', Component: Forbidden },
       { path: "signin", Component: SignIn },
+      { path: "reset-password", Component: ResetPassword },
       { path: "signup", Component: SignUp },
       { path: "about-us", Component: About },
       { path: "support", Component: Support },

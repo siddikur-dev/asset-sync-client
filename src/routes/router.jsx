@@ -3,6 +3,8 @@ import Root from "../layout/Root";
 import Home from "../pages/home/Home";
 import SignIn from "../pages/auth/SignIn";
 import SignUp from "../pages/auth/SignUp";
+import SignUpHR from "../pages/auth/SignUpHR";
+import SignUiEmployee from "../pages/auth/SignUiEmployee";
 import MyProfile from "../pages/myprofile/MyProfile";
 import PrivateRoutes from "./PrivateRoutes";
 import HRRoutes from "./HRRoutes";
@@ -41,6 +43,8 @@ const router = createBrowserRouter([
       { path: "signin", Component: SignIn },
       { path: "reset-password", Component: ResetPassword },
       { path: "signup", Component: SignUp },
+      { path: "signup-hr", Component: SignUpHR },
+      { path: "signup-employee", Component: SignUiEmployee },
       { path: "about-us", Component: About },
       { path: "support", Component: Support },
       {

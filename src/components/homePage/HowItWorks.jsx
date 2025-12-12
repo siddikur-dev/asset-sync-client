@@ -6,7 +6,7 @@ const HowItWorks = () => {
     {
       icon: <FaPlus className="text-3xl" />,
       title: "Add Your Assets",
-      description: "Upload or scan your assets into our system. Import from spreadsheets, add manually, or use our mobile app for quick entry."
+      description: "Upload assets into our system. Import from spreadsheets, add manually, or use our mobile app for quick entry."
     },
     {
       icon: <FaCheckCircle className="text-3xl" />,

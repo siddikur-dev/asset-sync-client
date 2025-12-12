@@ -59,17 +59,15 @@ const Navbar = () => {
   };
 
   const navLinkStyles = ({ isActive }) =>
-    `text-sm font-medium transition-colors duration-200 ${
-      isActive
-        ? "text-primary font-bold border-b-2 border-primary" // Active state style
-        : "hover:text-primary"
+    `text-sm font-medium transition-colors duration-200 ${isActive
+      ? "text-primary font-bold border-b-2 border-primary" // Active state style
+      : "hover:text-primary"
     }`;
 
   const mobileLinkStyles = ({ isActive }) =>
-    `block px-4 py-3 rounded-lg font-medium transition-all ${
-      isActive
-        ? "bg-primary/10 text-primary border-l-4 border-primary"
-        : "hover:bg-base-200 hover:text-primary"
+    `block px-4 py-3 rounded-lg font-medium transition-all ${isActive
+      ? "bg-primary/10 text-primary border-l-4 border-primary"
+      : "hover:bg-base-200 hover:text-primary"
     }`;
 
   useEffect(() => {
@@ -104,9 +102,8 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 bg-base-100/95 backdrop-blur-md ${
-        scrolled ? "shadow-md py-2 border-b border-base-200" : "py-3 md:py-4"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 bg-base-100/95 backdrop-blur-md ${scrolled ? "shadow-md py-2 border-b border-base-200" : "py-3 md:py-4"
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex justify-between items-center h-full">
@@ -135,6 +132,18 @@ const Navbar = () => {
             <NavLink to="/support" className={navLinkStyles}>
               Support
             </NavLink>
+            {
+              !user && (<>
+                <NavLink to="/signup-hr" className={navLinkStyles}>
+                  Join as HR
+                </NavLink>
+
+                <NavLink to="/signup-employee" className={navLinkStyles}>
+                  Join as employee
+                </NavLink>
+              </>
+              )
+            }
           </div>
 
           {/* Rigth Side Actions */}
@@ -161,11 +170,10 @@ const Navbar = () => {
 
                 {/* Dropdown */}
                 <div
-                  className={`absolute right-0 mt-3 w-56 bg-base-100 rounded-xl shadow-2xl ring-1 ring-black/5 py-2 transform transition-all duration-200 origin-top-right ${
-                    showDropdown
+                  className={`absolute right-0 mt-3 w-56 bg-base-100 rounded-xl shadow-2xl ring-1 ring-black/5 py-2 transform transition-all duration-200 origin-top-right ${showDropdown
                       ? "opacity-100 scale-100 translate-y-0"
                       : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
-                  }`}
+                    }`}
                 >
                   <div className="px-4 py-3 border-b border-base-200">
                     <p className="text-sm font-semibold truncate">
@@ -223,16 +231,14 @@ const Navbar = () => {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300 ${
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
         onClick={toggleMenu}
       />
 
       <div
-        className={`lg:hidden fixed top-0 right-0 z-50 w-[80%] max-w-sm h-full bg-base-100 shadow-2xl transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`lg:hidden fixed top-0 right-0 z-50 w-[80%] max-w-sm h-full bg-base-100 shadow-2xl transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="p-5 flex justify-between items-center border-b border-base-200">
           <span className="font-bold text-lg text-gradient">Menu</span>

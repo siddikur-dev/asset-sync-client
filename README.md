@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center"> 
 
 # Asset Sync: Enterprise Asset Management System
 
